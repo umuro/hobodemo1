@@ -1,14 +1,14 @@
+*~
 .directory
 .DS_Store
 log
 log/*.log
 tmp/**/*
 tmp/*
-
+db/data.yml
 config/database.yml
 db/*.sqlite3
 db/schema.rb
-*~
 test/rails_root/log/*.log
 doc
 coverage
@@ -25,3 +25,5 @@ public/javascripts/calendar_date_select/
 zzz
 public/clip
 public/sitemaps
+
+doc/diagrams/*

@@ -1,0 +1,299 @@
+<!-- AUTOMATICALLY GENERATED FILE - DO NOT EDIT -->
+
+<def tag="form" for="BoatClass">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, description, no_of_crew_members" param/>
+    <div param="actions">
+      <submit label="#{ht 'boat_classes.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Boat">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, sail_number, boat_class" param/>
+    <div param="actions">
+      <submit label="#{ht 'boats.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Country">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, code" param/>
+    <div param="actions">
+      <submit label="#{ht 'countries.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="CourseArea">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, event" param/>
+    <div param="actions">
+      <submit label="#{ht 'course_areas.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Course">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, race" param/>
+    <div param="actions">
+      <submit label="#{ht 'courses.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="CrewMember">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="position, remarks, person, team_participation" param/>
+    <div param="actions">
+      <submit label="#{ht 'crew_members.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Equipment">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="serial, boat, equipment_type" param/>
+    <div param="actions">
+      <submit label="#{ht 'equipment.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="EquipmentType">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, description, boat_class" param/>
+    <div param="actions">
+      <submit label="#{ht 'equipment_types.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="EventSeries">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, description, organization" param/>
+    <div param="actions">
+      <submit label="#{ht 'event_series.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Event">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, event_type, start_time, end_time, place, time_zone, description, event_series" param/>
+    <div param="actions">
+      <submit label="#{ht 'events.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Flagging">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="flagging_time, flag, race, spotter" param/>
+    <div param="actions">
+      <submit label="#{ht 'flaggings.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Flag">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name" param/>
+    <div param="actions">
+      <submit label="#{ht 'flags.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Fleet">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="color, race" param/>
+    <div param="actions">
+      <submit label="#{ht 'fleets.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="NewsItem">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="title, body, news_type, news" param/>
+    <div param="actions">
+      <submit label="#{ht 'news_items.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="OrganizationAdminRole">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="organization, user" param/>
+    <div param="actions">
+      <submit label="#{ht 'organization_admin_roles.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Organization">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, organization_admins" param/>
+    <div param="actions">
+      <submit label="#{ht 'organizations.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Person">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="first_name, middle_name, last_name, gender, birthdate, country, user" param/>
+    <div param="actions">
+      <submit label="#{ht 'people.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Race">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, number, status, planned_time, start_time, end_time, gender, boat_class, course_area, event" param/>
+    <div param="actions">
+      <submit label="#{ht 'races.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Site">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'sites.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Spot">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, position, spot_type, course" param/>
+    <div param="actions">
+      <submit label="#{ht 'spots.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Spotting">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="spotting_time, boat, spot, spotter" param/>
+    <div param="actions">
+      <submit label="#{ht 'spottings.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="TeamParticipation">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="date_entered, date_measured, measured_passed?, insured?, paid?, description, team_rid, gender, boat, country, event" param/>
+    <div param="actions">
+      <submit label="#{ht 'team_participations.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="User">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="email_address, administrator, state" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="signup-form" polymorphic/>
+<def tag="signup-form" for="User">
+  <form lifecycle="signup" merge param="default">
+    <error-messages param/>
+    <field-list fields="email_address, password, password_confirmation" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.signup', :default=>['Signup']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="reset-password-form" polymorphic/>
+<def tag="reset-password-form" for="User">
+  <form lifecycle="reset_password" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="password, password_confirmation" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.reset_password', :default=>['Reset Password']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+

@@ -1,0 +1,62 @@
+tr:
+  application:
+    name: 'yeni-sitem.com (Test yayını)'
+    home: 'Ana Sayfa'
+
+  actions:
+    search:
+      title: Arama Sonuçları
+      command: Ara
+
+  sites:
+    model_name: Yeni Sitenin Tepesi
+    collection:
+      heading:
+        other: Children
+        teatime_samples: ASide Children
+    name: Adı
+
+#Begin Example: Keep this part for reference
+  teatime_samples:
+    model_name: Dizi
+    index:
+      heading: Diziler
+      title: Diziler
+    collection:
+      count: Dizi Sayısı {{count}}
+      heading:
+        other: Bölümler
+    actions:
+      new: Yeni Dizi
+      create: Dizi Yarat
+      edit: Bunu Değiştir
+      delete: Bunu Sil
+    new:
+      title: Yeni Dizi
+      heading: Yeni Dizi
+    new_for_owner:
+      heading: Yeni Dizi
+      subheading:
+    index_for_owner:
+      heading:
+        other: Diziler
+      subheading:
+    edit:
+      title: Diziyi Değiştir
+      heading: Diziyi Değiştir
+    broadcast_day: Yayın günü
+    default_teatime_sample_name: Birincil Adı
+    is_active: Yayında
+    teatime_sample_names: Diğer Adları
+    name: Adı
+    picture: Resim Dosyası
+
+  teatime_sample/broadcast_days:
+    monday: Pazartesi
+    tuesday: Salı
+    wednesday: Çarşamba
+    thursday: Perşembe
+    friday: Cuma
+    saturday: Cumartesi
+    sunday: Pazar
+#End Example

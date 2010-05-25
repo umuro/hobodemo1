@@ -10,3 +10,8 @@ require 'rake/rdoctask'
 require 'tasks/rails'
 
 require 'hobo/tasks/rails'
+
+#ActiveSupport::Dependencies.load_paths << "vendor/plugins/railroad/lib/"
+#require 'railroad/tasks/diagrams'
+
+

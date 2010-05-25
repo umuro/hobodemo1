@@ -1,0 +1,45 @@
+<!-- ====== Reuse ====== -->
+
+
+<def tag="input" for="Regexp" attrs="name">
+  <%= text_field_tag(name, this, attributes) %>
+</def>
+
+<def tag="admin-new">
+  <a merge action="new" if="&can_create?(this)" param="default">
+  <ht key="#{this_field}.actions.new">New #{this_field.singularize.titleize}</ht></a>
+</def>
+
+<def tag="short-card">
+  <card:>
+    <heading: param="heading"><a><view:short_name/></a></heading:>
+  </card:>
+</def>
+
+<def tag="google-analytics">
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+  try {
+  var pageTracker = _gat._getTracker("UA-15784979-2");
+  pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+</def>
+
+
+<def tag="google-ads-top">
+  <script type="text/javascript"><!--
+  google_ad_client = "pub-4778590878473295";
+  /* yerli-diziler 468x60 */
+  google_ad_slot = "2149155808";
+  google_ad_width = 468;
+  google_ad_height = 60;
+  //-->
+  </script>
+  <script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+  </script>
+</def>

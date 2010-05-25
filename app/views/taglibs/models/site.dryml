@@ -1,0 +1,41 @@
+<!-- ====== Site ====== -->
+<!--
+# See layout drml for page
+page[title]
+  body[class]
+    content
+      section-group if aside
+        main-content if aside
+          content-header
+            parent-link
+            heading
+            record-flags
+            edit-link
+          content-body
+            field-list
+            collection-section
+              collection-heading
+              collection
+              new-link
+        aside
+          <children>-preview
+            more-->
+
+<extend tag="show-page" for="Site">
+  <old-show-page merge without-content-header>
+<!--
+    <before-collection-heading:>
+      <div><google-ads-top/></div></before-collection-heading:>-->
+    <append-content-body:>
+        <% if User.count == 0 -%>
+          <h3 style="margin-top: 20px;">There are no user accounts - please provide the details of the site administrator</h3>
+          <do with="&User.new"><% this.exempt_from_edit_checks = true %>
+            <signup-form/></do>
+        <% end -%></append-content-body:>
+<!--
+    <append-content:>
+          <google-analytics/></append-content:>-->
+
+  </old-show-page>
+</extend>
+

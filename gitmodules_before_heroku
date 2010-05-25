@@ -1,0 +1,18 @@
+[submodule "vendor/plugins/active_record_base_without_table"]
+	path = vendor/plugins/active_record_base_without_table
+	url = git://github.com/umuro/active_record_base_without_table.git
+[submodule "vendor/plugins/cached_model"]
+	path = vendor/plugins/cached_model
+	url = git://github.com/umuro/cached_model.git
+[submodule "vendor/plugins/etag"]
+	path = vendor/plugins/etag
+	url = git@xen.realworld-systems.com:etag.git
+[submodule "vendor/plugins/paperclip"]
+	path = vendor/plugins/paperclip
+	url = git://github.com/thoughtbot/paperclip.git
+[submodule "vendor/plugins/paperclip_with_hobo"]
+	path = vendor/plugins/paperclip_with_hobo
+	url = git://github.com/tablatom/paperclip_with_hobo.git
+[submodule "vendor/plugins/railroad"]
+	path = vendor/plugins/railroad
+	url = git://github.com/scsmith/railroad.git

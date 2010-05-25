@@ -1,13 +1,21 @@
 # Be sure to restart your server when you modify this file
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.8' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
+
 Rails::Initializer.run do |config|
   config.gem 'hobo'
+  # config.gem 'acts_as_list'
+  # config.gem 'capistrano'
+  config.gem 'haml'
+  config.gem 'builder'
+  #config.gem 'bluecloth' 
+  #config.gem 'rdiscount' 
+  config.gem 'memcached-northscale', :lib => 'memcached'
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
@@ -40,4 +48,20 @@ Rails::Initializer.run do |config|
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
+  config.i18n.default_locale = :en
+
+  require 'memcached'
+  config.cache_store = :mem_cache_store, Memcached::Rails.new
+  
+#   unless "RAILS_ENV" == "production"
+#     require 'rack/cache'
+#     config.gem 'rack-cache'
+#     config.middleware.use Rack::Cache,
+#       :verbose => true,
+#       :metastore   => 'file:/tmp/cache/rack/meta',
+#       :entitystore => 'file:/tmp/cache/rack/body'
+#     # I am deploying to Heroku
+#     # Heroku has Varnish which replaces rack-cache
+#     # The purpose is to have caching in test and development
+#   end
 end

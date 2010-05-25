@@ -1,0 +1,2 @@
+module Etag
+end

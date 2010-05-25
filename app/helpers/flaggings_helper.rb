@@ -1,0 +1,2 @@
+module FlaggingsHelper
+end

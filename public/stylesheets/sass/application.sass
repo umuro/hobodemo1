@@ -1,0 +1,109 @@
+#search-results-panel
+  top: 128px
+
+.page-header
+  h1
+    padding: 20px 30px 30px
+    position: relative
+    left: 30px
+  .app-logo
+    position: relative
+    z-index: 10
+    float: left
+    height: 100px
+    width: 100px
+    top: 2px
+    left: 4px
+    a
+      text-decoration: none
+      border: 0 none
+
+.section.with-flash.content
+  padding: 0px
+
+!aside_background = #AAD1E5 + #111111
+!aside_color = #f5ceba - #aaaaaa
+!aside_highlight_background = !aside_background + #111
+
+=aside_navigation_current
+  color = !aside_background
+  background-color = !aside_color
+  font-weight: bold
+
+.aside
+  ul
+    list-style: none
+    li
+      margin: 0px
+      h4
+        margin: 0px
+  background-color= !aside_background
+  .section.part.current
+    +aside_navigation_current
+    a
+      +aside_navigation_current
+      &:hover
+        background-color = !aside_color + #222
+  .section.upload.current
+    border: 1px solid
+      color = !aside_color
+  a
+    color = !aside_color
+    background-color = !aside_background
+    &:hover
+      background-color = !aside_highlight_background
+    display: block
+    padding: 2px
+
+  .card
+    background-color= !aside_background + #111111
+
+.card
+  .picture
+    position: relative
+    float: left
+    z-index: 10
+  .text
+    position: relative
+    left: 10px
+
+.parent-link
+  color: white
+  background-color: #242E42
+  border: medium none
+  padding: 3px 13px 5px
+  font-size: 120%
+
+.content-header
+  .parent-link
+    position: relative
+    z-index: 5
+    left: -42px
+    margin-right: 10px
+
+.pagination
+  font-size: 120%
+  display: block
+  border: medium solid aliceBlue
+  padding: 4px
+  margin:
+    left: auto
+    right: auto
+  .disabled
+    color: #777
+  .disabled.prev_page
+    color: #777
+  .disabled.next_page
+    color: #777
+  .prev_page
+    color: blue
+  .next_page
+    color: blue
+  a
+    padding: 4px 8px
+    text-decoration: underline
+    font-weight: bold
+  .current
+    padding: 4px 8px
+    color: red
+    font-weight: bold

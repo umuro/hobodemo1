@@ -1,0 +1,2 @@
+module EventSeriesHelper
+end

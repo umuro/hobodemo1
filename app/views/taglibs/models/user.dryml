@@ -1,0 +1,71 @@
+<!-- ====== User ====== -->
+<!--
+# See layout.drml for page
+page[title]
+  body[class]
+    content
+      section-group if aside
+        main-content if aside
+          content-header
+            parent-link
+            heading
+            record-flags
+            edit-link
+          content-body
+            field-list
+            collection-section
+              collection-heading
+              collection
+              new-link
+        aside
+          <children>-preview
+            more
+index-page:
+page[title]
+  body[class]
+    content
+      content-header
+        heading
+        count
+      content-body
+        new-link
+        top-page-nav
+        collection
+        bottom-page-nav
+-->
+<!--
+<extend tag="card" for="User">
+  <old-card merge>
+      <div param="picture">
+        <a><%= image_tag this.picture.url -%></a>
+      </div>
+      <div class="text">
+        <header: param>
+          <h4 param="heading"><a><name/></a></h4>
+        </header:>
+        <body: param>
+          <view:broadcast-date/>
+        </body:>
+      </div>
+  </old-card>
+</extend>-->
+
+<extend tag="show-page" for="User">
+  <old-show-page merge title="&this.email_address">
+    <meta-tags: param>
+      <meta name="description" content="#{this.email_address}"/></meta-tags>
+<!--
+    <before-heading:>
+      <google-ads-top/></before-heading:>-->
+<!--
+  <after-collection-heading:>
+      <admin-new:children param='new-link-top'/></after-collection-heading:>-->
+<!--
+    <collection: param>
+      <short-card/>
+    </collection>-->
+<!--
+    <append-content-body:>
+          <google-analytics/></append-content-body:>-->
+  </old-show-page>
+</extend>

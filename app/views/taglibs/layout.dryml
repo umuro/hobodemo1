@@ -1,0 +1,77 @@
+<!--
+page
+  head
+    title
+    stylesheets
+      app-stylesheet
+    scripts
+      custom-stylesheets
+  body
+    ajax-progress
+    header
+      account-nav
+      app-name
+      live-search
+      main-nav_item
+    content
+    footer
+    page-scripts
+-->
+
+<!--content
+  main-content
+    content-header
+      heading
+      record-flags
+    content-body
+      collection-section
+        collection-heading
+        collection
+  aside-->
+
+<def tag="meta-tags" attrs="description">
+  <meta name="google-site-verification" content="K0rr_9-PuAI1K7JdQe_2LSYUyoT9Jc9LiNujsklwbEk" />
+  <do param="default">
+    <meta name="description" content="#{description}"/>
+  </do>
+</def>
+
+<extend tag="page">
+  <old-page merge>
+    <prepend-head:>
+      <meta-tags description="Hiçbir bölümü kaçırmayın.Bütün televizyon dizilerini buradan izleyin. Bilgisayarınızda, istediğiniz zaman" param/>
+    </prepend-head:>
+    <before-app-name:><section class='app-logo'><a href="#{base_url}/"><app-logo/></a></section></before-app-name:>
+  </old-page>
+</extend>
+
+<extend tag="main-nav">
+  <old-main-nav merge>
+    <default: param>
+      <nav-item href="/">
+        <ht key="application.home">Home</ht>
+      </nav-item>
+      <nav-item with="&Organization"><ht key="organizations.nav_item">Organizations</ht></nav-item>
+      <if test="&current_user.administrator?">
+<!--        <nav-item with="&UploadSite"><ht key="upload_sites.nav_item">Yüklenen Sitesis</ht></nav-item>-->
+      </if>
+    </default>
+  </old-main-nav>
+</extend>
+
+<def tag="account-nav">
+  <do with="&current_user">
+    <ul class="navigation account-nav" param>
+      <li if="&RAILS_ENV == 'development'" param="dev-user-changer"><dev-user-changer/></li>
+      <if test="&logged_in?">
+        <li class='nav-item' param="logged-in-as"><a to="&current_user">Logged in as <name/></a></li>
+        <li class='nav-item' param="account"><a action="account">Account</a></li>
+        <li class='nav-item' param="log-out"><a href="&logout_url">Log out</a></li>
+      </if>
+      <else>
+        <li class='nav-item' param="log-in"><a href="&login_url">Log in</a></li>
+        <li if="&signup_url" class="nav-item" param="sign-up"><a href="&signup_url">Sign up</a></li>
+      </else>
+    </ul>
+  </do>
+</def>

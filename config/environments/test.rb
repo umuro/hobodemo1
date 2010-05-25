@@ -11,7 +11,7 @@ config.whiny_nils = true
 
 # Show full error reports and disable caching
 config.action_controller.consider_all_requests_local = true
-config.action_controller.perform_caching             = false
+config.action_controller.perform_caching             = true
 config.action_view.cache_template_loading            = true
 
 # Disable request forgery protection in test environment
@@ -26,3 +26,17 @@ config.action_mailer.delivery_method = :test
 # This is necessary if your schema can't be completely dumped by the schema dumper,
 # like if you have constraints or database-specific column types
 # config.active_record.schema_format = :sql
+
+config.i18n.default_locale = :en
+
+config.gem 'factory_girl'
+config.gem 'shoulda'
+config.gem 'mocha'
+config.gem 'rspec', :lib=>false, :version => '1.3.1'
+config.gem 'rspec-rails', :lib=>false, :version => '1.3.3'
+config.gem 'steak'
+config.gem 'capybara'
+# config.gem 'rack-cache'
+# config.gem 'rack-test', :lib=>'rack/test'
+# config.gem 'webrat' 
+

@@ -1,0 +1,44 @@
+<!-- ====== I18n ====== -->
+
+<extend tag="preview-with-more">
+    <% klass_title = collection_name.titleize.pluralize -%>
+    <% klass_key = klass_title.gsub(' ','').tableize -%>
+  <old-preview-with-more merge>
+    <heading: param>
+      <ht key="#{klass_key}.index.title"><%= klass_title %></ht>
+    </heading:>
+
+    <more: param><ht key="hobo.actions.more">More</ht>...</more:>
+
+    <new-link: param>
+      <ht key="#{klass_key}.actions.new">New <%= this.member_class.view_hints.model_name %></ht>
+    </new-link:>
+
+  </old-preview-with-more>
+</extend>
+
+<def tag="view" for="Date" attrs="format"><%= this && (format ? I18n.l(this, :format=>format) : I18n.l(this)) %></def>
+
+
+<def tag="record-flags-i18n" attrs="fields"><%=
+  comma_split(fields).select{ |f| this.send(f) }.map{ |f| I18n.t(this.class.name.tableize+'.'+f) }.join(', ')
+%></def>
+
+<def tag="live-search-i18n">
+  <div class="search">
+    <label for="search-field"><ht key="actions.search.command">Search</ht></label><input type="search" class="live-search"/>
+    <spinner id="search-spinner"/>
+  </div>
+  <section class="hidden" id="search-results-panel">
+    <h2><ht key="actions.search.title">Search Results</ht></h2><div param="close-button"><ht key="actions.close">close</ht></div>
+    <section id="search-results">&nbsp;</section>
+  </section>
+</def>
+
+<extend tag="page">
+  <old-page merge>
+  <live-search: replace>
+    <live-search-i18n param if="&defined_route? :site_search"/>
+  </live-search>
+  </old-page>
+</extend>

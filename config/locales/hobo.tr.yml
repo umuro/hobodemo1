@@ -1,0 +1,163 @@
+####
+#### Hobo Translation
+####
+tr:
+  hobo:
+    # hobos default pages translations
+    page:
+      index:
+        title: "{{model}} Listesi"
+        heading: "{{model}} Listesi"
+
+      new:
+        title: "Yeni {{model}}"
+        heading: "Yeni {{model}}"
+
+      show:
+        title: "{{model}}"
+        heading: "{{model}}"
+        back_link: "Geri"
+        edit_link: "{{model}}: Değiştir"
+        new_link: "Yeni {{model}}"
+        add_form_heading: "{{model}}: Ekle"
+
+      edit:
+        title: "{{model}}: Değiştir"
+        heading: "{{model}}: Değiştir"
+
+      index_for_owner:
+        title: "{{model}} listesi: "
+        heading:
+          your: "{{model}} listesi"
+          other: "{{model}} listesi"
+        subheading: "Sahibi:"
+
+      new_for_owner:
+        title: "Yeni {{model}}: "
+        heading: "Yeni {{model}}"
+        subheading: "Sahibi:"
+
+      login:
+        title: "Üye giriş"
+        heading: "Giriş"
+        email: "E-posta"
+        password: "Şifre"
+        remember_me: "Beni hatırla"
+        login: "Üye giriş"
+        signup: "Üye kayıt"
+        forgot_password: "Şireyi unuttunuz?"
+
+      signup:
+        title: "Üye kayıt"
+        heading: "Yeni üye kaydı"
+
+      forgot_password:
+        title: "Şifre unuttunuz?"
+        heading: "Şifre unuttunuz?"
+        text: "Buraya kaydolduğunuz zamam kullandığınız E-posta adresini girin.
+               Yeni bir şifre üretmeniz için bir e-posta yollayacağız.
+               "
+        email: "E-posta"
+        send: "Yolla"
+
+      forgot_password_sent:
+        title: "Unutulmuş şifre - E-posta yollandı"
+        heading: "Unutulmuş şifre - E-posta yollandı"
+        text: "Nasıl yeni bir şifre yaratacağınızı anlatan bir e-posta {{email}} adresine yollandı. Eğer bu yollanan e-potayı alamazsanız spam filtrenizi kontrol edin"
+
+      account_disabled:
+        title: "Üyelik bulunamadı"
+        heading: "Üyelik bulunamadı"
+        text: "Verili e-posta adresine karşılık gelen bir üyelik bulunamadı. E-posta adresini doğru girdiğinizi kontrol edin."
+
+    # hobos default action translation
+    actions:
+      new: "Yeni"
+      create: "Yarat"
+      previous: "Önceki"
+      next: "Sonraki"
+      add: "Ekle"
+      more: "Dahası"
+      delete: "{{model}} sil"
+      save: "Sakla"
+      cancel: "İptal"
+      edit: "{{model}}: değiştir"
+#       back: "Geri dön:"
+      send: "Yolla"
+      remove: "Çıkart"
+      signup: "Kayıt"
+      login: "Giriş"
+      logout: "Çıkış"
+      logged_in_as: "{{name}} olarak girildi"
+      account: "Üye kaydı"
+
+    # hobos default message translation
+    messages:
+      create:
+        success: "{{model}} yaratıldı"
+        error: "{{model}} yaratılamadı.\n{{errors}}"
+      creator:
+        error: "Yaratıcı {{name}} yapılamadı.\n{{errors}}"
+      transition:
+        error: "Geçiş {{name}} yapılamadı.\n{{errors}}"
+      update:
+        no_attribute_error: "No update specified in params"
+        success: "{{model}} değişiklikleri saklandı"
+        error: "Bu değişiklikte bir sorun var.\n{{errors}}"
+      destroy:
+        success: "{{model}} silindi"
+      signup:
+        success: "Kaydolduğunuz için sağolun!"
+        must_activate: "Kaydınızı giriş yapabilmek icin aktive etmelisini. E-postanızı kontrol edin."
+      login:
+        success: "Giriş yaptınız."
+        error: "Geçerli bir ({{login}}) ve şifre girmediniz!"
+      logout: "Çıktınız."
+      reset_password: "Şifreniz yenilendi."
+      permission_denied: "İzin yok."
+      not_found: "Bu sayfa bulunamıyor"
+      unauthenticated: "Onaylanamadınız"
+      current_password_is_not_correct: "doğru değil"
+      you_are_site_admin: "You are now the site administrator"
+      you_signed_up: "Kaydoldunuz."
+      no: "Hiçbir {{model}} yok."
+      confirm: "Emin misiniz?"
+
+    # hobos default collection translation
+    collection:
+      count:
+        zero: "Hiçbir {{model}} yok"
+        one: "Sadece bir {{model}} var"
+        other: "{{count}} {{model}} var"
+      heading:
+        your: "Sizin {{model}} listeniz"
+        other: "{{model}} listesi"
+      add_form_heading: "{{a_or_an}} {{model}} ekle"
+      empty_message: "Kayıtlı ilişki yok"
+
+    # hobos form translation
+    form:
+      new:
+        heading: "Yeni {{model}}"
+      error:
+        heading: "Şu hata oluştu:"
+
+    # hobo support
+    support:
+      or: "veya"
+      a: "bir"
+      an: "bir"
+
+    table_plus:
+      search: "Ara"
+      empty: "Gösterecek {{model}} yok"
+
+    live_search:
+      label: "Ara"
+      results_label: "Arama sonuçları"
+      close_button: "kapat"
+      more: "Dahası"
+      no_results: "Aramanız hiçbir sonuç bulamadı."
+
+    dev_user_changer:
+      guest: "Misafir"

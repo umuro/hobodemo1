@@ -1,0 +1,12 @@
+[11 February 2009]
+<umur.ozkul@gmail.com>create_or_update_without_callbacks is overriden instead of create_or_update. 
+Now, ActiveRecord callbacks are working.
+Thus, we can use this class as a proxy for other kinds of data storages other than tables.
+
+[15 September 2007]
+
+* Update for new attribute implementation. Require Rails >= r7315.
+
+[27 April 2007]
+
+* Correctly cache class instance variables containing column information [Reported by Nils Jonsson]

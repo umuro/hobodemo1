@@ -1,0 +1,2 @@
+module CourseAreasHelper
+end

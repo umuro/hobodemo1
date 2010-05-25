@@ -1,7 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
 
   map.site_search  'search', :controller => 'front', :action => 'search'
-  map.root :controller => 'front', :action => 'index'
+#   map.root :controller => 'front', :action => 'index'
+  map.root :controller => 'sites', :action => 'show', :id=>'1'
 
   Hobo.add_routes(map)
 
@@ -23,7 +24,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # Sample resource route with sub-resources:
   #   map.resources :products, :has_many => [ :comments, :sales ], :has_one => :seller
-  
+
   # Sample resource route with more complex sub-resources
   #   map.resources :products do |products|
   #     products.resources :comments
