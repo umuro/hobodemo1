@@ -1,0 +1,56 @@
+<extend tag="form" for="UserProfile">
+  <old-form merge>
+    <field-list:>
+      <country-view:>
+      	 <select-one limit="500"/>
+      </country-view:>
+    </field-list:>
+  </old-form>
+</extend>
+
+<extend tag="show-page" for="UserProfile">
+  <old-show-page merge>
+    <heading:>Account Details</heading:>
+    <content: param>
+      <section-group>
+        <section param="content-body">
+          <param-content for="content"/>
+        </section>
+        <aside param>
+          <% if current_user.administrator? %>
+            <admin-nav-menu/>
+          <% else %>
+            <user-nav-menu/>
+          <% end %>
+        </aside>
+      </section-group>
+    </content:>
+  </old-show-page>
+</extend>
+
+<extend tag="new-page" for="UserProfile">
+  <old-new-page merge>
+    <heading:>
+      <ht key="user_profiles.new.heading">Create your user profile</ht>
+    </heading:>
+  </old-new-page>
+</extend>
+
+<def tag="details-user-profile" >
+  <section param="user-profile">
+    <header param="user-profile-header">
+      
+      <record-flags fields="" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="user_profiles.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+          Edit User Profile
+        </ht>
+      </a>
+    </header>
+
+    <section param="content-body">
+      <field-list fields="first_name, middle_name, last_name, gender, birthdate, country, twitter, facebook, homepage, mobile_phone" param/>
+    </section>
+  </section>
+</def>

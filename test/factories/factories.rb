@@ -1,21 +1,5 @@
+
 require File.join(File.dirname(__FILE__), 'organization_factory')
-
-Factory.define :race do |f|
-  class << f
-    def default_event
-      @default_event ||= Factory(:event)
-    end
-  end
-
-  f.event { f.default_event }
-  f.sequence(:number) {|n| n}
-  f.sequence(:name) {|n| n}
-  f.planned_time {Time.now.utc.at_beginning_of_day}
-  f.start_time {Time.now.utc.at_beginning_of_day}
-  f.end_time {Time.now.utc.end_of_day}
-  f.gender :O
-  f.course_area { |r| Factory(:course_area, :event=>r.event) }
-end
 
 Factory.define :boat_class do |f|
   f.sequence(:name) {|n| "class #{n}"}
@@ -23,74 +7,161 @@ Factory.define :boat_class do |f|
 end
 
 Factory.define :equipment_type do |f|
+  class << f
+    def default_boat_class
+      @default_boat_class = Mill.unless_produced?(:boat_class, @default_boat_class)
+    end
+  end
+  
   f.sequence(:name) {|n| "class #{n}"}
+  f.boat_class { f.default_boat_class }
 end
 
 Factory.define :equipment do |f|
+  class << f
+    def default_boat
+      @default_boat = Mill.unless_produced?(:boat, @default_boat)
+    end
+  end
+  
   f.sequence(:serial) {|n| "class #{n}"}
+  f.boat { f.default_boat }
+  f.equipment_type { |p| Factory :equipment_type, :boat_class => p.boat.boat_class }
 end
 
 Factory.define :boat do |f|
-  f.sequence(:name) {|n| "class #{n}"}
-  f.sequence(:sail_number) {|n| "class #{n}"}
+  class << f
+    def default_boat_class
+      @default_boat_class = Mill.unless_produced?(:boat_class, @default_boat_class)
+    end
+  end
+  
+  f.sequence(:sail_number) {|n| "SN#{n}"}
+  f.owner { Factory(:user) }
+  f.boat_class { f.default_boat_class }
 end
 
-Factory.define :country do |f|
-  f.sequence(:name) {|n| "Country #{n}"}
-  f.sequence(:code) {|n| "c#{n}"}
-end
 
-Factory.define :person do |f|
-  f.sequence(:first_name) {|n| "First#{n}"}
-  f.sequence(:last_name) {|n| "Last#{n}"}
-  f.sequence(:birthdate) {|n| Time.now - 25.years}
-  f.gender { :Female }
-#   class << f
-#     def default_country
-#       @default_country |= Factory(:country)
-#     end
-#   end
-f.country { Factory(:country) }
-end
+
 #
 # Factory.define :regatta_user, :class => User do |f|
 #   f.sequence(:email_address) {|n| "user#{n}@test.com"}
 # end
 
-Factory.define :team_participation do |f|
-  f.date_entered {Time.now}
-  f.sequence(:team_rid) {|n|"regatta id #{n}"}
-  f.gender {:Female}
+# Factory.define :enrollment do |f|
+# #TODO
+# #    f.date_entered {Time.now.utc }
+#    f.sequence(:team_rid) {|n|"regatta id #{n}"}
+#    f.owner { Factory(:user) }
+#    f.event { Factory(:event) }
+#    f.boat { Factory(:boat) }
+#    f.crew { Factory(:crew) }
+# end
+
+Factory.define :crew_membership do |f|
+
+  class << f
+    def default_crew
+      @default_crew = Mill.unless_produced?(:crew, @default_crew) #Factory(:crew)
+    end
+    def default_user
+      @default_user = Mill.unless_produced?(:user, @default_user) #Factory(:user)
+    end
+  end
+
+  f.joined_crew { f.default_crew }
+  #f.owner { f.default_crew.owner }
+  f.invitee { f.default_user }
 end
 
-Factory.define :crew_member do |f|
-  f.position { :C }
+Factory.define :crew do |f|
+  f.owner { Factory(:user) }
+  f.gender { :Open }
+  f.sequence(:name) { |n| "crew_#{n}" }
 end
 
-Factory.define :fleet do |f|
+Factory.define :race do |f|
+  class << f
+    def default_event
+      @default_event = Mill.unless_produced?(:event, @default_event) #Factory(:event)
+    end
+  end
+
+  f.event { f.default_event }
+  f.sequence(:number) {|n| n}
+  f.boat_class { Factory(:boat_class) }
+  f.gender :Open
+end
+
+Factory.define :fleet_race do |f|
+  class << f
+    def default_race
+      @default_race = Mill.unless_produced?(:race, @default_race)#Factory(:race)
+    end
+  end
+  
+  f.race { f.default_race }
+  
   f.sequence(:color) {|n| "color#{n}"}
-  f.gender :M
+  
+  # CAUTION:
+  # ========
+  # The scheduled time is determined according to the event's time zone which is stored in the race.
+  # It is not possible to use default_race, as it will not be the proper time zone when the race is set through
+  # a hash property such as Factory :fleet_race, :race => ...
+  
+  f.scheduled_time {|p| Time.now.in_time_zone(p.race.event.time_zone).at_beginning_of_day+9.hours}
+  
+  # Start time and end time are default nil
+  
+  f.start_time { nil }
+  f.end_time { nil }
+
+  f.course_area { |r| Factory(:course_area, :event=>r.event) }
 end
 
+Factory.define :fleet_race_membership do |f|
+  f.fleet_race { UseCaseSamples.build_fleet_race }
+  f.enrollment { Factory(:enrollment) }
+end
+  
 Factory.define :course_area do |f|
+  class << f
+    def default_event
+      @default_event =  Mill.unless_produced?(:event, @default_event) #Factory(:event)
+    end
+  end
+  f.event {f.default_event}
   f.sequence(:name) {|n| "course area #{n}"}
 end
 
 Factory.define :course do |f|
+  class << f
+    def default_organization
+      @default_organization = Mill.unless_produced?(:organization, @default_organization)#Factory(:organization)
+    end
+  end
+  f.organization { f.default_organization }
   f.sequence(:name) {|n| "course #{n}"}
 end
 
 Factory.define :spot do |f|
-  f.sequence(:name) {|n| "spot #{n}"}
-  f.sequence(:position) {|n| n}
+  class << f
+    def default_course
+      @default_course = Mill.unless_produced?(:course, @default_course) #Factory(:course)
+    end
+  end
+
+#   f.sequence(:position) {|n| n}
+  f.course {f.default_course}
   f.spot_type {:Mark}
-  #f.course_id {Factory(:course)}
 end
 
 Factory.define :spotting do |f|
   f.spotting_time {Time.now}
-  f.spotter{ @the_spotter ||= Factory(:person)}
-  f.spot{ @the_spot ||= Factory(:spot)}
+  f.spotter{ Factory(:user) }
+  f.spot{ Factory(:spot) }
+  f.boat { Factory(:boat) }
 end
 
 Factory.define :flag do |f|
@@ -98,5 +169,29 @@ Factory.define :flag do |f|
 end
 
 Factory.define :flagging do |f|
+  class << f
+    def default_fleet_race
+      @default_fleet_race = Mill.unless_produced?(:fleet_race, @default_fleet_race)  do
+	UseCaseSamples.build_fleet_race
+      end
+    end
+  end
+ 
+  f.fleet_race { f.default_fleet_race }
+  f.spotter {Factory(:user)}
+  f.flag {Factory(:flag)}
   f.flagging_time {Time.now.utc}
 end
+
+Factory.define :calendar_entry do |f|
+  class << f
+    def default_event
+      @default_event = Mill.unless_produced?(:event, @default_event) #Factory(:event)
+    end
+  end
+  f.event {f.default_event}
+  f.sequence(:name) {|n| "calendar entry #{n}"}
+  f.scheduled_time {Time.now.utc.at_beginning_of_day}
+end
+
+

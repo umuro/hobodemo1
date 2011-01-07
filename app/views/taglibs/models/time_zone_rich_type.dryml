@@ -1,0 +1,3 @@
+<def tag="input" for="TimeZoneRichType" attrs="name">
+  <%= select_tag(name, time_zone_options_for_select(this), options=attributes) %>
+</def>

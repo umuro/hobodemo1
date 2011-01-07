@@ -1,7 +1,6 @@
 xml.instruct!
 xml.course do
   xml.id @this.id
-  xml.race_id @this.race_id
   xml.name @this.name
   xml.spots("type"=>"array") do
     @this.spots.each do | entity |

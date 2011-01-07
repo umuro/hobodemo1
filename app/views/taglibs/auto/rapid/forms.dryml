@@ -3,7 +3,7 @@
 <def tag="form" for="BoatClass">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, description, no_of_crew_members" param/>
+    <field-list fields="name, description, no_of_crew_members, organization" param/>
     <div param="actions">
       <submit label="#{ht 'boat_classes.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
@@ -15,9 +15,21 @@
 <def tag="form" for="Boat">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, sail_number, boat_class" param/>
+    <field-list fields="sail_number, boat_class, owner" param/>
     <div param="actions">
       <submit label="#{ht 'boats.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="CalendarEntry">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, scheduled_time, event" param/>
+    <div param="actions">
+      <submit label="#{ht 'calendar_entries.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
@@ -51,7 +63,7 @@
 <def tag="form" for="Course">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, race" param/>
+    <field-list fields="name, organization" param/>
     <div param="actions">
       <submit label="#{ht 'courses.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
@@ -60,17 +72,160 @@
 
 
 
-<def tag="form" for="CrewMember">
+<def tag="form" for="CrewMembership">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="position, remarks, person, team_participation" param/>
+    <field-list fields="state, invitee, joined_crew" param/>
     <div param="actions">
-      <submit label="#{ht 'crew_members.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+      <submit label="#{ht 'crew_memberships.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="invite-form" polymorphic/>
+<def tag="invite-form" for="CrewMembership">
+  <form lifecycle="invite" merge param="default">
+    <error-messages param/>
+    <field-list fields="joined_crew, invitee_email" param/>
+    <div param="actions">
+      <submit label="#{ht 'crew_memberships.actions.invite', :default=>['Invite']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="accept-form" polymorphic/>
+<def tag="accept-form" for="CrewMembership">
+  <form lifecycle="accept" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'crew_memberships.actions.accept', :default=>['Accept']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="ignore-form" polymorphic/>
+<def tag="ignore-form" for="CrewMembership">
+  <form lifecycle="ignore" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'crew_memberships.actions.ignore', :default=>['Ignore']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="retract-form" polymorphic/>
+<def tag="retract-form" for="CrewMembership">
+  <form lifecycle="retract" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'crew_memberships.actions.retract', :default=>['Retract']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="retract-form" polymorphic/>
+<def tag="retract-form" for="CrewMembership">
+  <form lifecycle="retract" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'crew_memberships.actions.retract', :default=>['Retract']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="form" for="Crew">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, gender, owner" param/>
+    <div param="actions">
+      <submit label="#{ht 'crews.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
 
 
+
+<def tag="form" for="Enrollment">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="date_measured, measured, insured, paid, state, boat, country, crew, event, owner" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollments.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="enroll-form" polymorphic/>
+<def tag="enroll-form" for="Enrollment">
+  <form lifecycle="enroll" merge param="default">
+    <error-messages param/>
+    <field-list fields="event, boat, crew, country" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollments.actions.enroll', :default=>['Enroll']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="re-enroll-form" polymorphic/>
+<def tag="re-enroll-form" for="Enrollment">
+  <form lifecycle="re_enroll" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollments.actions.re_enroll', :default=>['Re Enroll']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="re-enroll-form" polymorphic/>
+<def tag="re-enroll-form" for="Enrollment">
+  <form lifecycle="re_enroll" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollments.actions.re_enroll', :default=>['Re Enroll']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="retract-form" polymorphic/>
+<def tag="retract-form" for="Enrollment">
+  <form lifecycle="retract" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollments.actions.retract', :default=>['Retract']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="accept-form" polymorphic/>
+<def tag="accept-form" for="Enrollment">
+  <form lifecycle="accept" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollments.actions.accept', :default=>['Accept']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="reject-form" polymorphic/>
+<def tag="reject-form" for="Enrollment">
+  <form lifecycle="reject" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="admin_comment" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollments.actions.reject', :default=>['Reject']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
 
 <def tag="form" for="Equipment">
   <form merge param="default">
@@ -96,12 +251,12 @@
 
 
 
-<def tag="form" for="EventSeries">
+<def tag="form" for="EventFolder">
   <form merge param="default">
     <error-messages param/>
     <field-list fields="name, description, organization" param/>
     <div param="actions">
-      <submit label="#{ht 'event_series.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+      <submit label="#{ht 'event_folders.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
@@ -111,7 +266,7 @@
 <def tag="form" for="Event">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, event_type, start_time, end_time, place, time_zone, description, event_series" param/>
+    <field-list fields="name, start_time, end_time, place, time_zone, description, site_url, event_folder" param/>
     <div param="actions">
       <submit label="#{ht 'events.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
@@ -123,7 +278,7 @@
 <def tag="form" for="Flagging">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="flagging_time, flag, race, spotter" param/>
+    <field-list fields="flagging_time, flag, fleet_race, spotter" param/>
     <div param="actions">
       <submit label="#{ht 'flaggings.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
@@ -144,12 +299,12 @@
 
 
 
-<def tag="form" for="Fleet">
+<def tag="form" for="FleetRace">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="color, race" param/>
+    <field-list fields="color, status, scheduled_time, start_time, end_time, course, course_area, race" param/>
     <div param="actions">
-      <submit label="#{ht 'fleets.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+      <submit label="#{ht 'fleet_races.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
@@ -192,28 +347,38 @@
 
 
 
-<def tag="form" for="Person">
-  <form merge param="default">
-    <error-messages param/>
-    <field-list fields="first_name, middle_name, last_name, gender, birthdate, country, user" param/>
-    <div param="actions">
-      <submit label="#{ht 'people.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
-    </div>
-  </form>
-</def>
-
-
-
 <def tag="form" for="Race">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, number, status, planned_time, start_time, end_time, gender, boat_class, course_area, event" param/>
+    <field-list fields="number, gender, boat_class, event" param/>
     <div param="actions">
       <submit label="#{ht 'races.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
 
+
+
+<def tag="form" for="RsxMobileService">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="api_key, state, event" param/>
+    <div param="actions">
+      <submit label="#{ht 'rsx_mobile_services.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="ready-form" polymorphic/>
+<def tag="ready-form" for="RsxMobileService">
+  <form lifecycle="ready" merge param="default">
+    <error-messages param/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'rsx_mobile_services.actions.ready', :default=>['Ready']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
 
 
 <def tag="form" for="Site">
@@ -231,7 +396,7 @@
 <def tag="form" for="Spot">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, position, spot_type, course" param/>
+    <field-list fields="position, spot_type, course" param/>
     <div param="actions">
       <submit label="#{ht 'spots.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
@@ -252,12 +417,12 @@
 
 
 
-<def tag="form" for="TeamParticipation">
+<def tag="form" for="UserProfile">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="date_entered, date_measured, measured_passed?, insured?, paid?, description, team_rid, gender, boat, country, event" param/>
+    <field-list fields="first_name, middle_name, last_name, gender, birthdate, twitter, facebook, homepage, mobile_phone, country, owner" param/>
     <div param="actions">
-      <submit label="#{ht 'team_participations.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+      <submit label="#{ht 'user_profiles.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
@@ -278,13 +443,67 @@
 <def tag="signup-form" for="User">
   <form lifecycle="signup" merge param="default">
     <error-messages param/>
-    <field-list fields="email_address, password, password_confirmation" param/>
+    <field-list fields="email_address" param/>
     <div param="actions">
       <submit label="#{ht 'users.actions.signup', :default=>['Signup']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
+<def tag="invite-form" polymorphic/>
+<def tag="invite-form" for="User">
+  <form lifecycle="invite" merge param="default">
+    <error-messages param/>
+    <field-list fields="email_address" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.invite', :default=>['Invite']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
 
+<def tag="accept-invitation-form" polymorphic/>
+<def tag="accept-invitation-form" for="User">
+  <form lifecycle="accept_invitation" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="password, password_confirmation" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.accept_invitation', :default=>['Accept Invitation']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="activate-signup-form" polymorphic/>
+<def tag="activate-signup-form" for="User">
+  <form lifecycle="activate_signup" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="password, password_confirmation" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.activate_signup', :default=>['Activate Signup']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="inactivate-account-form" polymorphic/>
+<def tag="inactivate-account-form" for="User">
+  <form lifecycle="inactivate_account" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.inactivate_account', :default=>['Inactivate Account']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="activate-account-form" polymorphic/>
+<def tag="activate-account-form" for="User">
+  <form lifecycle="activate_account" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.activate_account', :default=>['Activate Account']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
 <def tag="reset-password-form" polymorphic/>
 <def tag="reset-password-form" for="User">
   <form lifecycle="reset_password" merge param="default">

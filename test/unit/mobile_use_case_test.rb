@@ -21,11 +21,15 @@ class MobileUseCaseTest < ActiveSupport::TestCase
       @the_spotter = Factory(:user)
 #       Event.any_instance.stubs(:acting_user).returns(@the_spotter)
       @boat = UseCaseSamples.build_boat
-      @race = UseCaseSamples.build_race
-      UseCaseSamples.participate_to_race_fleet:boat => @boat, :race => @race
+      @fleet_race = UseCaseSamples.build_fleet_race
+      UseCaseSamples.participate_to_fleet_race :boat => @boat, :fleet_race => @fleet_race
     end
     should "succeed" do
-
+      begin #test requirements
+	assert_not_nil @fleet_race.course_area
+	assert ! @fleet_race.event.course_areas.empty?
+	assert_equal @fleet_race.event.id, Event.active.first.id
+      end
   # Event should provide active events
       active_events = Event.active #REST
       assert ! active_events.empty?
@@ -40,18 +44,18 @@ class MobileUseCaseTest < ActiveSupport::TestCase
       course_area = course_areas.first
       assert_not_nil course_area
   # Course area should provide today's active races (for itself)
-      races_today = course_area.races.today.active #REST
-      assert ! races_today.empty?
-  # User selects race
-      race = races_today.first
-      assert_not_nil race
+      fleet_races_today = course_area.fleet_races.today_for(course_area.event).active #REST
+      assert ! fleet_races_today.empty?
+  # User selects fleet_race
+      fleet_race = fleet_races_today.first
+      assert_not_nil fleet_race
   # Race should provide the list of participating boats.
-      boats = race.boats #REST
-  #B) race
-      races_today = active_event.races.today.active #REST
-      race = races_today.first
-      course_area = race.course_area #REST
-      course = race.course #REST
+      boats = fleet_race.boats #REST
+  #B) fleet_race
+      fleet_races_today = active_event.fleet_races.today_for(active_event).active #REST
+      fleet_race = fleet_races_today.first
+      course_area = fleet_race.course_area #REST
+      course = fleet_race.course #REST
 
   #And then ...
   # Course should provide spots
@@ -63,9 +67,9 @@ class MobileUseCaseTest < ActiveSupport::TestCase
       spotting = Spotting.create :spot=>spot, :spotter=>@the_spotter, :spotting_time=>Time.now.utc #REST
   # Spotting session observer should exist for later business logics
   # Spotting session should provide flags (from its race)
-      race.flags #REST
+      fleet_race.flags #REST
   # Spotting session should accept a flagging within flags of its race
-      flagging = Flagging.create :race=>race, :spotter=>@the_spotter, :flagging_time=>Time.now.utc
+      flagging = Flagging.create :fleet_race=>fleet_race, :spotter=>@the_spotter, :flagging_time=>Time.now.utc
     end
   end
 
@@ -77,11 +81,9 @@ class MobileUseCaseTest < ActiveSupport::TestCase
   context "Event" do
     should "have daylight saving"
     should "have exact active_events"
-    should "have a life cycle .e.g defined, published, finished"
   end
 
-  context "Race" do
-    should "be invalid without a course area"
-    should "be invalid if course area event is not matching"
+  context "FleetRace" do
+    should "be invalid without a course area and a course"
   end
 end

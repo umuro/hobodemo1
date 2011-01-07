@@ -1,8 +1,13 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class SpottingTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  context "Active Record" do
+    setup {Factory(:spotting)}
+    should belong_to :spotter 
+    should validate_presence_of :spotter 
+    should belong_to :spot 
+    should validate_presence_of :spot 
+    should belong_to :boat 
+    should validate_presence_of :boat 
   end
 end

@@ -8,28 +8,27 @@ class EquipmentType < ActiveRecord::Base
     timestamps
   end
 
-  belongs_to :boat_class
-#   has_many :equipments
-#   has_many :boats, :through=>:equipments
+  belongs_to :boat_class, :touch => true
 
   validates_presence_of :boat_class_id
   validates_uniqueness_of :name, :scope=>:boat_class_id
+
   # --- Permissions --- #
 
   def create_permitted?
-    acting_user.any_organization_admin?
+    boat_class.creatable_by?(acting_user) if boat_class
   end
 
   def update_permitted?
-    acting_user.any_organization_admin?
+    boat_class.updatable_by?(acting_user) if boat_class
   end
 
   def destroy_permitted?
-    acting_user.any_organization_admin?
+    boat_class.destroyable_by?(acting_user) if boat_class
   end
 
   def view_permitted?(field)
-    true
+    boat_class.viewable_by?(acting_user) if boat_class
   end
 
 end

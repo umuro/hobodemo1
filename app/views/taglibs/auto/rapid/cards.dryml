@@ -5,11 +5,30 @@
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
+    <body: param>
+      <a:owner param="creator-link"/>
+      <ht key="equipment.collection.count" count="&this.equipment.size">
+         <count:equipment param/>
+      </ht>
+    </body:>
   </card>
 </def>
 
 <def tag="card" for="BoatClass">
   <card class="boat-class" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+    <body: param>
+      <ht key="equipment_types.collection.count" count="&this.equipment_types.size">
+         <count:equipment_types param/>
+      </ht>
+    </body:>
+  </card>
+</def>
+
+<def tag="card" for="CalendarEntry">
+  <card class="calendar-entry" param="default" merge>
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
@@ -29,6 +48,11 @@
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
+    <body: param>
+      <ht key="spots.collection.count" count="&this.spots.size">
+         <count:spots param/>
+      </ht>
+    </body:>
   </card>
 </def>
 
@@ -37,14 +61,46 @@
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
+    <body: param>
+      <ht key="fleet_races.collection.count" count="&this.fleet_races.size">
+         <count:fleet_races param/>
+      </ht>
+    </body:>
   </card>
 </def>
 
-<def tag="card" for="CrewMember">
-  <card class="crew-member" param="default" merge>
+<def tag="card" for="Crew">
+  <card class="crew" param="default" merge>
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
+    <body: param>
+      <a:owner param="creator-link"/>
+    </body:>
+  </card>
+</def>
+
+<def tag="card" for="CrewMembership">
+  <card class="crew-membership" param="default" merge>
+    <header: param>
+      <h4 param="heading"><name/></h4>
+    </header:>
+  </card>
+</def>
+
+<def tag="card" for="Enrollment">
+  <card class="enrollment" param="default" merge>
+    <header: param>
+      <h4 param="heading"><name/></h4>
+      <div param="actions">
+        <a action="edit" if="&can_edit?" param="edit-link">
+          <ht key="enrollments.actions.edit">Edit</ht>
+        </a>
+      </div>
+    </header:>
+    <body: param>
+      <a:owner param="creator-link"/>
+    </body:>
   </card>
 </def>
 
@@ -70,15 +126,15 @@
       <h4 param="heading"><a><name/></a></h4>
     </header:>
     <body: param>
-      <ht key="races.collection.count" count="&this.races.size">
-         <count:races param/>
+      <ht key="enrollments.collection.count" count="&this.enrollments.size">
+         <count:enrollments param/>
       </ht>
     </body:>
   </card>
 </def>
 
-<def tag="card" for="EventSeries">
-  <card class="event-series" param="default" merge>
+<def tag="card" for="EventFolder">
+  <card class="event-folder" param="default" merge>
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
@@ -103,19 +159,27 @@
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
+    <body: param>
+      <a:spotter param="creator-link"/>
+    </body:>
   </card>
 </def>
 
-<def tag="card" for="Fleet">
-  <card class="fleet" param="default" merge>
+<def tag="card" for="FleetRace">
+  <card class="fleet-race" param="default" merge>
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
+    <body: param>
+      <ht key="enrollments.collection.count" count="&this.enrollments.size">
+         <count:enrollments param/>
+      </ht>
+    </body:>
   </card>
 </def>
 
-<def tag="card" for="FleetMembership">
-  <card class="fleet-membership" param="default" merge>
+<def tag="card" for="FleetRaceMembership">
+  <card class="fleet-race-membership" param="default" merge>
     <header: param>
       <h4 param="heading"><name/></h4>
     </header:>
@@ -136,8 +200,8 @@
       <h4 param="heading"><a><name/></a></h4>
     </header:>
     <body: param>
-      <ht key="event_series.collection.count" count="&this.event_series.size">
-         <count:event_series param/>
+      <ht key="event_folders.collection.count" count="&this.event_folders.size">
+         <count:event_folders param/>
       </ht>
     </body:>
   </card>
@@ -151,16 +215,21 @@
   </card>
 </def>
 
-<def tag="card" for="Person">
-  <card class="person" param="default" merge>
+<def tag="card" for="Race">
+  <card class="race" param="default" merge>
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
+    <body: param>
+      <ht key="fleet_races.collection.count" count="&this.fleet_races.size">
+         <count:fleet_races param/>
+      </ht>
+    </body:>
   </card>
 </def>
 
-<def tag="card" for="Race">
-  <card class="race" param="default" merge>
+<def tag="card" for="RsxMobileService">
+  <card class="rsx-mobile-service" param="default" merge>
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
@@ -172,6 +241,11 @@
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
+    <body: param>
+      <ht key="events.collection.count" count="&this.events.size">
+         <count:events param/>
+      </ht>
+    </body:>
   </card>
 </def>
 
@@ -180,6 +254,11 @@
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
+    <body: param>
+      <ht key="spottings.collection.count" count="&this.spottings.size">
+         <count:spottings param/>
+      </ht>
+    </body:>
   </card>
 </def>
 
@@ -188,14 +267,9 @@
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
-  </card>
-</def>
-
-<def tag="card" for="TeamParticipation">
-  <card class="team-participation" param="default" merge>
-    <header: param>
-      <h4 param="heading"><a><name/></a></h4>
-    </header:>
+    <body: param>
+      <a:spotter param="creator-link"/>
+    </body:>
   </card>
 </def>
 
@@ -204,6 +278,22 @@
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
+    <body: param>
+      <ht key="enrollments.collection.count" count="&this.enrollments.size">
+         <count:enrollments param/>
+      </ht>
+    </body:>
+  </card>
+</def>
+
+<def tag="card" for="UserProfile">
+  <card class="user-profile" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+    <body: param>
+      <a:owner param="creator-link"/>
+    </body:>
   </card>
 </def>
 

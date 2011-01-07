@@ -9,11 +9,11 @@ class SpottingsControllerTest < ActionController::TestCase
       @the_spotter = Factory(:user)
 #       Event.any_instance.stubs(:acting_user).returns(@the_spotter)
       @boat = UseCaseSamples.build_boat 
-      @race = UseCaseSamples.build_race 
+      @fleet_race = UseCaseSamples.build_fleet_race 
     end
     context "with a spot, " do
       setup do
-        @spot = @race.course.spots.first
+        @spot = @fleet_race.course.spots.first
       end
       should "post" do
         login_as(@the_spotter)

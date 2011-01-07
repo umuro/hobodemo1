@@ -1,7 +1,7 @@
 class SitesController < ApplicationController
 
   hobo_model_controller
-  uses_etag
+#   uses_etag
 
   auto_actions :read_only, :except => :index
 

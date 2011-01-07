@@ -1,0 +1,20 @@
+require 'autotest/restart'
+require 'redgreen/autotest'
+require 'test_notifier/runner/autotest'
+
+Autotest.add_hook :initialize do |autotest|
+  %w{.git .svn .hg .DS_Store ._* *~ vendor tmp log doc}.each do |exception|
+    autotest.add_exception(exception)
+  end
+end
+
+Autotest.add_hook :initialize do |at|
+  #at.clear_mappings
+
+  at.add_mapping %r%/^lib/(.*)\.rb$% do |_, m|
+    possible = File.basename(m[1])
+    files_matching %r%^test/.*(#{possible}_test|test_#{possible})\.rb$%
+  end
+
+  at.add_mapping(%r%^test/.*\.rb$%) {|filename, _| filename }
+end

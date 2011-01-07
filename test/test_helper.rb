@@ -49,14 +49,16 @@ class ActiveSupport::TestCase
   end
  
   def cleanup
-    prev_level = ActiveRecord::Base.logger.level
-    ActiveRecord::Base.logger.level = Logger::INFO
-    ActiveRecord::Base.delete_everything!
-    ActiveRecord::Base.logger.level = prev_level
+#     prev_level = ActiveRecord::Base.logger.level
+#     ActiveRecord::Base.logger.level = Logger::INFO
+#     ActiveRecord::Base.delete_everything!
+#     ActiveRecord::Base.logger.level = prev_level
   end
  
-#   def setup; super; cleanup; end
-  def teardown; cleanup; super; end
+  require 'database_cleaner'
+  DatabaseCleaner.strategy = :transaction
+  def setup; super; DatabaseCleaner.start; end
+  def teardown; DatabaseCleaner.clean; super; end
 end
  
 class ActionController::TestCase
@@ -64,24 +66,28 @@ class ActionController::TestCase
   #   def login_as(user)
   #     @request.session[:user] = user ? user.id : nil
   #   end
- 
+
   #http://alexbrie.net/1526/functional-tests-with-login-in-rails/
   def login_as(user)
     old_controller = @controller
-    @controller = UsersController.new
-    post :login, :login=>user.email_address, :password=>user.password
-  #   assert_redirected_to :controller => tsap, :action=>'overview'
-#     session[:user] = user.typed_id
-    assert_not_nil(session[:user])
+    @user_controller = UsersController.new
+    @controller = @user_controller
+    post :login, :login => user.email_address, :password => user.password
+    assert_response :found
     @controller = old_controller
   end
+
+  def logout
+    @user_controller.logout if @user_controller
+  end
+
 end
  
 module Rack
   module Utils
     class HeaderHash
       puts "Rack::Utils::HeaderHash bug fix on #replace"
- 
+
       def replace other
         self.clear
         other.each  { |k,v| self[k] = v }

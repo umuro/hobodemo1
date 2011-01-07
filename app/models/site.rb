@@ -2,21 +2,31 @@ class Site < ActiveRecord::BaseWithoutTable
   column :id, :integer
 
   hobo_model
-  has_etag
+#   has_etag
 
   def name
-    'Sitenin Tepesi'
+    'Upcoming Events'
   end
+  
+  has_many :events
+  
+  def events
+    Event.active :order=>"start_time ASC"
+  end
+  
 
   #---- updated_at ----#
   class << self
     def updated_at
-      touch unless File.exist?(file_to_touch)
-      Time.at File.mtime(file_to_touch)
+#       touch unless File.exist?(file_to_touch)
+#       Time.at File.mtime(file_to_touch)
+      #TODO There should be a stable cloud compatible Site.updated_at
+      #FIXME This has to use Redis so that it can be properly cached
+      Time.now.utc
     end
 
     def touch
-      FileUtils.touch file_to_touch
+#       FileUtils.touch file_to_touch
     end
 
     def file_to_touch

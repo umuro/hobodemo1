@@ -1,22 +1,14 @@
 # Be sure to restart your server when you modify this file
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.8' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.11' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
-
 Rails::Initializer.run do |config|
-  config.gem 'hobo'
-  # config.gem 'acts_as_list'
-  # config.gem 'capistrano'
-  config.gem 'haml'
-  config.gem 'builder'
-  #config.gem 'bluecloth' 
-  #config.gem 'rdiscount' 
-  config.gem 'memcached-northscale', :lib => 'memcached'
-
+  
+  
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.
@@ -49,9 +41,10 @@ Rails::Initializer.run do |config|
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
   config.i18n.default_locale = :en
-
-  require 'memcached'
-  config.cache_store = :mem_cache_store, Memcached::Rails.new
+  
+  require "active_support"
+  require "active_support/cache/dalli_store23"
+  config.cache_store = :dalli_store
   
 #   unless "RAILS_ENV" == "production"
 #     require 'rack/cache'

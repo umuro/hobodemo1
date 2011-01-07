@@ -1,0 +1,15 @@
+defaults: &defaults
+ url: http://localhost
+ ttl: 30
+
+development:
+ <<: *defaults
+
+test:
+ <<: *defaults
+
+staging:
+ <<: *defaults
+
+production:
+ <<: *defaults

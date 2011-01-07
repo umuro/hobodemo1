@@ -1,0 +1,267 @@
+html, body {
+  background: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  color: #a19d9a; }
+
+.app-logo {
+  border: 0; }
+  .app-logo img {
+    border: 0;
+    height: 90px;
+    background: none repeat scroll 0 0 #1582ab; }
+
+.page-header .navigation.main-nav li.current a {
+  background: none repeat scroll 0 0 #2aa1cc;
+  border: none;
+  color: white; }
+.page-header .navigation.main-nav a {
+  padding-bottom: 0;
+  background: #1582ab;
+  ext-decoration: none;
+  color: white;
+  height: 23px; }
+.page-header .navigation.main-nav a:hover {
+  background: none repeat scroll 0 0 #2aa1cc; }
+
+h1, h2, h3 {
+  color: #3e3530;
+  font-weight: normal;
+  margin: 0;
+  padding: 0; }
+
+.section {
+  border-top: 1px solid #a19d9a;
+  border-bottom: 1px solid #a19d9a;
+  padding-top: 5px;
+  padding-bottom: 15px; }
+  .section a.more {
+    margin: 0;
+    padding: 0;
+    background-image: url("../images/arrow-left.png") no-repeat; }
+
+.section h3 {
+  font-size: 1.6em;
+  height: 38px;
+  letter-spacing: -0.5px; }
+.section .empty-collection-message {
+  font-style: italic;
+  margin-bottom: 20px; }
+
+.main-content {
+  border: 0; }
+  .main-content .content-body {
+    border-top: none;
+    border-bottom: 1px solid #3e3530; }
+
+.content-header {
+  border-top: 1px solid #3e3530;
+  border-bottom: 1px solid #3e3530; }
+
+#search-results-panel {
+  top: 128px; }
+
+.page-header {
+  background: none;
+  height: 100px;
+  background: #1582ab;
+  border-bottom: 8px solid #2aa1cc; }
+  .page-header h1 {
+    padding: 20px 30px 30px;
+    position: relative;
+    left: 30px; }
+  .page-header .app-logo {
+    position: relative;
+    z-index: 10;
+    float: left;
+    width: 100px;
+    left: 4px;
+    border: 0; }
+    .page-header .app-logo a {
+      text-decoration: none;
+      border: 0 none; }
+
+.section.with-flash.content {
+  padding: 0px; }
+
+.aside {
+  background-color: white; }
+  .aside ul {
+    list-style: none; }
+    .aside ul li {
+      margin: 0px; }
+      .aside ul li h4 {
+        margin: 0px; }
+  .aside .section.part.current {
+    color: white;
+    background-color: #4b2410;
+    font-weight: bold; }
+    .aside .section.part.current a {
+      color: white;
+      background-color: #4b2410;
+      font-weight: bold; }
+      .aside .section.part.current a:hover {
+        background-color: #6d4632; }
+  .aside .section.upload.current {
+    border: 1px solid;
+      border-color: #4b2410; }
+  .aside a {
+    color: #4b2410;
+    background-color: white;
+    display: block;
+    padding: 2px; }
+    .aside a:hover {
+      background-color: white; }
+  .aside .card {
+    background-color: white; }
+
+.card .picture {
+  position: relative;
+  float: left;
+  z-index: 10; }
+.card .text {
+  position: relative;
+  left: 10px; }
+
+.parent-link {
+  color: white;
+  background-color: #242e42;
+  border: medium none;
+  padding: 3px 13px 5px;
+  font-size: 120%; }
+
+.content-header {
+  border-bottom: none; }
+  .content-header .parent-link {
+    position: relative;
+    z-index: 5;
+    left: -42px;
+    margin-right: 10px; }
+
+.pagination {
+  font-size: 120%;
+  display: block;
+  border: medium solid aliceBlue;
+  padding: 4px;
+  margin-left: auto;
+  margin-right: auto; }
+  .pagination .disabled {
+    color: #777777; }
+  .pagination .disabled.prev_page {
+    color: #777777; }
+  .pagination .disabled.next_page {
+    color: #777777; }
+  .pagination .prev_page {
+    color: blue; }
+  .pagination .next_page {
+    color: blue; }
+  .pagination a {
+    padding: 4px 8px;
+    text-decoration: underline;
+    font-weight: bold; }
+  .pagination .current {
+    padding: 4px 8px;
+    color: red;
+    font-weight: bold; }
+
+#control_overlay {
+  background-color: black; }
+
+#calendar-view .highlight {
+  background-color: #ff7777; }
+#calendar-view .entry {
+  background-color: #9999ff;
+  padding-left: 2px;
+  cursor: default; }
+#calendar-view .fleet {
+  background-color: #9999ff;
+  padding-left: 2px;
+  cursor: default; }
+#calendar-view #fleetscontainer .fleet {
+  color: red; }
+#calendar-view .editable .entry {
+  cursor: move; }
+  #calendar-view .editable .entry span {
+    cursor: text; }
+#calendar-view .editable .fleet {
+  cursor: move; }
+#calendar-view .modal {
+  background-color: white;
+  padding: 10px; }
+
+.header .h4.heading {
+  font-size: 60%; }
+
+.aside {
+  padding-top: 0; }
+  .aside .navigation {
+    margin-top: 5px;
+    border-top: 1px solid #3e3530;
+    border-bottom: 1px solid #3e3530; }
+  .aside .section {
+    margin-top: 5px; }
+
+.section .field-list {
+  border-bottom: none; }
+
+a {
+  border-bottom: none; }
+
+.collection-section a {
+  color: #4b2410; }
+.collection-section h3 {
+  font-size: 1.6em;
+  height: 38px;
+  letter-spacing: -0.5px;
+  border-bottom: 0;
+  margin-bottom: 0;
+  margin-top: 10px;
+  padding-top: 0;
+  padding-bottom: 0; }
+.collection-section .empty-collection-message {
+  margin-top: 0; }
+
+.header .user-name {
+  margin-top: 5px;
+  font-style: italic; }
+
+.section .field-list {
+  color: #4b2410; }
+.section .with-flash {
+  padding-top: 0; }
+
+a:hover {
+  border-bottom: none;
+  font-weight: bold; }
+
+.create-profile {
+  float: right;
+  height: 25px; }
+
+.show-page .content-header {
+  border-bottom: none; }
+
+.index-page .section .header {
+  margin-top: 5px; }
+  .index-page .section .header .count {
+    font-style: italic; }
+  .index-page .section .header h2 {
+    border-bottom: 0 none;
+    font-size: 1.6em;
+    height: 38px;
+    letter-spacing: -0.5px;
+    margin-bottom: 0;
+    margin-top: 10px;
+    padding-bottom: 0;
+    padding-top: 0; }
+.index-page .section .content-body {
+  border-top: none; }
+  .index-page .section .content-body .new-link {
+    color: #4b2410; }
+
+.heading a .view {
+  font-size: 12px;
+  font-weight: normal;
+  color: #4b2410; }
+.heading a span:hover {
+  font-weight: bold; }

@@ -1,0 +1,20 @@
+<index-for-event-page>
+  <heading:>
+    <span><a href="&url_for(:controller=>'calendar_entries',:action=>'index_for_event')" params="&{:year=>@prev_week.year, :week=>@prev_week.cweek}">&#9668;</a></span>
+    <%=h @date_start.to_time.strftime('%b %d %Y') -%> - <%= @date_end.to_time.strftime('%b %d %Y') -%>
+    <span><a href="&url_for(:controller=>'calendar_entries',:action=>'index_for_event')" params="&{:year=>@next_week.year, :week=>@next_week.cweek}">&#9658;</a></span>
+  </heading:>
+  <custom-scripts:>
+    <javascript name="calendar_view, resizable, livepipe, window"/>
+    <script type="text/javascript">
+      Event.observe(window, 'load', adjustCalendarView);
+      <% if can_create? %>
+      Event.observe(window, 'load', createDnD);
+      <% end %>
+    </script>
+  </custom-scripts:>
+  <count:></count:>
+  <content-body:>
+    <calendar-view />
+  </content-body:>
+</index-for-event-page>

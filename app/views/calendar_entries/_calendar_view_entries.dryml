@@ -1,0 +1,5 @@
+<calendar-view-entries-overlay />
+<script type="text/javascript">
+adjustCalendarView();
+createDnD(null, true);
+</script>

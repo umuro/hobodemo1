@@ -1,0 +1,2 @@
+module EventFoldersHelper
+end

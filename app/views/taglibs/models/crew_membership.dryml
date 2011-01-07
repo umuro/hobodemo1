@@ -1,0 +1,74 @@
+<extend tag="invite-form" for="CrewMembership">
+  <old-invite-form merge>
+    <field-list: fields="joined_crew, invitee_email">
+      <joined-crew-view:><name/></joined-crew-view:>
+    </field-list>
+  </old-invite-form>
+</extend>
+
+<def tag="received-page">
+  <index-page:>
+    <heading:>
+      <ht key="crew_memberships.index.heading">
+        Your incoming requests for crew membership
+      </ht>
+    </heading:>
+    <collection: replace>
+      <table-plus: fields="joined_crew, owner, state, updated-at">
+        <search-form: replace/>
+        <controls:>
+          <transition-buttons/>
+        </controls:>
+        <empty-message:>You have no crew membership requests</empty-message:>
+      </table-plus>
+    </collection:>
+  </index-page>
+</def>
+
+<def tag="sent-page">
+  <index-page:>
+    <heading:>
+      <ht key="crew_memberships.index.heading">
+        Your crew membership invitations
+      </ht>
+    </heading:>
+    <collection: replace>
+      <table-plus: fields="joined_crew, invitee, state, updated-at">
+        <search-form: replace/>
+        <controls:>
+          <transition-buttons/>
+        </controls:>
+        <empty-message:>You have not sent any invitations</empty-message:>
+      </table-plus>
+    </collection:>
+  </index-page>
+</def>
+
+<extend tag="accept-page" for="CrewMembership">
+  <old-accept-page merge>
+    <prepend-content-body:>
+      <crew-membership-transition-card action="accept"/>
+    </prepend-content-body:>
+  </old-accept-page>
+</extend>
+
+<extend tag="ignore-page" for="CrewMembership">
+  <old-ignore-page merge>
+    <prepend-content-body:>
+      <crew-membership-transition-card action="ignore"/>
+    </prepend-content-body:>
+  </old-ignore-page>
+</extend>
+
+<def tag="crew-membership-transition-card" attrs="action">
+  <card class="crew-membership">
+    <h2>
+      <do:owner><view:email_address/></do> would like you to join his
+      <b><view:joined_crew/></b> crew.
+      <br/>
+      <br/>
+      Do you wish to <b><%= action %></b> his invitation to the
+      <b><do:joined_crew><view:name/></do></b> crew ?
+    </h2>
+  </card>
+</def>

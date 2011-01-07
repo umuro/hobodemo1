@@ -1,0 +1,252 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'thor'
+
+$TRACK_STAGE = 'git checkout --track -b stage origin/stage'
+$PROJECT_NAME = 'regatta_rails'
+$GIT_URL = "git clone git@xen.realworld-systems.com:#{$PROJECT_NAME}.git"
+
+class Project < Thor
+  
+  desc "sprint SPRINT", "Creates a new sprint based on a defined sprint to be implemented"
+  def sprint name
+    # Some general error checking necessary to perform on the name. It must have be in the form initials#name without
+    # containing spaces.
+    before, _, after = name.partition '#'
+    if after.nil? or after.size == 0
+      $stderr.puts "Must have a sprint with initials#name"
+      return
+    end
+    
+    before, _, after = name.partition ' '
+    if after and after.size > 0
+      $stderr.puts "Must have a sprint without spaces"
+      return
+    end
+    
+    # The name appears to be okay, so let's start creating the proper branch and checkout.
+    if stage_defined
+      unless perform_commands "git checkout stage"; return; end
+    else
+      unless perform_commands $TRACK_STAGE; return; end
+    end
+    unless perform_commands 'git pull --ff-only'; return; end
+    unless perform_commands "git checkout -b #{name}", 'git rebase stage'; return; end
+    reinit
+  end
+  
+  desc "reinit", "(Re-)initializes samples etc."
+  def reinit
+    dirname = File.expand_path(File.join(File.dirname(__FILE__), '..', 'config'))
+    for filename in Dir[File.join dirname, '*.yml.sample']
+      dest = filename.slice 0..-8
+      FileUtils.copy filename, dest
+    end
+  end
+  
+  desc "rebase", "Rebases interactively a sprint by fetching and further interactively rebasing"
+  def rebase
+    unless perform_commands 'git fetch', 'git rebase -i origin/stage'; return; end
+  end
+  
+  desc "test", "Runs all the specified tests"
+  method_options :match => :string
+  method_option :unit, :type => :boolean, :default => :false
+  method_option :functional, :type => :boolean, :default => :false
+  method_option :acceptance, :type => :boolean, :default => :false
+  def test
+    # A string can be given to match a particular amount of tests, otherwise, all tests are ran
+    if options[:match] or options[:unit] == true or options[:functional] == true or options[:acceptance] == true
+      match = if options[:match]; options[:match]; else; ""; end
+      
+      unit = options[:unit] == true
+      functional = options[:functional] == true
+      acceptance = options[:acceptance] == true
+      
+      # If none of the test particles are given, all are true
+      if not unit and not functional and not acceptance
+        unit = true
+        functional = true
+        acceptance = true
+      end
+      
+      puts "Going to test:"
+      puts "- Unit tests" if unit
+      puts "- Functional tests" if functional
+      puts "- Acceptance tests" if acceptance
+      
+      if unit == true
+        if match == ""
+          perform_commands :omit_check, 'rake test:units'
+        else
+          old_test = ENV['TEST']
+          tests = Dir["test/unit/**/*#{options[:match]}*_test.rb"]
+          b = if tests.size > 0
+                for test in tests
+                  ENV['TEST'] = test
+                  perform_commands :omit_check, 'rake test:units'
+                end
+              else
+                true
+              end
+          ENV['TEST'] = old_test
+          unless b; return false; end
+        end
+      end
+      if functional == true
+        if match == ""
+          perform_commands :omit_check, 'rake test:units'
+        else
+          old_test = ENV['TEST']
+          tests = Dir["test/functional/**/*#{options[:match]}*_test.rb"]
+          b = if tests.size > 0
+                for test in tests
+                  ENV['TEST'] = test
+                  perform_commands :omit_check, 'rake test:functionals'
+                end
+              else
+                true
+              end
+          ENV['TEST'] = old_test
+          unless b; return false; end
+        end
+      end
+      if acceptance == true
+        if match == ""
+          perform_commands :omit_check, 'rake test:units'
+        else
+          old_test = ENV['TEST']
+          tests = Dir["spec/**/*#{options[:match]}*_spec.rb"]
+          b = if tests.size > 0
+                for test in tests
+                  ENV['TEST'] = test
+                  perform_commands :omit_check, 'rake spec:acceptance'
+                end
+              else
+                true
+              end
+          ENV['TEST'] = old_test
+          unless b; return false; end
+        end
+      end
+    else
+      puts "Performing all tests"
+      perform_commands :omit_check, 'rake test', 'rake spec:acceptance'
+    end
+  end
+  
+  desc "propose", "Puts the current situation under track and let others review it"
+  def propose
+    out = branch_name
+    if out eql? 'stage' or out eql? 'master'
+      $stderr.puts "This is the #{out} branch, can't perform action"
+      return
+    end
+    unless test; return; end
+    perform_commands "git checkout --track origin/review_#{out}", 'git push'
+  end
+  
+  desc "review SPRINT", "Reviews a proposed sprint solution for #{$PROJECT_NAME}"
+  method_options :folder => '/tmp/harvest'
+  def review name
+    folder = options[:folder]
+    FileUtils.mkdir_p folder
+    FileUtils.rm "#{folder}/#{$PROJECT_NAME}"
+    `pushd #{folder}`
+    result = tmp_clone folder
+    if result
+      test
+    end
+    `popd`
+  end
+  
+  desc "decline", "Declines a proposal"
+  def decline
+    remove_remote branch_name
+  end
+  
+  desc "harvest", "Harvests the sprint and places it into the stage"
+  def harvest
+    branch = branch_name
+    if branch == "stage" or branch == "master"
+      puts "Can't perform as branch #{branch_name} is illegal"
+      return false
+    end
+    if stage_defined
+      unless perform_commands "git checkout stage"; return false; end
+    else
+      unless perform_commands $TRACK_STAGE; return false; end
+    end
+    unless perform_commands 'git pull --ff-only', "git merge #{branch}"; return; end
+    unless test; return; end
+    if perform_commands 'git push'; remove_remote branch; end
+  end
+  
+  private
+  
+  def remove_remote branch
+    if remote_defined branch
+      perform_commands "git -d -r review_#{branch}"
+    else
+      true
+    end
+  end
+  
+
+  def remote_defined branch
+    out = `git branch -r | grep ..review_#{branch}`
+    out.strip!
+    out == "review_#{branch}"
+  end
+
+  def branch_name
+    `git branch | grep \\* | cut -d" " -f2`
+  end
+  
+  def stage_defined
+    out = `git branch | grep ..stage`
+    out.slice(2..-1).strip == "stage"
+  end
+
+  
+  def tmp_clone folder
+    unless perform_commands $GIT_URL; return false; end
+    unless perform_commands 'git fetch'; return false; end
+    if stage_defined
+      unless perform_commands `git checkout stage`; return false; end
+    else
+      unless perform_commands $TRACK_STAGE; return false; end
+    end
+    unless perform_commands "git checkout --track origin/review_#{name} -b #{name}"; return false; end
+    unless perform_commands 'bundle update'; return false; end
+    true
+  end
+  
+  def perform_commands *list
+    unless list.size > 0 and list.first == :omit_check
+      unless pre_check; return false; end
+    else
+      list.shift
+    end
+    for cmd in list
+      unless system cmd
+        puts "Failed to perform command #{cmd}"
+        return false
+      end
+    end
+    true
+  end
+  
+  def pre_check
+    # Check whether or not the current working path was committed fully
+    output = IO.popen 'git status --short'
+    if output.readlines.size > 0
+      $stderr.puts "You must commit first using git commit"
+      return false
+    end
+    true
+  end
+end
+
+Project.start

@@ -1,0 +1,25 @@
+<def tag="input" for="ExtendedDate" attrs="order">
+  <% 
+     # So the meta data is collected in memory by implementing the declared() method on ExtendedDate. This will
+     # provide keys which are similar to the outcome of processing param_name_for_this.
+     meta_info = ExtendedDate.meta_info[param_name_for_this]
+     
+     # start_year and end_year are stored inside the meta information hash, if available
+     start_year = meta_info[:start_year]
+     end_year = meta_info[:end_year]
+     
+     # The normal implementation of select_date likes to set the end_year according to the selected date if not 
+     # specified. This is, in many cases, awkward behavior, therefore it is set to the current year.
+     end_year = DateTime.now.year unless end_year
+     
+     # Now, if both start_year and end_year are set, they might be lambdas, in which case they need to be called
+     # properly and the result will be used
+     start_year = start_year.call(this) if start_year.respond_to? :call
+     end_year = end_year.call(this) if end_year.respond_to? :call
+     
+     # Extra will be merged into the select_date
+     extra = {:start_year => start_year, :end_year => end_year}
+     
+     order = order.nil? ? [:year, :month, :day] : comma_split(order).*.to_sym -%>
+  <%= select_date(this || current_time, attributes.merge(:prefix => param_name_for_this, :order => order).merge(extra) ) %>
+</def>

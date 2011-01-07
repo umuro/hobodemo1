@@ -3,14 +3,18 @@ class Country < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   fields do
-    name :string
-    code :string
+    name :string, :required, :unique, :null=>false, :index=>true
+    code :string, :unique, :index=>true
     timestamps
   end
 
   #PAUL same person can race for different countries?
-  has_many :people
-  has_many :team_participations
+  has_many :user_profiles #locks_me
+  has_many :enrollments #locks_me
+  
+  def destroy
+    super if user_profiles.empty? && enrollments.empty?
+  end
 
   # --- Permissions --- #
 

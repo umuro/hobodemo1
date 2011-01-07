@@ -1,0 +1,76 @@
+<extend tag="form" for="Enrollment">
+  <set theuser="&if this; this.owner; else; current_user; end"/>
+  <old-form merge>
+    <field-list:>
+      <event-view:>
+	<select-one options="&Event.active"/>
+      </event-view:>
+      <crew-view:>
+      	<select-one options="&theuser.crews"/>
+      </crew-view:>
+      <boat-view:>
+      	<select-one options="&theuser.boats"/>
+      </boat-view:>
+    </field-list:>
+  </old-form>
+</extend>
+
+<extend tag="enroll-form" for="Enrollment">
+  <set theuser="&if this; this.owner; else; current_user; end"/>
+  <old-enroll-form merge>
+    <prepend-default:>
+      <card class="enrollment">
+        <h2>
+          Select the event you wish to enroll for.<br/><br/>
+          Your enrollment request will be forwarded to an organization official for approval.
+        </h2>
+      </card>
+    </prepend-default:>
+    <field-list:>
+      <event-view:>
+	<select-one options="&Event.active"/>
+      </event-view:>
+      <crew-view:>
+      	<select-one options="&theuser.crews"/>
+      </crew-view:>
+      <boat-view:>
+      	<select-one options="&theuser.boats"/>
+      </boat-view:>
+    </field-list:>
+  </old-enroll-form>
+</extend>
+
+<extend tag="reject-page" for="Enrollment">
+  <old-reject-page merge>
+    <prepend-content-body:>
+      <card class="enrollment">
+        <h2>
+          Use the text are below if you wish to provide reasons for rejecting this enrollment.<br/><br/>
+          Your text will be made available via email to the event enroller.
+        </h2>
+      </card>
+    </prepend-content-body:>
+  </old-reject-page>
+</extend>
+
+<extend tag="index-for-owner-page" for="Enrollment">
+  <old-index-for-owner-page merge>
+    <append-content-body:>
+      <a href="&enrollment_enroll_path">New Enrollment</a>
+    </append-content-body>
+    <collection: replace>
+      <table-plus: fields="event, boat, crew, country, paid, insured, measured, date_measured, gender, state">
+        <search-form: replace/>
+        <controls:>
+          <transition-buttons/>
+          <a action="edit" if="&can_edit?" param="edit-link">
+            <ht key="enrollments.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+              Edit Enrollment
+            </ht>
+          </a>
+        </controls:>
+        <empty-message:>You have not enrolled to any event</empty-message:>
+      </table-plus>
+    </collection:>
+  </old-index-for-owner-page>
+</extend>

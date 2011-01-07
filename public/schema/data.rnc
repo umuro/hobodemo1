@@ -1,0 +1,86 @@
+<element name="data"
+	 xmlns="http://relaxng.org/ns/structure/1.0"
+	 datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+
+  <element name="key">
+    <text/>
+  </element>
+  
+
+  
+  <element name="start-time">
+    <data type="dateTime"/>
+  </element>
+
+  <element name="end-time">
+    <data type="dateTime"/>
+  </element>
+  
+  <element name="description">
+    <text/>
+  </element>
+
+  <element name="place">
+    <text/>
+  </element>
+  
+  <zeroOrMore>
+  
+    <element name="race">
+
+      <attribute name="id">
+        <data type="integer"/>
+      </attribute>
+
+      <optional>      
+        <element name="gender">
+
+	        <choice>
+	          <element name="male">
+	            <empty/>
+	          </element>
+	          <element name="female">
+	            <empty/>
+	          </element>
+	        </choice>
+
+        </element>
+      </optional>
+      
+      <oneOrMore>
+	
+	      <element name="fleet-race">
+	        <attribute name="id">
+            <data type="integer"/>
+          </attribute>
+              
+	        <element name="color">
+	          <text/>
+	        </element>
+	        
+	        <element name="scheduled-time">
+	          <data type="dateTime"/>
+	        </element>
+	        
+	        <zeroOrMore>
+	          
+	          <element name="boat">
+	            <attribute name="name"/>
+	            <attribute name="sail-number"/>
+	            <attribute name="id">
+                <data type="integer"/>
+              </attribute>
+              <empty/>
+	          </element>
+	          
+	        </zeroOrMore>
+	        
+	      </element>
+	
+      </oneOrMore>
+      
+    </element>
+    
+  </zeroOrMore>
+  
+</element>

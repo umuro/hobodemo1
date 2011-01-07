@@ -7,13 +7,28 @@
 
 <set-theme name="clean"/>
 
-<def tag="app-name"><ht key="application.name">regatta_rails</ht></def>
+<def tag="app-name"><ht key="application.name">Regatta Configuration</ht></def>
 <def tag="app-logo"><%= image_tag 'application_logo.png', :size=>"100x100"%></def>
 
 <include src="taglibs/i18n"/> <!--Correct internationalization-->
 <include src="taglibs/reuse"/> <!-- Reusable tags for all models -->
 <include src="taglibs/layout"/> <!-- About application layout -->
+
+<include src="taglibs/models/time_zone_rich_type"/>
+<include src="taglibs/models/extended_date"/>
+
 <include src="taglibs/models/site"/>
-
-
 <include src="taglibs/models/user"/>
+<include src="taglibs/models/user_profile"/>
+<include src="taglibs/models/boat"/>
+<include src="taglibs/models/boat_class"/>
+<include src="taglibs/models/crew"/>
+<include src="taglibs/models/crew_membership"/>
+<include src="taglibs/models/enrollment"/>
+<include src="taglibs/models/event"/>
+<include src="taglibs/models/calendar_entry"/>
+
+<def tag="ctxt">
+  <%= "context-debug: #{this.class}" %>
+</def>
+

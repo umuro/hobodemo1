@@ -1,0 +1,11 @@
+<!--
+<extend tag="show-page" for="BoatClass">
+  <old-show-page merge>
+    <collection-section:>
+      <table-plus:boats fields="name, sail_number" field-tag="editor">
+        <controls:><delete-button/></controls:>
+      </table-plus>
+    </collection-section:>
+  </old-show-page>
+</extend>
+-->

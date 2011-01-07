@@ -1,0 +1,16 @@
+<!--
+<extend tag="index-for-owner-page" for="Boat">
+  <old-index-for-owner-page merge>
+    <back-to:>
+      <a href="&user_profile_path(current_user.user_profile)">Back to your profile</a>
+    </back-to:>
+    <collection: replace>
+      <div>
+        <table-plus fields="name, sail_number" field-tag="editor">
+          <controls:><delete-button/></controls:>
+        </table-plus>
+      </div>
+    </collection:>
+  </old-index-for-owner-page>
+</extend>
+-->

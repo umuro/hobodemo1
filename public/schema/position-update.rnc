@@ -1,0 +1,35 @@
+<element name="position-update"
+         xmlns="http://relaxng.org/ns/structure/1.0"
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+
+  <oneOrMore>  
+
+    <element name="position">
+      <attribute name="boat-id">
+	      <data type="integer"/>
+      </attribute>
+      
+      <attribute name="time">
+        <data type="dateTime"/>
+      </attribute>
+
+      <attribute name="fleet-race-id">
+        <data type="integer"/>
+      </attribute>
+
+      
+      <element name="buoy">
+        <data type="integer"/>
+      </element>
+      
+      <zeroOrMore>
+        <element name="flag">
+          <text/>
+        </element>
+      </zeroOrMore>
+      
+    </element>
+    
+  </oneOrMore>
+
+</element>

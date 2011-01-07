@@ -1,0 +1,23 @@
+<extend tag="show-page" for="Crew">
+  <old-show-page merge>
+  
+    <append-content:>
+      <unless test="&this.crew_type == 'Person'">
+        <section class="content-body">
+          <h3>Crew Memberships</h3>
+        
+          <table-plus:crew_memberships fields="invitee.email_address, state, updated-at">
+            <search-form: replace/>
+            <controls:>
+              <transition-buttons/>
+            </controls:>
+            <empty-message:>The are no crew memberships.</empty-message:>
+          </table-plus>
+          <%= link_to "Invite a user to join this crew", 
+                {:controller => "crew_memberships", :action => "invite", 
+                 :crew_membership => {:joined_crew_id => "#{this.id}" } } %>
+        </section>
+      </unless>
+    </append-content:>
+  </old-show-page>
+</extend>

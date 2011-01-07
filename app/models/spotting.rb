@@ -7,30 +7,32 @@ class Spotting < ActiveRecord::Base
 	timestamps
   end
 
-  belongs_to :spotter, :class_name => "User", :null=>false
   belongs_to :spot, :null=>false
-  belongs_to :boat, :null=>false
-#   belongs_to :race
+  validates_presence_of :spot
+  delegate :organization, :to=>:spot
 
-  validates_presence_of :spotter_id
-  validates_presence_of :spot_id
-  validates_presence_of :boat_id
+  belongs_to :spotter, :class_name => "User", :null=>false, :creator=>true
+  validates_presence_of :spotter
+  def owner_is? u
+    spotter_is? u
+  end
+  
+  belongs_to :boat, :null=>false
+  validates_presence_of :boat
+
   # --- Permissions --- #
 
   #FIXME post, put if user in group spotters
   def create_permitted?
-#     debugger
-    acting_user.signed_up?
+     acting_user.is_owner_of? self
   end
 
   def update_permitted?
-    debugger
-    acting_user.signed_up?
+     acting_user.is_owner_of? self
   end
 
   def destroy_permitted?
-#     debugger
-    acting_user.signed_up?
+     acting_user.is_owner_of? self
   end
 
   def view_permitted?(field)

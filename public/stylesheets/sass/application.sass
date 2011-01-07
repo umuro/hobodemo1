@@ -1,19 +1,86 @@
+html, body
+  background: none
+  font-family: Arial, Helvetica, sans-serif
+  font-size: 12px
+  color: #A19D9A
+
+.app-logo 
+  border: 0
+  img
+    border: 0
+    height: 90px
+    background: none repeat scroll 0 0 #1582AB
+
+.page-header
+  .navigation.main-nav
+    li.current a
+      background: none repeat scroll 0 0 #2AA1CC 
+      border: none
+      color: white
+    a
+      padding-bottom: 0
+      background: #1582AB 
+      text-decoration: none
+      color: white
+      height: 23px
+    a:hover
+      background: none repeat scroll 0 0 #2AA1CC  
+
+h1, h2, h3
+  color: #3E3530
+  font-weight: normal
+  margin: 0
+  padding: 0
+
+.section
+  border-top: 1px solid transparent
+  border-bottom: 1px solid transparent
+  padding-top: 5px
+  padding-bottom: 15px
+  a.more
+    margin : 0
+    padding: 0
+    background-image: url('../images/arrow-left.png') no-repeat
+
+.section
+  h3
+    font-size: 1.6em
+    height: 38px
+    letter-spacing: -0.5px
+  .empty-collection-message
+    font-style: italic
+    margin-bottom: 20px
+
+.main-content
+  border: 0
+  .content-body
+    border-top: none
+    #border-bottom: 1px solid #3E3530
+
+.content-header
+  #border-top: 1px solid #3E3530
+  border-bottom: 1px solid #3E3530
+
+
 #search-results-panel
   top: 128px
 
 .page-header
+  background: none
+  height: 125px
+  background: #1582AB
+  border-bottom: 8px solid #2AA1CC
   h1
     padding: 20px 30px 30px
-    position: relative
     left: 30px
+    text-decoration: none
   .app-logo
     position: relative
     z-index: 10
     float: left
-    height: 100px
     width: 100px
-    top: 2px
     left: 4px
+    border: 0
     a
       text-decoration: none
       border: 0 none
@@ -21,13 +88,13 @@
 .section.with-flash.content
   padding: 0px
 
-!aside_background = #AAD1E5 + #111111
-!aside_color = #f5ceba - #aaaaaa
-!aside_highlight_background = !aside_background + #111
+$aside_background: #ffffff
+$aside_color: #f5ceba - #aaaaaa
+$aside_highlight_background: $aside_background + #111111
 
 =aside_navigation_current
-  color = !aside_background
-  background-color = !aside_color
+  color: $aside_background
+  background-color: $aside_color
   font-weight: bold
 
 .aside
@@ -37,26 +104,25 @@
       margin: 0px
       h4
         margin: 0px
-  background-color= !aside_background
+  background-color: $aside_background
   .section.part.current
     +aside_navigation_current
     a
       +aside_navigation_current
       &:hover
-        background-color = !aside_color + #222
+        background-color: $aside_color + #222222
   .section.upload.current
     border: 1px solid
-      color = !aside_color
+      color: $aside_color
   a
-    color = !aside_color
-    background-color = !aside_background
+    color: $aside_color
+    background-color: $aside_background
     &:hover
-      background-color = !aside_highlight_background
+      background-color: $aside_highlight_background
     display: block
     padding: 2px
-
   .card
-    background-color= !aside_background + #111111
+    background-color: $aside_background + #111111
 
 .card
   .picture
@@ -68,18 +134,25 @@
     left: 10px
 
 .parent-link
-  color: white
-  background-color: #242E42
+  display: block
+  background-color: transparent
   border: medium none
-  padding: 3px 13px 5px
-  font-size: 120%
+  padding: 3px 0 5px
+  font-size: 100%
 
 .content-header
+  border-bottom: none
   .parent-link
     position: relative
     z-index: 5
-    left: -42px
     margin-right: 10px
+  a
+    font-weight: normal
+    color: #A19D9A
+  a:hover
+    font-weight: normal
+    background-color: transparent
+    text-decoration: underline
 
 .pagination
   font-size: 120%
@@ -90,11 +163,11 @@
     left: auto
     right: auto
   .disabled
-    color: #777
+    color: #777777
   .disabled.prev_page
-    color: #777
+    color: #777777
   .disabled.next_page
-    color: #777
+    color: #777777
   .prev_page
     color: blue
   .next_page
@@ -107,3 +180,129 @@
     padding: 4px 8px
     color: red
     font-weight: bold
+
+#control_overlay
+  background-color: black
+
+#calendar-view
+  .highlight
+    background-color: #ff7777
+  .entry
+    background-color: #9999ff
+    padding-left: 2px
+    cursor: default
+  .fleet
+    background-color: #9999ff
+    padding-left: 2px
+    cursor: default
+  #fleetscontainer
+    .fleet
+      color: red
+  .editable
+    .entry
+      cursor: move
+      span
+        cursor: text
+    .fleet
+      cursor: move
+  .modal
+    background-color: white
+    padding: 10px
+    //border: 1px solid #333333
+
+.header
+  .h4.heading
+    font-size: 60%
+
+.aside
+  padding-top: 0
+  .navigation
+    margin-top: 5px
+    #border-top: 1px solid #3E3530
+    border-bottom: 1px solid #3E3530
+  .section
+    margin-top: 5px
+      
+.section .field-list
+  border-bottom: none
+
+a
+  border-bottom: none
+
+.collection-section
+  a
+    color: #4B2410
+  h3
+    font-size: 1.6em
+    height: 38px
+    letter-spacing: -0.5px
+    border-bottom: 0
+    margin-bottom: 0
+    margin-top: 10px
+    padding-top: 0
+    padding-bottom: 0
+  .empty-collection-message
+    margin-top: 0
+.header
+  .user-name
+    margin-top: 5px
+    font-style: italic
+
+.section
+  .field-list
+    color: #4B2410
+  .with-flash
+    padding-top: 0
+
+a:hover
+  border-bottom: none
+  text-decoration: underline
+  
+.create-profile
+  float: right
+  height: 25px
+
+.show-page
+  .content-header
+    border-bottom: none
+
+.index-page
+  .section
+    .header
+      margin-top: 5px
+      .count
+        font-style: italic
+      h2
+        border-bottom: 0 none
+        font-size: 1.6em
+        height: 38px
+        letter-spacing: -0.5px
+        margin-bottom: 0
+        margin-top: 10px
+        padding-bottom: 0
+        padding-top: 0
+    .content-body
+      border-top: none
+      .new-link
+        color: #4B2410
+
+.heading
+  a
+    .view
+      font-size: 12px
+      font-weight: normal
+      color: #4B2410
+    span:hover
+      text-decoration: underline
+      
+.page-header
+  .navigation
+    margin-top: 0
+    a
+      color: white
+  margin-top: 0
+  h1
+    padding: 30px 20px 45px
+
+.card.crew .body
+  display: none

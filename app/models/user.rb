@@ -8,32 +8,95 @@ class User < ActiveRecord::Base
     administrator :boolean, :default => false
     timestamps
   end
-  
+
+  before_validation_on_create :already_signedup_check
+
+  delegate :country, :to=>:user_profile
+
   has_many :organization_admin_roles, :dependent=>:destroy
   has_many :organizations_as_admin, :through=>:organization_admin_roles, :source=>:organization
 
   # This gives admin rights to the first sign-up.
   # Just remove it if you don't want that
-#   before_create { |user| user.administrator = true if !Rails.env.test? && count == 0 }
+  # before_create { |user| user.administrator = true if !Rails.env.test? && count == 0 }
 
-  #TODO :active default false, activates by email
+  has_many :user_profiles,  :foreign_key => "owner_id", :dependent=>:destroy
+  has_many :boats, :foreign_key=>"owner_id",  :dependent=>:destroy
 
+  has_many :joined_crew_memberships, :class_name=>"CrewMembership", :foreign_key=>"invitee_id",  :dependent=>:destroy #TODO Better rename the class as
+  has_many :joined_crews, :through=>:joined_crew_memberships
+  
+  has_many :crews, :foreign_key=>"owner_id",  :dependent=>:destroy #because crew belongs_to user
+  has_many :enrollments, :foreign_key=>"owner_id", :dependent=>:destroy
+  
+  has_many :crew_memberships, :through => :crews, :foreign_key=>"owner_id", :dependent => :destroy
 
-  def person
-    people.first
+  # Create a new crew
+  
+  def update_crews_insert_person_crew
+    ActiveRecord::Base.transaction do
+      unless Crew.first :conditions => {:owner_id => id, :crew_type => Crew::Type::PERSON}
+        Crew.create :name => "One Person Crew",
+                    :gender => gender,
+                    :crew_type => Crew::Type::PERSON,
+                    :owner => self
+      end
+    end
+  end
+  
+  def skipper_crew
+    update_crews_insert_person_crew
+    Crew.first :conditions => {:crew_type => Crew::Type::PERSON, :owner_id => self.id}
+  end
+  
+  def crews_with_skipper_only
+    skipper_crew
+    crews_without_skipper_only
   end
 
- 
-
+  alias_method_chain :crews, :skipper_only
+  
   # --- Signup lifecycle --- #
 
   lifecycle do
 
-    state :active, :default => true
+    # STATES ARE TO BE INTERPRETED AS FOLLOWS:
+    # active: the user's account is accessible
+    # inactive: the user's account is not accessible - state change performed by administrator
+    # invited: an invited user's state - stage set by an existing user via an invitation
 
-    create :signup, :available_to => "Guest",
-           :params => [:email_address, :password, :password_confirmation],
-           :become => :active
+    state :active
+    state :inactive, :default => true 
+    state :invited
+    state :signed_up
+
+    create :invite, :new_key => true, :params => [:email_address],
+           :available_to => "User",
+           :become => :invited do
+
+      UserMailer.deliver_invite_user acting_user, 
+                                     email_address,
+                                     lifecycle.key
+    end
+
+    transition :accept_invitation, { :invited => :active }, :available_to => :key_holder,
+               :params => [:password, :password_confirmation]
+
+    create :signup, :new_key => true, :available_to => "Guest",
+           :params => [:email_address], :become => :signed_up do
+
+      UserMailer.deliver_signup_activation email_address, lifecycle.key
+
+    end
+
+    transition :activate_signup, {:signed_up => :active}, :available_to => :key_holder,
+               :params => [:password, :password_confirmation]
+    
+    transition :inactivate_account, {:active => :inactive}, 
+               :available_to => :admins
+
+    transition :activate_account, {:inactive => :active}, 
+               :available_to => :admins
 
     transition :request_password_reset, { :active => :active }, :new_key => true do
       UserMailer.deliver_forgot_password(self, lifecycle.key)
@@ -41,12 +104,20 @@ class User < ActiveRecord::Base
 
     transition :reset_password, { :active => :active }, :available_to => :key_holder,
                :params => [ :password, :password_confirmation ]
-
   end
 
+  def user_profile
+    user_profiles.first
+  end
 
-  has_many :people #FIXME has_one optional :people
+  def user_profile=(user_profile)
+    user_profile = [user_profile]
+  end
 
+  def gender
+    return user_profile.gender if user_profile
+    return :Open
+  end
   # --- Permissions --- #
 
   def create_permitted?
@@ -54,11 +125,8 @@ class User < ActiveRecord::Base
   end
 
   def update_permitted?
-    acting_user.administrator? ||
-      (acting_user == self && only_changed?(:email_address, :crypted_password,
-                                            :current_password, :password, :password_confirmation))
-    # Note: crypted_password has attr_protected so although it is permitted to change, it cannot be changed
-    # directly from a form submission.
+    return false if (acting_user != self && !acting_user.administrator?) || !self.active?
+    return true if only_changed? :crypted_password, :current_password, :password, :password_confirmation
   end
 
   def destroy_permitted?
@@ -66,14 +134,23 @@ class User < ActiveRecord::Base
   end
 
   def view_permitted?(field)
+    return false if field == :state && !acting_user.administrator?
     true
   end
-  
+
   # Security
-  def organization_admin?(organization)
-#     return true
+  def is_owner_of? an_object
     return true if self.administrator? 
-    raise "organization expected" unless organization.kind_of? Organization
+    if an_object.respond_to? :organization
+      return true if self.organization_admin? an_object.organization
+    end
+    an_object.owner_is?(self) if an_object.respond_to? :owner_is?
+  end
+
+  def organization_admin?(organization)
+    return true if self.administrator? 
+    return false if organization.nil?
+    raise "Organization expected. Got #{organization.class}" unless organization.kind_of? Organization
     return true if self.organizations_as_admin.find_by_id( organization.id )
     return false
   end
@@ -82,6 +159,35 @@ class User < ActiveRecord::Base
     return true if self.administrator? 
     self.organizations_as_admin.count > 0
   end
+
+  def active?
+    #Those might be more than one state like flagged users.
+    self.state == "active"
+  end
   
+  def label
+    if user_profile and !user_profile.name.blank?
+      user_profile.name
+    else
+      to_s
+    end
+  end
+  
+  private
+
+    #GP: find a better way
+    def admins
+      User.find(:all, :conditions => {:administrator => true})
+    end
+
+    def already_signedup_check
+
+      return unless email_address
+
+      u = User.find_by_email_address(email_address)
+      if u && u.state == 'signed_up'
+        u.destroy
+      end
+    end
 
 end

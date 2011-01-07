@@ -1,0 +1,150 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    ZenTest (4.5.0)
+    actionmailer (2.3.11)
+      actionpack (= 2.3.11)
+    actionpack (2.3.11)
+      activesupport (= 2.3.11)
+      rack (~> 1.1.0)
+    activerecord (2.3.11)
+      activesupport (= 2.3.11)
+    activeresource (2.3.11)
+      activesupport (= 2.3.11)
+    activesupport (2.3.11)
+    autotest-rails (4.1.0)
+      ZenTest
+    builder (3.0.0)
+    capybara (0.4.1.2)
+      celerity (>= 0.7.9)
+      culerity (>= 0.2.4)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      selenium-webdriver (>= 0.0.27)
+      xpath (~> 0.1.3)
+    celerity (0.8.9)
+    childprocess (0.1.8)
+      ffi (~> 1.0.6)
+    chronic (0.3.0)
+    columnize (0.3.2)
+    culerity (0.2.15)
+    dalli (1.0.3)
+    database_cleaner (0.6.7)
+    delorean (1.0.0)
+      chronic
+    factory_girl (1.3.3)
+    ffi (1.0.7)
+      rake (>= 0.8.7)
+    hobo (1.0.2)
+      hobofields (= 1.0.2)
+      hobosupport (= 1.0.2)
+      rails (< 3.0.0, >= 2.2.2)
+      will_paginate (>= 2.3.11, ~> 2)
+    hobofields (1.0.2)
+      hobosupport (= 1.0.2)
+      rails (< 3.0.0, >= 2.2.2)
+    hobosupport (1.0.2)
+    htmlentities (4.3.0)
+    json (1.4.6)
+    json_pure (1.5.1)
+    linecache (0.43)
+    mime-types (1.16)
+    mocha (0.9.12)
+    nokogiri (1.4.4)
+    notifier (0.1.3)
+    rack (1.1.2)
+    rack-test (0.5.7)
+      rack (>= 1.0)
+    rails (2.3.11)
+      actionmailer (= 2.3.11)
+      actionpack (= 2.3.11)
+      activerecord (= 2.3.11)
+      activeresource (= 2.3.11)
+      activesupport (= 2.3.11)
+      rake (>= 0.8.3)
+    rake (0.8.7)
+    redgreen (1.2.2)
+    redis (2.2.0)
+    redis-classy (0.9.1)
+      redis-namespace (~> 0.10.0)
+    redis-mutex (1.0.0)
+      redis-classy (~> 0.9.0)
+    redis-namespace (0.10.0)
+      redis (< 3.0.0)
+    resque (1.15.0)
+      json (~> 1.4.6)
+      redis-namespace (>= 0.10.0)
+      sinatra (>= 0.9.2)
+      vegas (~> 0.1.2)
+    rspec (1.3.1)
+    rspec-rails (1.3.3)
+      rack (>= 1.0.0)
+      rspec (= 1.3.1)
+    ruby-debug (0.10.4)
+      columnize (>= 0.1)
+      ruby-debug-base (~> 0.10.4.0)
+    ruby-debug-base (0.10.4)
+      linecache (>= 0.3)
+    rubyzip (0.9.4)
+    sass (3.1.1)
+    selenium-webdriver (0.2.0)
+      childprocess (>= 0.1.7)
+      ffi (>= 1.0.7)
+      json_pure
+      rubyzip
+    shoulda (2.11.3)
+    sinatra (1.2.3)
+      rack (~> 1.1)
+      tilt (< 2.0, >= 1.2.2)
+    spork (0.9.0.rc5)
+    sqlite3 (1.3.3)
+    steak (1.1.0)
+      rspec (>= 1.3)
+    system_timer (1.0)
+    test_notifier (0.3.6)
+      notifier
+    thor (0.14.6)
+    tilt (1.3)
+    tzinfo (0.3.27)
+    vegas (0.1.8)
+      rack (>= 1.0.0)
+    will_paginate (2.3.15)
+    xpath (0.1.4)
+      nokogiri (~> 1.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  autotest-rails
+  builder
+  capybara
+  dalli
+  database_cleaner
+  delorean
+  factory_girl
+  hobo (= 1.0.2)
+  htmlentities
+  mocha
+  nokogiri
+  rails (= 2.3.11)
+  redgreen
+  redis
+  redis-mutex
+  redis-namespace
+  resque
+  rspec (= 1.3.1)
+  rspec-rails (= 1.3.3)
+  ruby-debug
+  sass (>= 3.1.1)
+  shoulda
+  spork (~> 0.9.0.rc4)
+  sqlite3
+  steak
+  system_timer
+  test_notifier
+  thor
+  tzinfo
+  will_paginate (>= 2.3.11)

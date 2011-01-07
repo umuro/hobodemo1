@@ -1,0 +1,6 @@
+test:
+  registration_only: false
+development:
+  registration_only: false
+production:
+  registration_only: true

@@ -53,14 +53,17 @@ Spec::Runner.configure do |config|
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
   
   #add information to log about what spec is currently run
+  require 'database_cleaner'
+  DatabaseCleaner.strategy = :truncation
   config.before(:each) do
+    DatabaseCleaner.start
     full_example_description = "Starting #{@method_name}"
     Rails::logger.info("\n\n#{full_example_description}\n#{'-' * (full_example_description.length)}")      
-  end  
+  end
 
   config.after(:each) do
-    Rails::logger.info('clean up data')      
-    ActiveRecord::Base.delete_everything!
+#     Rails::logger.info('clean up data')      
+    DatabaseCleaner.clean
   end
 
 end

@@ -7,6 +7,7 @@ class Flag < ActiveRecord::Base
     name :string, :required, :unique, :null=>false
   end
 
+  has_many :flaggings, 			:dependent=>:destroy
 
   # --- Permissions --- #
 

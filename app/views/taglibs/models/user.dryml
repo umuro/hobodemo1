@@ -51,9 +51,12 @@ page[title]
 </extend>-->
 
 <extend tag="show-page" for="User">
+
   <old-show-page merge title="&this.email_address">
+
     <meta-tags: param>
-      <meta name="description" content="#{this.email_address}"/></meta-tags>
+      <meta name="description" content="#{this.email_address}"/>
+    </meta-tags>
 <!--
     <before-heading:>
       <google-ads-top/></before-heading:>-->
@@ -67,5 +70,115 @@ page[title]
 <!--
     <append-content-body:>
           <google-analytics/></append-content-body:>-->
+       <prepend-aside: param>
+          <% if current_user.administrator? %>
+            <admin-nav-menu/>
+          <% else %>
+            <user-nav-menu/>
+          <% end %> </prepend-aside:>
+
+        <after-enrollments-preview:>
+          <% params = {:country_id=>current_user.country.id} if current_user.signed_up? && current_user.country %>  
+          <a href="&enrollment_enroll_url :enrollment=>params">New Enrollment</a>
+        </after-enrollments-preview:>
+    
+    <before-collection-section:>
+          <% if this.user_profile %>
+            <details-user-profile:user_profile/>
+          <% else %>
+	  <div class="create-profile">
+            <a href="&new_user_profile_path">Create your profile...</a>
+          </div>
+          <% end %>
+    </before-collection-section:>
+
+    <after-collection:>
+      <% params = {:country_id=>current_user.country.id} if current_user.signed_up? && current_user.country %>  
+      <a href="&enrollment_enroll_url :enrollment=>params">New Enrollment</a>
+    </after-collection:>
+
   </old-show-page>
 </extend>
+
+<extend tag="edit-page" for="User">
+  <old-edit-page merge>
+    <append-content-header:>
+      <transition-buttons/>
+    </append-content-header:>
+  </old-edit-page>
+</extend>
+
+<def tag="user-nav-menu">
+  <navigation>
+    <nav-item href="&user_account_url(this)">Change Password</nav-item>
+<!--    <nav-item href="&boats_for_owner_url(this)">Registered Boats</nav-item>
+    <nav-item href="&crews_for_owner_url(this)">Crews</nav-item>-->
+    <br/>
+    <navigation><b>Invitations</b>
+      <nav-item href="&url_for :controller => :crew_memberships, :action => :received">Received</nav-item>
+      <nav-item href="&url_for :controller => :crew_memberships, :action => :sent">Sent</nav-item>
+    </navigation>
+<!--    <navigation><b>Event Enrollments</b>
+      <nav-item href="&enrollments_for_owner_path(this)">All</nav-item>
+      <nav-item href="&enrollment_enroll_path">New</nav-item>
+    </navigation>-->
+  </navigation>
+</def>
+
+<def tag="admin-nav-menu">
+  <navigation>
+    <nav-item href="&user_account_path(this)">Change Password</nav-item>
+  </navigation>
+</def>
+
+<def tag="rich-user-card">
+  <card for-type="User" merge>
+    <header: replace>
+      <h4 param="heading">
+        <a><view:email-address/></a><%= " (inactive)" unless this.active? %>
+      </h4>
+      <% if this.user_profile %>
+        <a:user_profile href="&edit_user_profile_path(this)"><view:name/></a>
+      <% else %>
+        <p>(no user profile information available)</p>
+      <% end %>
+    </header:>
+  </card>
+</def>
+
+<extend tag="index-page" for="User">
+  <old-index-page merge>
+    <new-link: replace/>
+    <collection:>
+      <rich-user-card/>
+    </collection:>
+  </old-index-page>
+</extend>
+
+<extend tag="signup-page" for="User">
+  <old-signup-page merge>
+    <prepend-content-body:>
+      <h2>
+        Please provide a valid email address to create an account
+        with the <b><%= app_name %></b> platform.
+        <br/><br/>
+        Your email will be used to send you the activation key
+        necessary to start using <b><%= app_name %></b>
+      </h2>
+    </prepend-content-body:>
+  </old-signup-page>
+</extend>
+
+<extend tag="activate-signup-page" for="User">
+  <old-activate-signup-page merge>
+    <prepend-content-body:>
+      <h2>
+        Please provide a password for your account and 
+        click the <b>[Activate Signup]</b> button.
+        <br/><br/>
+      </h2>
+    </prepend-content-body:>
+  </old-activate-signup-page>
+</extend>
+
+

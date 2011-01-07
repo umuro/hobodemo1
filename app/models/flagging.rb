@@ -6,23 +6,33 @@ class Flagging < ActiveRecord::Base
     flagging_time :datetime
     timestamps
   end
-  belongs_to :spotter, :class_name => "User"
+  
+  belongs_to :fleet_race
+  validates_presence_of :fleet_race
+  delegate :organization, :to=>:fleet_race
+
+  belongs_to :spotter, :class_name => "User", :creator=>true
+  validates_presence_of :spotter
+  def owner_is? u
+    spotter_is? u
+  end
+
   belongs_to :flag
-  belongs_to :race
+  validates_presence_of :flag
 
 
   # --- Permissions --- #
 
   def create_permitted?
-    acting_user.signed_up?
+     acting_user.is_owner_of? self
   end
 
   def update_permitted?
-    acting_user.signed_up?
+     acting_user.is_owner_of? self
   end
 
   def destroy_permitted?
-    acting_user.signed_up?
+     acting_user.is_owner_of? self
   end
 
   def view_permitted?(field)

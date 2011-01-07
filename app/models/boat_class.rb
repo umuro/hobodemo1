@@ -10,22 +10,22 @@ class BoatClass < ActiveRecord::Base
   end
 
   has_many :boats
-  has_many :races
   has_many :equipment_types
 
-
+  belongs_to :organization #boat_classes owned by organization
+  
   # --- Permissions --- #
 
   def create_permitted?
-    acting_user.any_organization_admin?
+    acting_user.is_owner_of? self
   end
 
   def update_permitted?
-    acting_user.any_organization_admin?
+    acting_user.is_owner_of? self
   end
 
   def destroy_permitted?
-    acting_user.any_organization_admin?
+    acting_user.is_owner_of? self
   end
 
   def view_permitted?(field)

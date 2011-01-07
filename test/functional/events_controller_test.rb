@@ -10,7 +10,7 @@ class EventsControllerTest < ActionController::TestCase
       @the_spotter = Factory(:user)
 #       Event.any_instance.stubs(:acting_user).returns(@the_spotter)
       @boat = UseCaseSamples.build_boat 
-      @race = UseCaseSamples.build_race 
+      @fleet_race = UseCaseSamples.build_fleet_race 
     end
 
     should "get active events" do
@@ -28,14 +28,20 @@ class EventsControllerTest < ActionController::TestCase
     end #should 
 
     context "with an event, " do
-      setup {@event = @race.event}
-      should "get today's active races'" do
-        get :todays_active_races, :id => @event.id, :format=>'xml'
+      setup {@event = @fleet_race.event}
+      should "get today's active fleet races'" do
+        get :todays_active_fleet_races, :id => @event.id, :format=>'xml'
         assert_response :success
-        klass = "Race"
+        klass = "FleetRace"
         assert_tag :tag=>klass.underscore.pluralize, 
             :descendant => { :tag => klass.underscore }
-        assert_tag :tag => 'name', 
+#         assert_tag :tag => 'name', 
+#                              :parent => { :tag => klass.underscore },
+#                              :content => /.+/
+        assert_tag :tag => 'number', 
+                             :parent => { :tag => klass.underscore },
+                             :content => /.+/
+        assert_tag :tag => 'color', 
                              :parent => { :tag => klass.underscore },
                              :content => /.+/
         assert_tag :tag => 'id', 

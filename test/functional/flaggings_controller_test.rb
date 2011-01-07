@@ -10,19 +10,19 @@ class FlaggingsControllerTest < ActionController::TestCase
       @the_spotter = Factory(:user)
 #       Event.any_instance.stubs(:acting_user).returns(@the_spotter)
       @boat = UseCaseSamples.build_boat 
-      @race = UseCaseSamples.build_race 
+      @fleet_race = UseCaseSamples.build_fleet_race 
     end
     context "with a flag, " do
       setup do
-        @flag = Flag.first
+        @flag = Factory(:flag) #Flag.first
       end
       should "post" do
          login_as(@the_spotter)
         t = Time.now.utc
-        post :create, :flagging => {:race_id=>@race.id, :flag_id=>@flag.id, :flagging_time=>t}, :format=>"xml"
+        post :create, :flagging => {:fleet_race_id=>@fleet_race.id, :flag_id=>@flag.id, :flagging_time=>t}, :format=>"xml"
          assert_response :success
 #         assert_response 302
-        obj = Flagging.find_by_flag_id_and_flagging_time_and_race_id(@flag.id, t, @race.id)
+        obj = Flagging.find_by_flag_id_and_flagging_time_and_fleet_race_id(@flag.id, t, @fleet_race.id)
         assert_not_nil obj
         klass = "Flagging"
         assert_tag :tag => 'id',
@@ -32,7 +32,7 @@ class FlaggingsControllerTest < ActionController::TestCase
       end
       should "delete" do
         login_as(@the_spotter)
-        flagging = Factory(:flagging,:race_id=>@race.id, :flag_id=>Flag.first.id, :spotter_id=>@the_spotter.id)
+        flagging = Factory(:flagging, :fleet_race_id=>@fleet_race.id, :flag_id=>Flag.first.id, :spotter_id=>@the_spotter.id)
         delete :destroy, :id=>flagging.id, :format=>"xml"
         assert_response :success
       end #should

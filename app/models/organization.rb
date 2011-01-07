@@ -7,10 +7,15 @@ class Organization < ActiveRecord::Base
     timestamps
   end
 
-  has_many :event_series
+  set_default_order "name ASC"
 
+  has_many :event_folders, :dependent=>:destroy
   has_many :organization_admin_roles, :dependent=>:destroy
-  has_many :organization_admins, :through=>:organization_admin_roles, :source=>:user, :accessible=>true
+  has_many :organization_admins, :through=>:organization_admin_roles, 
+           :source=>:user, :accessible=>true
+  has_many :courses, :dependent=>:destroy
+  has_many :boat_classes,     :dependent=>:destroy #boat_classes owned by organization
+  
   # --- Permissions --- #
 
   def create_permitted?

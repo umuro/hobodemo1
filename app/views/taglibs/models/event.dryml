@@ -1,0 +1,38 @@
+<extend tag="card" for="Event">
+  <old-card merge>
+    <body:>
+      <%= this.start_time.to_date %> in <view:place/>
+    </body:>
+  </old-card>
+</extend>
+
+<extend tag="show-page" for="Event">
+  <old-show-page merge>
+
+    <collection: replace>
+      <table-plus:enrollments fields="boat, crew, country, paid, insured, measured, date_measured, gender, state">
+        <search-form: replace/>
+        <controls:>
+          <transition-buttons/>
+          <a action="edit" if="&can_edit?" param="edit-link">
+            <ht key="enrollments.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+              Edit Enrollment</ht></a></controls:>
+        <empty-message:>You have not enrolled to any event</empty-message:>
+
+      </table-plus></collection:>
+
+       <races-preview: replace>
+         <races-preview restore unless="&this.registration_only"/>
+       </races-preview:>
+       <calendar-entries-preview: replace>
+         <calendar-entries-preview restore unless="&this.registration_only"/>
+       </calendar-entries-preview:>
+
+    <after-collection:>
+        <% params = {:event_id=>this.id} %> 
+        <% params = params.merge :country_id=>current_user.country.id if current_user.signed_up? && current_user.country %>  
+        <a href="&enrollment_enroll_url :enrollment=>params">New Enrollment</a>
+    </after-collection:>
+
+  </old-show-page>
+</extend>

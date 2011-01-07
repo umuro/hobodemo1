@@ -23,19 +23,12 @@ page[title]
 
 <extend tag="show-page" for="Site">
   <old-show-page merge without-content-header>
-<!--
-    <before-collection-heading:>
-      <div><google-ads-top/></div></before-collection-heading:>-->
-    <append-content-body:>
-        <% if User.count == 0 -%>
-          <h3 style="margin-top: 20px;">There are no user accounts - please provide the details of the site administrator</h3>
-          <do with="&User.new"><% this.exempt_from_edit_checks = true %>
-            <signup-form/></do>
-        <% end -%></append-content-body:>
-<!--
-    <append-content:>
-          <google-analytics/></append-content:>-->
-
+    <collection:>
+      <card>
+        <heading:>
+          <a href="&this.site_url"><name/></a>
+        </heading:>
+      </card>
+    </collection:>
   </old-show-page>
 </extend>
-

@@ -5,6 +5,6 @@ class OrganizationTest < ActiveSupport::TestCase
     setup {Factory(:organization)}
     should validate_uniqueness_of :name
     should validate_presence_of :name
-    should have_many :event_series
+    should have_many :event_folders
   end
 end

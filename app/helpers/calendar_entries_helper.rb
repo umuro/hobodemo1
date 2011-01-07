@@ -1,0 +1,2 @@
+module CalendarEntriesHelper
+end

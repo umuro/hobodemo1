@@ -7,6 +7,7 @@ tmp/**/*
 tmp/*
 db/data.yml
 config/database.yml
+config/redis.yml
 db/*.sqlite3
 db/schema.rb
 test/rails_root/log/*.log
@@ -27,3 +28,5 @@ public/clip
 public/sitemaps
 
 doc/diagrams/*
+gp_notes
+config/redis.yml

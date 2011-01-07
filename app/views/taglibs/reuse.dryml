@@ -43,3 +43,26 @@
   src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
   </script>
 </def>
+
+<extend tag="name" attrs="if-present">
+  <set ok="&this.respond_to? :label"/>
+  <if test="&ok">
+  <%=
+    if this.nil?
+      nil_view unless if_present
+    else
+      if this.is_a?(Array)
+        count
+      elsif this.is_a?(Class)
+        type_name(attributes)
+      elsif (name_attr = this.class.try.name_attribute) && can_view?(this, name_attr)
+        view(merge_attrs(attributes, {:field => :label}))
+      end
+    end
+  %>
+    
+  </if>
+  <unless test="&ok">
+    <old-name merge-attrs/>
+  </unless>
+</extend>

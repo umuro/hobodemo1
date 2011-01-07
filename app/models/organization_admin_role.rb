@@ -5,8 +5,12 @@ class OrganizationAdminRole < ActiveRecord::Base
   fields do
     timestamps
   end
+
   belongs_to :organization, :null=>false
+  validates_presence_of :organization
+  
   belongs_to :user, :null=>false
+  validates_presence_of :user
 
   # --- Permissions --- #
 
