@@ -54,6 +54,10 @@ page[title]
 
   <old-show-page merge title="&this.email_address">
 
+    <before-heading:>
+      <enroll-button>Enroll to an Event</enroll-button>
+    </before-heading:>
+
     <meta-tags: param>
       <meta name="description" content="#{this.email_address}"/>
     </meta-tags>
@@ -91,14 +95,22 @@ page[title]
           </div>
           <% end %>
     </before-collection-section:>
-
+    
+    <collection-heading:>
+      Your Enrolled Events
+    </collection-heading:>
+    
+    <collection:>
+      <card with="&this.event"/>
+    </collection:>
+    
     <after-collection:>
-      <% params = {:country_id=>current_user.country.id} if current_user.signed_up? && current_user.country %>  
-      <a href="&enrollment_enroll_url :enrollment=>params">New Enrollment</a>
+      <enroll-button/>
     </after-collection:>
 
   </old-show-page>
 </extend>
+
 
 <extend tag="edit-page" for="User">
   <old-edit-page merge>

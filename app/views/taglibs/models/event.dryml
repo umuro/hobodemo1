@@ -1,3 +1,39 @@
+<!-- ====== Event ====== -->
+<!--
+# See layout.drml for page
+page[title]
+  body[class]
+    content
+      section-group if aside
+        main-content if aside
+          content-header
+            parent-link
+            heading
+            record-flags
+            edit-link
+          content-body
+            field-list
+            collection-section
+              collection-heading
+              collection
+              new-link
+        aside
+          <children>-preview
+            more
+index-page:
+page[title]
+  body[class]
+    content
+      content-header
+        heading
+        count
+      content-body
+        new-link
+        top-page-nav
+        collection
+        bottom-page-nav
+-->
+
 <extend tag="card" for="Event">
   <old-card merge>
     <body:>
@@ -8,7 +44,11 @@
 
 <extend tag="show-page" for="Event">
   <old-show-page merge>
-
+    
+    <before-heading:>
+      <enroll-button event="&this"/>
+    </before-heading:>
+    
     <collection: replace>
       <table-plus:enrollments fields="boat, crew, country, paid, insured, measured, date_measured, gender, state">
         <search-form: replace/>
@@ -29,9 +69,7 @@
        </calendar-entries-preview:>
 
     <after-collection:>
-        <% params = {:event_id=>this.id} %> 
-        <% params = params.merge :country_id=>current_user.country.id if current_user.signed_up? && current_user.country %>  
-        <a href="&enrollment_enroll_url :enrollment=>params">New Enrollment</a>
+      <enroll-button event="&this"/>
     </after-collection:>
 
   </old-show-page>

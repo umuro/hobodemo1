@@ -126,11 +126,9 @@ $aside_highlight_background: $aside_background + #111111
 
 .card
   .picture
-    position: relative
     float: left
     z-index: 10
   .text
-    position: relative
     left: 10px
 
 .parent-link
@@ -143,7 +141,6 @@ $aside_highlight_background: $aside_background + #111111
 .content-header
   border-bottom: none
   .parent-link
-    position: relative
     z-index: 5
     margin-right: 10px
   a
@@ -306,3 +303,17 @@ a:hover
 
 .card.crew .body
   display: none
+
+.content-header .enroll-button
+  float: right
+  font-size: 200%
+  padding: 0
+  margin: 25px 0 0
+  z-index: 10
+  a
+    color: white
+    background-color: #ab1529  
+    padding: 15px
+    &:hover
+      text-decoration: none
+      background-color: #ab5964

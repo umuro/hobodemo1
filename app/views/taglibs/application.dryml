@@ -17,6 +17,8 @@
 <include src="taglibs/models/time_zone_rich_type"/>
 <include src="taglibs/models/extended_date"/>
 
+<include src="taglibs/models/enroll_button"/>
+
 <include src="taglibs/models/site"/>
 <include src="taglibs/models/user"/>
 <include src="taglibs/models/user_profile"/>

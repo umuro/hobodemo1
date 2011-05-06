@@ -23,4 +23,8 @@ class Guest < Hobo::Guest
   def email_address
     nil
   end
+  
+  def country
+    nil
+  end
 end

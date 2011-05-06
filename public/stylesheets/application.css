@@ -116,11 +116,9 @@ h1, h2, h3 {
     background-color: white; }
 
 .card .picture {
-  position: relative;
   float: left;
   z-index: 10; }
 .card .text {
-  position: relative;
   left: 10px; }
 
 .parent-link {
@@ -133,7 +131,6 @@ h1, h2, h3 {
 .content-header {
   border-bottom: none; }
   .content-header .parent-link {
-    position: relative;
     z-index: 5;
     margin-right: 10px; }
   .content-header a {
@@ -283,3 +280,17 @@ a:hover {
 
 .card.crew .body {
   display: none; }
+
+.content-header .enroll-button {
+  float: right;
+  font-size: 200%;
+  padding: 0;
+  margin: 25px 0 0;
+  z-index: 10; }
+  .content-header .enroll-button a {
+    color: white;
+    background-color: #ab1529;
+    padding: 15px; }
+    .content-header .enroll-button a:hover {
+      text-decoration: none;
+      background-color: #ab5964; }
