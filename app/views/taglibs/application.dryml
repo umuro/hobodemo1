@@ -8,7 +8,7 @@
 <set-theme name="clean"/>
 
 <def tag="app-name"><ht key="application.name">Regatta Configuration</ht></def>
-<def tag="app-logo"><%= image_tag 'application_logo.png', :size=>"100x100"%></def>
+<def tag="app-logo"><%= image_tag 'http://2010worldwindsurfingchampionships.rsxclass.com/rw/sailsense/HappySailing.jpg', :size=>"100x100"%></def>
 
 <include src="taglibs/i18n"/> <!--Correct internationalization-->
 <include src="taglibs/reuse"/> <!-- Reusable tags for all models -->

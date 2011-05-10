@@ -1,5 +1,5 @@
 defaults: &defaults
- url: http://localhost:8080/rsx-mobile-service-test_servlet-0.1/test/?bindurl=http://localhost:3000
+ url: http://localhost
  ttl: 30
 
 development:
