@@ -1,10 +1,9 @@
       <form id="calendar-entry-form" >
         <field-list: skip="event"/>
         <submit: id="submit-button" />
-        <cancel: id="cancel-button" href="#" onclick="CalendarViewHandler.closeModal(); return false;"/>
+        <cancel: id="cancel-button" href="#" />
       </form>
       <script type="text/javascript">
-        Event.observe('calendar-entry-form', 'submit', CalendarViewHandler.submitForm);
       </script>
 
 

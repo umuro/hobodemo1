@@ -35,7 +35,7 @@ class Event < ActiveRecord::Base
   has_many :races, 			:dependent=>:destroy
   has_many :fleet_races, :through=>:races
   has_many :course_areas, 		:dependent=>:destroy
-  has_many :calendar_entries, :dependent=>:destroy 
+  has_many :calendar_entries, :dependent=>:destroy, :order=>'scheduled_time DESC'
   
   after_save :handle_rsx_mobile_service
   register_update_trigger :rsx_mobile_service_update_trigger
@@ -58,7 +58,7 @@ class Event < ActiveRecord::Base
   named_scope :active, 
       :conditions=>['end_time >= :current_time', 
                     { :current_time => Time.zone.now.utc}]
-  
+
   before_save :store_defaults
   def store_defaults
     self.registration_only = self.registration_only

@@ -8,6 +8,8 @@ class CalendarEntry < ActiveRecord::Base
     timestamps
   end
 
+  set_default_order "scheduled_time DESC"
+  
   belongs_to :event, :null=>false
   validates_presence_of :event
   validates_uniqueness_of :name, :scope=>:event_id
@@ -31,8 +33,12 @@ class CalendarEntry < ActiveRecord::Base
     true
   end
 
-  def label
+  def short_label
     self.name
   end
 
+  def label
+    short_label + ' ('+scheduled_time.to_s+')'
+  end
+  
 end

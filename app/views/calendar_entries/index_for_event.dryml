@@ -1,19 +1,34 @@
 <index-for-event-page>
-  <heading:>
-    <span><a href="&url_for(:controller=>'calendar_entries',:action=>'index_for_event')" params="&{:year=>@prev_week.year, :week=>@prev_week.cweek}">&#9668;</a></span>
-    <%=h @date_start.to_time.strftime('%b %d %Y') -%> - <%= @date_end.to_time.strftime('%b %d %Y') -%>
-    <span><a href="&url_for(:controller=>'calendar_entries',:action=>'index_for_event')" params="&{:year=>@next_week.year, :week=>@next_week.cweek}">&#9658;</a></span>
+  <back-to: replace>
+    <a:event class="parent-link">&laquo; <ht key="calendar_entries.actions.back" to="event"><name/></ht></a:event>
+  </back-to:>
+  <heading: replace>
+    <h2>
+      <form id="page-form" action="" method="get" with="&@course_area">
+      <input type="hidden" id="year" name="year" value="&params[:year]"/>
+      <input type="hidden" id="week" name="week" value="&params[:week]"/>
+      <span><a href="&url_for(:controller=>'calendar_entries',:action=>'index_for_event')" params="&{:year=>@prev_week.year, :week=>@prev_week.cweek}">&#9668;</a></span>
+      <%=h @date_start.to_time.strftime('%b %d %Y') -%> - <%= @date_end.to_time.strftime('%b %d %Y') -%>
+      <span><a href="&url_for(:controller=>'calendar_entries',:action=>'index_for_event')" params="&{:year=>@next_week.year, :week=>@next_week.cweek}">&#9658;</a></span>
+      <div style="float: right;">
+        <select-input id="course_area_id" name="course_area_id" options="&@event.course_areas.collect{|ca| [ca.name, ca.id]}" selected="&@course_area.id" first-option="All Course Area"/>
+        <input id="change_course_area" type="submit" value="Change"/>
+      </div>
+      </form>
+    </h2>
   </heading:>
+  <subheading: replace />
   <custom-scripts:>
     <javascript name="calendar_view, resizable, livepipe, window"/>
     <script type="text/javascript">
-      Event.observe(window, 'load', adjustCalendarView);
+      Event.observe(window, 'resize', CalendarViewHandler._resizeCalendarView);
       <% if can_create? %>
-      Event.observe(window, 'load', createDnD);
+      CalendarViewHandler.can_create = true;
       <% end %>
+      Event.observe(window, 'load', CalendarViewHandler.onLoad);
     </script>
   </custom-scripts:>
-  <count:></count:>
+  <count: replace />
   <content-body:>
     <calendar-view />
   </content-body:>

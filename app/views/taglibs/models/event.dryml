@@ -65,7 +65,11 @@ page[title]
          <races-preview restore unless="&this.registration_only"/>
        </races-preview:>
        <calendar-entries-preview: replace>
-         <calendar-entries-preview restore unless="&this.registration_only"/>
+         <preview-with-more with="&this.calendar_entries.limit(6)" unless="&this.registration_only">
+           <more:>
+             <ht key="hobo.actions.more">more</ht>
+           </more:>
+         </preview-with-more>
        </calendar-entries-preview:>
 
     <after-collection:>

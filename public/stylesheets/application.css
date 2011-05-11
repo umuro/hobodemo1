@@ -171,15 +171,15 @@ h1, h2, h3 {
 #calendar-view .highlight {
   background-color: #ff7777; }
 #calendar-view .entry {
-  background-color: #9999ff;
+  background-color: LightPink;
+  color: black;
   padding-left: 2px;
   cursor: default; }
 #calendar-view .fleet {
-  background-color: #9999ff;
+  background-color: CornFlowerBlue;
+  color: white;
   padding-left: 2px;
   cursor: default; }
-#calendar-view #fleetscontainer .fleet {
-  color: red; }
 #calendar-view .editable .entry {
   cursor: move; }
   #calendar-view .editable .entry span {

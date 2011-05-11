@@ -1,8 +1,15 @@
 <!-- ====== CalendarEntry ====== -->
+<extend tag="card" for="CalendarEntry">
+  <old-card merge>
+    <heading:>
+      <a><view with="&this.label"/></a>
+    </heading:>
+  </old-card>
+</extend>
 
 <def tag="unscheduled-fleets">
   <% for fleet in this %>
-    <div id="fleet<%=h fleet.id -%>" class="fleet editable" style="width: 113px; height: 19px; "><span style="background-color: <%= fleet.color -%>; opacity: 0.7;"><%=h fleet.label -%></span></div>
+    <div id="fleet<%=h fleet.id -%>" class="fleet" style="width: 113px; height: 19px; margin-bottom: 1px; overflow: hidden; <%= background_foreground fleet -%>"><span><%=h fleet.short_label -%></span></div>
   <% end %>
 </def>
 
@@ -13,7 +20,7 @@
          prefix = (entry.class == CalendarEntry) ? 'entry' : 'fleet'
          top = @rows[rowid].last + i*20
   %>
-    <div id="<%=h prefix+entry.id.to_s -%>" class="<%=h prefix -%> box<%=h boxid -%> inrow_<%=h rowid -%> editable" style="position: absolute; top: <%=h top -%>px; left: <%=h 52+(entry.scheduled_time.yday-@date_start.yday)*116 -%>px; width: 113px; height: 19px; overflow: hidden; "><span style="<%= (prefix=='fleet')? ('background-color: '+entry.color)+'; opacity: 0.7;':'' -%>"><%=h entry.label -%></span></div> 
+    <div id="<%=h prefix+entry.id.to_s -%>" class="<%=h prefix -%> box<%=h boxid -%> inrow_<%=h rowid -%>" style="position: absolute; top: <%=h top -%>px; left: <%=h 52+(entry.scheduled_time.yday-@date_start.yday)*116 -%>px; width: 113px; height: 19px; overflow: hidden; <%= background_foreground entry -%>"><span><%=h entry.short_label -%></span></div>
   <%
        end
      end
@@ -24,11 +31,9 @@
   <section id="calendar-view">
     <input id="params" type="hidden" value="&'year='+@year.to_s+'&week='+@woy.to_s"/>
     <input id="entry-elem-id" type="hidden" value="" />
-    <section id="fleetscontainer" style="width: 100%; " class="&(can_create?)?'editable':''" if="&can_create?">
-      <span></span>
-      <unscheduled-fleets with="&@unscheduled_fleet_races"/>
-    </section>
-    <br/>
+    <div style="position: relative;">
+      <div id="undo_link" style="position: absolute; bottom: 0px; right: 0px; display: none;"><span><a href="#">Undo</a></span></div>
+    </div>
     <table id="tableheader" style="width: 100%; border: 1px #dddddd solid; ">
       <tr id="headerrow">
         <th style="width: 50px;">&nbsp;</th>
@@ -39,17 +44,26 @@
         <th id="scrollpad" style="border-left: 1px #ccc solid; width: 5px;">&nbsp;</th>
       </tr>
     </table>
+    <div style="position: relative; " if="&can_create?">
+      <div style="background-color: #FCFFF5; position: absolute; top: -20px; left: 880px; width: 130px; ">
+        <span style="">Unscheduled Fleet(s)</span>
+        <div id="fleetscontainer" class="editable" style="height: 400px; overflow-y: auto; overflow-x: hidden;">
+          <unscheduled-fleets with="&@unscheduled_fleet_races"/>
+        </div>
+      </div>
+    </div>
     <div id="contentcontainer" style="height: 400px;  width: 100%; overflow-y: auto; overflow-x: hidden; position: relative;">
       <table id="tablecontent" style="width: 100%; table-layout: fixed; border-right: 1px #ddd solid; ">
       <% cell_id=0;
-         for entry_hour in 8..23 
+         for entry_hour in 0..23
       %>
       <tr class="calendarrow">
         <th style="width: 50px; border-left: 1px #ccc solid; border-bottom: 1px #ccc solid;">
           <div style="width: 100%; text-align: center;"><%=h (@date_start+entry_hour.hour).to_time.strftime('%I%p') -%></div>
         </th>
         <% for entry_date in @date_start..@date_end %>
-        <td style="width: 115px; border-left: 1px #ccc solid; border-bottom: 1px #ccc solid;">
+        <!-- the cell width should be 115px, but then the last cell will overflow, so make it less -->
+        <td style="width: 114px; border-left: 1px #ccc solid; border-bottom: 1px #ccc solid;">
           <% for i in 0..3 
                rowid = '%02d'%entry_hour+'%02d'%(i*15)
                rowheight = @rows[rowid].first
@@ -57,7 +71,7 @@
           <div id="box<%=h entry_date.strftime('%Y%m%d')+rowid -%>" class="calendar_droppables cell_<%=h cell_id -%> row_<%=h rowid -%>" style="height: <%=h rowheight*20-1 -%>px; <% if i<3 then -%>border-bottom: 1px #eee dotted;<% end -%>">&nbsp;</div>
           <% 
                cell_id += 1
-             end 
+             end
           %>
         </td>
         <% end %>

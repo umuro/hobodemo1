@@ -84,10 +84,14 @@ class FleetRace < ActiveRecord::Base
     true
   end
 
-  def label
+  def short_label
     return "#{race.boat_class.name} - #{number} #{color}"
   end
-  
+
+  def label
+    short_label
+  end
+
   before_save lambda { |fr|
 
     if fr.update_with_hobo_permission_check
