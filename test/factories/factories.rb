@@ -136,12 +136,19 @@ Factory.define :course_area do |f|
 end
 
 Factory.define :course do |f|
+  f.organization { nil }
+  f.type { nil }
+  f.sequence(:name) {|n| "course #{n}"}
+end
+
+Factory.define :template_course do |f|
   class << f
     def default_organization
       @default_organization = Mill.unless_produced?(:organization, @default_organization)#Factory(:organization)
     end
   end
   f.organization { f.default_organization }
+  f.type { 'TemplateCourse' }
   f.sequence(:name) {|n| "course #{n}"}
 end
 

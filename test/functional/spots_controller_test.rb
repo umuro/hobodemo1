@@ -4,7 +4,8 @@ class SpotsControllerTest < ActionController::TestCase
 
  context "Spot(Security): " do
     setup do
-      @spot = Factory(:spot)
+      @template_course = Factory :template_course
+      @spot = Factory :spot, :course => @template_course
       @spot_params = Factory.attributes_for(:spot, :course_id=>@spot.course.id, :position=>99)
     end
     

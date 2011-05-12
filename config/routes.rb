@@ -9,6 +9,11 @@ ActionController::Routing::Routes.draw do |map|
 
   Hobo.add_routes(map)
   
+  # FIXME: Hobo can't deal with auto_actions_for defined on STI models. Therefore, some routes are missing
+  map.new_spot_for_template_course 'template_courses/:course_id/spots/new', :controller => :spots, :action => :new_for_course, :conditions => {:method => :get}
+  map.create_spot_for_template_course 'template_courses/:course_id/spots', :controller => :spots, :action => :create_for_course, :conditions => {:method => :post}
+  map.spots_for_template_course 'template_courses/:course_id/spots', :controller => :spots, :action => :index_for_course, :conditions => {:method => :get}
+    
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

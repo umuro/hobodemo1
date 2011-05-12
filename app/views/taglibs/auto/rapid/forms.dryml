@@ -417,6 +417,18 @@
 
 
 
+<def tag="form" for="TemplateCourse">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, organization" param/>
+    <div param="actions">
+      <submit label="#{ht 'template_courses.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
 <def tag="form" for="UserProfile">
   <form merge param="default">
     <error-messages param/>

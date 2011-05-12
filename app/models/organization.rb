@@ -13,7 +13,10 @@ class Organization < ActiveRecord::Base
   has_many :organization_admin_roles, :dependent=>:destroy
   has_many :organization_admins, :through=>:organization_admin_roles, 
            :source=>:user, :accessible=>true
+
+  has_many :template_courses, :dependent=>:destroy
   has_many :courses, :dependent=>:destroy
+                              
   has_many :boat_classes,     :dependent=>:destroy #boat_classes owned by organization
   
   # --- Permissions --- #

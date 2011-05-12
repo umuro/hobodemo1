@@ -1091,80 +1091,6 @@
   </page>
 </def>
 
-<def tag="index-for-organization-page" polymorphic/>
-<def tag="index-for-organization-page" for="Course">
-  <page merge title="#{ht 'courses.index_for_owner.title', :default=>['Courses for']} #{name :with => @organization, :no_wrapper => true}">    
-    <body: class="index-for-owner-page organization course" param/>
-    <content: param>
-      <header param="content-header">
-        <div param="back-to">
-          <ht key="hobo.actions.back">Back to</ht> <a with="&@organization"/>
-        </div>
-        <h2 param="heading">
-          <ht key="courses.index_for_owner.heading.other">
-            Courses
-          </ht>
-        </h2>
-        <h3 param="subheading">
-          <ht key="courses.index_for_owner.subheading">
-            For:
-          </ht>
-          <a with="&@organization"/>
-        </h3>
-        <p param="count" if>
-          <ht key="courses.collection.count" count="&this.size">
-            There <count prefix="are"/>
-          </ht>
-        </p>
-      </header>
-
-      <section param="content-body">
-        <a action="new" to="&model" param="new-link">
-          <ht key="courses.actions.new" >New Course</ht>
-        </a>
-
-
-        <page-nav param="top-page-nav"/>
-
-        <collection param/>
-
-        <page-nav param="bottom-page-nav"/>
-      </section>
-    </content:>
-  </page>
-</def>
-
-
-<def tag="new-for-organization-page" polymorphic/>
-<def tag="new-for-organization-page" for="Course">
-  <page merge title="#{ht 'courses.new_for_owner.title', :default=>['New Course for']} #{name :with => @organization}">
-    <body: class="new-for-owner-page  course" param/>
-
-    <content: param>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="courses.new_for_owner.heading">
-            New Course
-          </ht>
-        </h2>
-        <h3 param="subheading">
-          <ht key="courses.new_for_owner.subheading">
-            For:
-          </ht>
-          <a with="&@organization"/>
-        </h3>
-      </header>
-
-      <section param="content-body">
-        <form owner="organization" method="post" param>
-          <field-list: skip="organization"/>
-          <submit: label="#{ht 'courses.actions.create', :default=>['Create Course']}"/>
-        </form>
-      </section>
-    </content:>
-  </page>
-</def>
-
 
 
 
@@ -3580,11 +3506,11 @@
         </section>
 
         <aside param>
-          <preview-with-more:courses.recent param="courses-preview">
+          <preview-with-more:template_courses.recent param="template_courses-preview">
             <more:>
               <ht key="hobo.actions.more">more</ht>
             </more:>
-          </preview-with-more:courses.recent>
+          </preview-with-more:template_courses.recent>
           <preview-with-more:boat_classes.recent param="boat_classes-preview">
             <more:>
               <ht key="hobo.actions.more">more</ht>
@@ -4405,6 +4331,212 @@
       </section>
     </content:>
 
+  </page>
+</def>
+
+
+
+
+
+<!-- ====== TemplateCourse Pages ====== -->
+
+<def tag="index-page" for="TemplateCourse">
+  <page merge title="#{ht 'template_courses.index.title', :default=>['Template Courses'] }">
+    <body: class="index-page template-course" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="template_courses.index.heading">
+            Template Courses
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="template_courses.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="TemplateCourse">
+  <page merge title="#{ht 'template_courses.new.title', :default=>[' New Template Course'] }">
+    <body: class="new-page template-course" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="template_courses.new.heading">
+            New Template Course
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'template_courses.actions.create', :default=>['Create Template Course']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="TemplateCourse">
+  <page merge title="#{ht 'template_courses.show.title', :default=>['Template Course'] }">
+
+    <body: class="show-page template-course" param/>
+
+    <content: param>
+          <header param="content-header">
+            <a:organization param="parent-link">&laquo; <ht key="template_courses.actions.back" to="organization"><name/></ht></a:organization>
+            <h2 param="heading">
+              <ht key="template_courses.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="" param/>
+
+            <a action="edit" if="&can_edit?" param="edit-link">
+              <ht key="template_courses.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+                Edit Template Course
+              </ht>
+            </a>
+          </header>
+
+          <section param="content-body">
+            <section param="collection-section">
+              <h3 param="collection-heading">
+                <ht key="template_courses.collection.heading.other" >
+                  Spots
+                </ht>
+              </h3>
+
+              <collection:spots param/>
+
+              <a:spots action="new" if="&can_create?(@template_course.spots)" param="new-link">
+                <ht key="spots.actions.new">
+                  New Spot
+                </ht>
+              </a:spots>
+            </section>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="TemplateCourse">
+  <page merge title="#{ht 'template_courses.edit.title', :default=>['Edit Template Course'] }">
+
+    <body: class="edit-page template-course" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="template_courses.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'template_courses.actions.delete', :default=>['Remove This Template Course']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="index-for-organization-page" polymorphic/>
+<def tag="index-for-organization-page" for="TemplateCourse">
+  <page merge title="#{ht 'template_courses.index_for_owner.title', :default=>['Template Courses for']} #{name :with => @organization, :no_wrapper => true}">    
+    <body: class="index-for-owner-page organization template-course" param/>
+    <content: param>
+      <header param="content-header">
+        <div param="back-to">
+          <ht key="hobo.actions.back">Back to</ht> <a with="&@organization"/>
+        </div>
+        <h2 param="heading">
+          <ht key="template_courses.index_for_owner.heading.other">
+            Template Courses
+          </ht>
+        </h2>
+        <h3 param="subheading">
+          <ht key="template_courses.index_for_owner.subheading">
+            For:
+          </ht>
+          <a with="&@organization"/>
+        </h3>
+        <p param="count" if>
+          <ht key="template_courses.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+        <a action="new" to="&model" param="new-link">
+          <ht key="template_courses.actions.new" >New Template Course</ht>
+        </a>
+
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-for-organization-page" polymorphic/>
+<def tag="new-for-organization-page" for="TemplateCourse">
+  <page merge title="#{ht 'template_courses.new_for_owner.title', :default=>['New Template Course for']} #{name :with => @organization}">
+    <body: class="new-for-owner-page  template-course" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="template_courses.new_for_owner.heading">
+            New Template Course
+          </ht>
+        </h2>
+        <h3 param="subheading">
+          <ht key="template_courses.new_for_owner.subheading">
+            For:
+          </ht>
+          <a with="&@organization"/>
+        </h3>
+      </header>
+
+      <section param="content-body">
+        <form owner="organization" method="post" param>
+          <field-list: skip="organization"/>
+          <submit: label="#{ht 'template_courses.actions.create', :default=>['Create Template Course']}"/>
+        </form>
+      </section>
+    </content:>
   </page>
 </def>
 

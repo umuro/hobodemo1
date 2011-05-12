@@ -10,7 +10,6 @@ class Course < ActiveRecord::Base
 
 #   belongs_to :fleet_race #this is master if race is null
   belongs_to :organization
-  validates_presence_of :organization
   validates_uniqueness_of :name, :scope=>:organization_id, :if=>:organization
   
   has_many :fleet_races, 		:dependent=>:nullify
@@ -31,17 +30,21 @@ class Course < ActiveRecord::Base
   end
 
   def view_permitted?(field)
+    return false if field == :organization
     true
   end
 
   def clone_with_spots
     new_course = self.clone
     new_course.organization_id = nil
-    new_course.save(false)
+    new_course.type = nil
+    new_course.save false
+	
+	new_course = Course.find new_course.id
 
     new_spots = self.spots.*.clone
     new_spots.*.course_id = new_course.id
-    new_spots.*.save(false)
+    new_spots.*.save false
 
     new_course
   end

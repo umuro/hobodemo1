@@ -24,7 +24,7 @@ class FleetRace < ActiveRecord::Base
   
   belongs_to :race
   belongs_to :course_area, :conditions =>'event_id = #{event_id}'
-  belongs_to :course, :conditions=> 'organization_id = #{organization.id}'
+  belongs_to :course, :conditions=> 'organization_id = #{organization.id}', :dependent=>:destroy
 
   validates_presence_of :course, :unless=> lambda {|r| r.new_record?}
   validates_presence_of :course_area_id
@@ -96,6 +96,6 @@ class FleetRace < ActiveRecord::Base
     end
   }
 
-  after_destroy lambda { |record| record.course.destroy }
+  # after_destroy lambda { |record| record.course.destroy }
 
 end

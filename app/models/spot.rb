@@ -23,7 +23,7 @@ class Spot < ActiveRecord::Base
 
   validates_presence_of :course
   validates_uniqueness_of :position, :scope=>:course_id, :allow_nil=>true
-
+  
   def initialize(attrs={}, &block)
     super
   end

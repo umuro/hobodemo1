@@ -39,8 +39,7 @@ class FleetRaceTest < ActiveSupport::TestCase
     setup do
       @race = Factory(:race)
       @course_area = Factory(:course_area, :event=>@race.event)
-      @course = UseCaseSamples.build_course :organization=>@race.organization
-
+      @course = UseCaseSamples.build_course
       @fleet_race = Factory(:fleet_race, :course=>@course,
                             :course_area=>@course_area, 
                             :race=>@race, :color=>'Yellow', :status=>'Open',
