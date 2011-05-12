@@ -51,6 +51,10 @@ class Event < ActiveRecord::Base
     handle_rsx_mobile_service
   end
 
+  def available_enrollments
+    return (enrollments - fleet_races.*.enrollments.flatten)
+  end
+
 #   has_many :news_items, :as => :news
 
 

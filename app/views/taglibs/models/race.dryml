@@ -1,0 +1,59 @@
+<!-- ====== Race ====== -->
+
+<extend tag="show-page" for="Race">
+  <old-show-page merge>
+    <collection-section:>
+      <h3 param="collection-heading">
+        <ht key="races.collection.heading.other">Fleet Races</ht>
+      </h3>
+
+      <div id="fleet-management">
+        <collection:fleet_races style="width: 50%; float: left; padding-right: 5px;">
+          <item: class="fleet" />
+          <default:>
+            <view />
+            <ul class="collection enrollments" id="fleet_<%=h this.id.to_s -%>">
+              <set fleet="&this" />
+              <repeat with="&this.fleet_race_memberships">
+              <li class="item fleet_<%=h fleet.id.to_s -%> <%=h (can_edit?) ? 'editable' : '' -%>" id="frm_<%=h this.id.to_s -%>">
+                <div class="card enrollment" id="enrollment_<%=h this.enrollment.id.to_s -%>"><view with="&this.enrollment"/></div>
+              </li>
+              </repeat>
+              <li class="no-content-msg" style="display: <%=h (this.boats.length > 0)? 'none':'block'; -%>;">
+                <div style="padding-left: 2px;">No boats to display</div>
+              </li>
+            </ul>
+          </default:>
+        </collection:fleet_races>
+
+        <div style="float: right; width: 45%; " if="&can_edit?">
+          <h3>Available boats</h3>
+          <ul class="collection enrollments" id="available" >
+            <repeat with="&this.event.available_enrollments">
+            <li class="item available <%=h (can_edit?) ? 'editable' : '' -%>" id="enrollment_<%=h this.id.to_s -%>_null">
+              <div class="card enrollment" id="enrollment_<%=h this.id.to_s -%>"><view /></div>
+            </li>
+            </repeat>
+            <li class="no-content-msg" style="display: <%=h (this.event.available_enrollments.length > 0)? 'none':'block'; -%>;">
+              <div style="padding-left: 2px;">No boats to display</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="clear: both;">&nbsp;</div>
+      <a:fleet_races action="new" if="&can_create?(@race.fleet_races)" param="new-link">
+        <ht key="fleet_races.actions.new">New Fleet Race</ht>
+      </a:fleet_races>
+    </collection-section:>
+
+    <custom-scripts:>
+      <javascript name="fleet_management"/>
+      <script type="text/javascript">
+        <% if can_create? %>
+        Event.observe(window, 'load', FleetManagementHandler.createDnD);
+        <% end %>
+      </script>
+    </custom-scripts:>
+  </old-show-page>
+</extend>

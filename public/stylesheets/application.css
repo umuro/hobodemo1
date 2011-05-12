@@ -190,6 +190,21 @@ h1, h2, h3 {
   background-color: white;
   padding: 10px; }
 
+#fleet-management .enrollment {
+  padding: 0 2px;
+  margin: 3px 0; }
+#fleet-management .enrollments {
+  border: 1px dotted #aaaaaa;
+  padding: 7px 0; }
+  #fleet-management .enrollments .item {
+    cursor: default; }
+  #fleet-management .enrollments .editable {
+    cursor: move; }
+#fleet-management .fleet {
+  margin-top: 10px; }
+#fleet-management .highlight {
+  background-color: #ff7777; }
+
 .header .h4.heading {
   font-size: 60%; }
 
