@@ -305,7 +305,7 @@ class FleetRacesControllerTest < ActionController::TestCase
                             :course_area_id => @course_area.id,
                             :scheduled_time => time,
                             :color => 'Green', 
-                            :status => 'Open', 
+                            #:status => 'Open', 
                             :race_id => @race.id}
 
       @fleet_race = UseCaseSamples.build_fleet_race :race=>@race
@@ -326,6 +326,7 @@ class FleetRacesControllerTest < ActionController::TestCase
                :fleet_race=> @fleet_race_params
           assert_response :found
         end
+        
       end #write actions
 
       context "read actions" do
@@ -373,14 +374,76 @@ class FleetRacesControllerTest < ActionController::TestCase
             assert_equal fleet_race.color, new_color
           end
 
-          should "succeed for #status" do
+          should "fail for #status before race" do
+            new_status = 'Unknown'
+            
+            Delorean.time_travel_to @fleet_race.scheduled_time - 1.days do
+              put :update, :id=>@fleet_race.id, :fleet_race=>{:status=>new_status}
+              assert_response :forbidden
+            end
+
+            fleet_race = FleetRace.find(@fleet_race.id)
+            assert_not_equal fleet_race.status, new_status
+          end
+
+          should "succeed for #status after race" do
             new_status = 'Unknown'
 
-            put :update, :id=>@fleet_race.id, :fleet_race=>{:status=>new_status}
-            assert_response :found
+            Delorean.time_travel_to @fleet_race.scheduled_time + 1.days do
+              put :update, :id=>@fleet_race.id, :fleet_race=>{:status=>new_status}
+              assert_response :found
+            end
 
             fleet_race = FleetRace.find(@fleet_race.id)
             assert_equal fleet_race.status, new_status
+          end
+          
+          should "fail for #start_time before race" do
+            new_start_time = DateTime.now.utc
+            
+            Delorean.time_travel_to @fleet_race.scheduled_time - 1.days do
+              put :update, :id=>@fleet_race.id, :fleet_race=>{:start_time=>new_start_time}
+              assert_response :forbidden
+            end
+
+            fleet_race = FleetRace.find(@fleet_race.id)
+            assert_nil fleet_race.start_time
+          end
+
+          should "succeed for #start_time after race" do
+            new_start_time = DateTime.now.utc
+            
+            Delorean.time_travel_to @fleet_race.scheduled_time + 1.days do
+              put :update, :id=>@fleet_race.id, :fleet_race=>{:start_time=>new_start_time}
+              assert_response :found
+            end
+
+            fleet_race = FleetRace.find(@fleet_race.id)
+            assert_equal fleet_race.start_time.utc.to_i, new_start_time.utc.to_i
+          end
+          
+          should "fail for #end_time before race" do
+            new_end_time = DateTime.now.utc
+            
+            Delorean.time_travel_to @fleet_race.scheduled_time - 1.days do
+              put :update, :id=>@fleet_race.id, :fleet_race=>{:end_time=>new_end_time}
+              assert_response :forbidden
+            end
+
+            fleet_race = FleetRace.find(@fleet_race.id)
+            assert_nil fleet_race.end_time
+          end
+
+          should "succeed for #end_time after race" do
+            new_end_time = DateTime.now.utc
+            
+            Delorean.time_travel_to @fleet_race.scheduled_time + 1.days do
+              put :update, :id=>@fleet_race.id, :fleet_race=>{:end_time=>new_end_time}
+              assert_response :found
+            end
+
+            fleet_race = FleetRace.find(@fleet_race.id)
+            assert_equal fleet_race.end_time.utc.to_i, new_end_time.utc.to_i
           end
 
           should "succeed for #scheduled_time" do

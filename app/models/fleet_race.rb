@@ -64,13 +64,16 @@ class FleetRace < ActiveRecord::Base
 
   
   def create_permitted?
-    return false if any_changed? :start_time, :end_time
-    return acting_user.is_owner_of? self
+    return true if acting_user.administrator?
+    return false if any_changed? :start_time, :end_time, :status
+    acting_user.is_owner_of? self
   end
 
   def update_permitted?
-    return false if any_changed? :start_time, :end_time
-    return acting_user.is_owner_of? self
+    return true if acting_user.administrator?
+    before_race = scheduled_time.nil? || scheduled_time.utc > DateTime.now.utc
+    return false if before_race && (any_changed? :start_time, :end_time, :status)
+    acting_user.is_owner_of? self
   end
 
   def destroy_permitted?
