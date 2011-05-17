@@ -34,3 +34,10 @@
   <%= "context-debug: #{this.class}" %>
 </def>
 
+<!--
+The select-one tag has as one of its attributes 'limit', which by
+defaults the number of records to 100 (see /taglibs/rapid_forms.dryml)
+-->
+<extend tag="select-one">
+  <old-select-one limit="400" merge/>
+</extend>

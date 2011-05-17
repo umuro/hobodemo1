@@ -1,13 +1,3 @@
-<extend tag="form" for="UserProfile">
-  <old-form merge>
-    <field-list:>
-      <country-view:>
-      	 <select-one limit="500"/>
-      </country-view:>
-    </field-list:>
-  </old-form>
-</extend>
-
 <extend tag="show-page" for="UserProfile">
   <old-show-page merge>
     <heading:>Account Details</heading:>
