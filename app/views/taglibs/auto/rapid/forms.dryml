@@ -463,16 +463,6 @@
   </form>
 </def>
 
-<def tag="signup-form" polymorphic/>
-<def tag="signup-form" for="User">
-  <form lifecycle="signup" merge param="default">
-    <error-messages param/>
-    <field-list fields="email_address" param/>
-    <div param="actions">
-      <submit label="#{ht 'users.actions.signup', :default=>['Signup']}" param/><or-cancel param="cancel"/>
-    </div>
-  </form>
-</def>
 <def tag="invite-form" polymorphic/>
 <def tag="invite-form" for="User">
   <form lifecycle="invite" merge param="default">
@@ -480,6 +470,16 @@
     <field-list fields="email_address" param/>
     <div param="actions">
       <submit label="#{ht 'users.actions.invite', :default=>['Invite']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="signup-form" polymorphic/>
+<def tag="signup-form" for="User">
+  <form lifecycle="signup" merge param="default">
+    <error-messages param/>
+    <field-list fields="email_address" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.signup', :default=>['Signup']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
