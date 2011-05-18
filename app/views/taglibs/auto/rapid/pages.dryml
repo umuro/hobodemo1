@@ -2548,6 +2548,11 @@
               <ht key="hobo.actions.more">more</ht>
             </more:>
           </preview-with-more:calendar_entries.recent>
+          <preview-with-more:course_areas.recent param="course_areas-preview">
+            <more:>
+              <ht key="hobo.actions.more">more</ht>
+            </more:>
+          </preview-with-more:course_areas.recent>
         </aside>
       </section-group>
     </content:>
