@@ -299,6 +299,18 @@
 
 
 
+<def tag="form" for="FleetRaceMembership">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="enrollment, fleet_race" param/>
+    <div param="actions">
+      <submit label="#{ht 'fleet_race_memberships.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
 <def tag="form" for="FleetRace">
   <form merge param="default">
     <error-messages param/>

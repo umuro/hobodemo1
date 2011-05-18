@@ -2899,6 +2899,129 @@
 
 
 
+<!-- ====== FleetRaceMembership Pages ====== -->
+
+<def tag="index-page" for="FleetRaceMembership">
+  <page merge title="#{ht 'fleet_race_memberships.index.title', :default=>['Fleet Race Memberships'] }">
+    <body: class="index-page fleet-race-membership" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="fleet_race_memberships.index.heading">
+            Fleet Race Memberships
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="fleet_race_memberships.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+        <a action="new" to="&model" param="new-link">
+          <ht key="fleet_race_memberships.actions.new">New Fleet Race Membership</ht>
+        </a>
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="FleetRaceMembership">
+  <page merge title="#{ht 'fleet_race_memberships.new.title', :default=>[' New Fleet Race Membership'] }">
+    <body: class="new-page fleet-race-membership" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="fleet_race_memberships.new.heading">
+            New Fleet Race Membership
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'fleet_race_memberships.actions.create', :default=>['Create Fleet Race Membership']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="FleetRaceMembership">
+  <page merge title="#{ht 'fleet_race_memberships.show.title', :default=>['Fleet Race Membership'] }">
+
+    <body: class="show-page fleet-race-membership" param/>
+
+    <content: param>
+          <header param="content-header">
+            <h2 param="heading">
+              <ht key="fleet_race_memberships.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="" param/>
+
+            <a action="edit" if="&can_edit?" param="edit-link">
+              <ht key="fleet_race_memberships.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+                Edit Fleet Race Membership
+              </ht>
+            </a>
+          </header>
+
+          <section param="content-body">
+            <field-list fields="enrollment, fleet_race" param/>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="FleetRaceMembership">
+  <page merge title="#{ht 'fleet_race_memberships.edit.title', :default=>['Edit Fleet Race Membership'] }">
+
+    <body: class="edit-page fleet-race-membership" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="fleet_race_memberships.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'fleet_race_memberships.actions.delete', :default=>['Remove This Fleet Race Membership']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+
+
+
+
+
+
+
 <!-- ====== FleetRace Pages ====== -->
 
 <def tag="index-page" for="FleetRace">
@@ -3040,47 +3163,6 @@
   </page>
 </def>
 
-<def tag="index-for-course-area-page" polymorphic/>
-<def tag="index-for-course-area-page" for="FleetRace">
-  <page merge title="#{ht 'fleet_races.index_for_owner.title', :default=>['Fleet Races for']} #{name :with => @course_area, :no_wrapper => true}">    
-    <body: class="index-for-owner-page course-area fleet-race" param/>
-    <content: param>
-      <header param="content-header">
-        <div param="back-to">
-          <ht key="hobo.actions.back">Back to</ht> <a with="&@course_area"/>
-        </div>
-        <h2 param="heading">
-          <ht key="fleet_races.index_for_owner.heading.other">
-            Fleet Races
-          </ht>
-        </h2>
-        <h3 param="subheading">
-          <ht key="fleet_races.index_for_owner.subheading">
-            For:
-          </ht>
-          <a with="&@course_area"/>
-        </h3>
-        <p param="count" if>
-          <ht key="fleet_races.collection.count" count="&this.size">
-            There <count prefix="are"/>
-          </ht>
-        </p>
-      </header>
-
-      <section param="content-body">
-
-        <page-nav param="top-page-nav"/>
-
-        <collection param/>
-
-        <page-nav param="bottom-page-nav"/>
-      </section>
-    </content:>
-  </page>
-</def>
-
-
-
 <def tag="index-for-race-page" polymorphic/>
 <def tag="index-for-race-page" for="FleetRace">
   <page merge title="#{ht 'fleet_races.index_for_owner.title', :default=>['Fleet Races for']} #{name :with => @race, :no_wrapper => true}">    
@@ -3154,6 +3236,47 @@
     </content:>
   </page>
 </def>
+
+<def tag="index-for-course-area-page" polymorphic/>
+<def tag="index-for-course-area-page" for="FleetRace">
+  <page merge title="#{ht 'fleet_races.index_for_owner.title', :default=>['Fleet Races for']} #{name :with => @course_area, :no_wrapper => true}">    
+    <body: class="index-for-owner-page course-area fleet-race" param/>
+    <content: param>
+      <header param="content-header">
+        <div param="back-to">
+          <ht key="hobo.actions.back">Back to</ht> <a with="&@course_area"/>
+        </div>
+        <h2 param="heading">
+          <ht key="fleet_races.index_for_owner.heading.other">
+            Fleet Races
+          </ht>
+        </h2>
+        <h3 param="subheading">
+          <ht key="fleet_races.index_for_owner.subheading">
+            For:
+          </ht>
+          <a with="&@course_area"/>
+        </h3>
+        <p param="count" if>
+          <ht key="fleet_races.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
 
 
 

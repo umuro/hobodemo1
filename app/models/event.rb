@@ -71,7 +71,7 @@ class Event < ActiveRecord::Base
   protected :store_defaults
   
   def registration_only
-      self[:registration_only] || EVENT_CONFIG[:registration_only]
+      self[:registration_only].nil? && EVENT_CONFIG[:registration_only] or !!self[:registration_only]
   end
 
   def local_start_time
