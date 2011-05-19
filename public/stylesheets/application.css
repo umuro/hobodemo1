@@ -328,3 +328,6 @@ a:hover {
 
 .content-body .flash {
   display: none; }
+
+.field-list .date-input, .field-list .date-input[type="text"] {
+  width: 200px; }

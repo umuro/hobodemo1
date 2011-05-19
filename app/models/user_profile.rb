@@ -10,9 +10,7 @@ class UserProfile < ActiveRecord::Base
     last_name    :string, :required
     gender       UserProfile::Gender, :required
     if_person_id :string # if = International Federation
-    birthdate    ExtendedDate,
-                 :start_year => (lambda { |date| DateTime.now.year - 120 }),
-                 :end_year => (lambda { |date| DateTime.now.year })
+    birthdate    ExtendedDate
     twitter      UrlHyperlink
     facebook     UrlHyperlink
     homepage     UrlHyperlink

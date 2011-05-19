@@ -5,19 +5,26 @@ class ExtendedDate < Date
   # It is necessary to override new, as the behavior of Hobo likes to give it the base object. This will conflict
   # with the original civil (and aliased new) method.
   def self.new d
-    self.civil d.year, d.month, d.day, d.sg
+    if d.is_a? Date
+      self.civil d.year, d.month, d.day, d.sg
+    else
+      return nil if d.empty? || d.nil?
+      begin
+        d, _, ex = d.partition('/')
+        m, _, y = ex.partition('/')
+        self.civil y.to_i, m.to_i, d.to_i
+      rescue
+        self.civil
+      end
+    end
   end
   
-  # The meta info is used to build meta information in memory (we can't use files or anything if we are in the cloud)
-  class << self
-    attr_reader :meta_info
-  end
-  
-  # The declared method is called if available and will initialize the meta information used by the renderer
-  def self.declared(model, name, options)
-    model_name = "#{model.name.underscore}[#{name}]"
-    @meta_info = {} unless @meta_info
-    @meta_info[model_name] = {:start_year => options[:start_year], :end_year => options[:end_year]}
+  def validate
+    if self == Date.civil
+      "an invalid date has been entered"
+    else
+      nil
+    end
   end
   
   # This is necessary for validation. There is nothing to be really validated though, as the date class will take care
