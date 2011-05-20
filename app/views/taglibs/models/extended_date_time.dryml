@@ -1,0 +1,153 @@
+<def tag="input" for="ActiveSupport::TimeWithZone">
+  <% # the value created by this needs to be manually inserted due to the date format of the date picker
+     #
+     
+     formatted_date = ""
+     hour = "12"
+     min = "00"
+     
+     if this.is_a? ActiveSupport::TimeWithZone
+      formatted_date, _, ex = this.to_s.partition " "
+      time,_, ex = ex.partition " "
+      hour, _, ex = time.partition ":"
+      min, _, ex = ex.partition ":"
+    end
+    
+    min = ((min.to_i / 5) * 5).to_s
+    
+    hour = "0#{hour}" if hour.size == 1
+    min = "0#{min}" if min.size == 1
+    
+    formatted = if formatted_date.size > 0
+                  "#{formatted_date} #{hour}:#{min}:00"
+                else
+                  ""
+                end
+    
+    ui_formatted_date = if formatted_date.size > 0
+                          year, _, ex = formatted_date.partition '-'
+                          month, _, day = ex.partition '-'
+                          month = "0{month}" if month.to_s.size == 1
+                          day = "0{day}" if day.to_s.size == 1
+                          "#{day}/#{month}/#{year}"
+                        else
+                          ""
+                        end
+                        
+
+  -%>
+  <%= hidden_field_tag param_name_for_this, formatted -%>
+  <%= text_field_tag '', ui_formatted_date, :class => "date-input",
+                     :id => sanitize_to_id(param_name_for_this + "_date")  -%>
+  <%= select_tag '',
+                 options_for_select(((0..23).to_a.collect {|v| v = v.to_s; v = "0#{v}" if v.size == 1; v}), hour),
+                 :id => sanitize_to_id(param_name_for_this + "_hour"),
+                 :disabled => formatted_date.size == 0 -%>
+  <%= select_tag '',
+                 options_for_select(((0..11).to_a.collect {|v| v = (v*5).to_s; v = "0#{v}" if v.size == 1; v}), min),
+                 :id => sanitize_to_id(param_name_for_this + "_min"),
+                 :disabled => formatted_date.size == 0  -%>
+  <script type="text/javascript">
+    datePickerController.createDatePicker({
+      formElements: {
+        "<%=sanitize_to_id(param_name_for_this + "_date")-%>": "d-sl-m-sl-Y"
+      },
+      callbackFunctions: {
+        dateset: [<%=sanitize_to_id(param_name_for_this + "_execute_update_picker")-%>]
+      }
+    });
+    
+    function <%=sanitize_to_id(param_name_for_this + "_hour") -%> () {
+      var hour = $("<%=sanitize_to_id(param_name_for_this + "_hour")-%>").getValue();
+      if(hour.length == 1) hour = "0" + hour;
+      return hour;
+    }
+    
+    function <%=sanitize_to_id(param_name_for_this + "_min") -%> () {
+      var min = $("<%=sanitize_to_id(param_name_for_this + "_min")-%>").getValue();
+      if(min.length == 1) min = "0" + min;
+      return min;
+    }
+
+    function <%=sanitize_to_id(param_name_for_this + "_clear") -%>() {
+      $("<%=sanitize_to_id(param_name_for_this)-%>").setValue("");
+      $("<%=sanitize_to_id(param_name_for_this + "_hour")-%>").disable();
+      $("<%=sanitize_to_id(param_name_for_this + "_min")-%>").disable();
+    }
+    
+    function <%=sanitize_to_id(param_name_for_this + "_enable") -%>() {
+      $("<%=sanitize_to_id(param_name_for_this + "_hour")-%>").enable();
+      $("<%=sanitize_to_id(param_name_for_this + "_min")-%>").enable();
+    }
+
+    function <%=sanitize_to_id(param_name_for_this + "_execute_update_picker") -%>(m) {
+      if(m.dd == null || m.mm == null || m.yyyy == null) return;
+      dd = m.dd.toString(); if(dd.length == 1) dd = "0" + dd;
+      mm = m.mm.toString(); if(mm.length == 1) mm = "0" + mm;
+      var yyyy = m.yyyy.toString(); if(yyyy.length == 1) yyyy = "000" + yyyy;
+                                    else if(yyyy.length == 2) yyyy = "00" + yyyy;
+                                    else if(yyyy.length == 3) yyyy = "0" + yyyy;
+      $("<%=sanitize_to_id(param_name_for_this)-%>").setValue(
+        yyyy + "-" + mm + "-" + dd + " " +
+        <%=sanitize_to_id(param_name_for_this + "_hour")-%>() + ":" +
+        <%=sanitize_to_id(param_name_for_this + "_min" )-%>() + ":" + "00");
+      <%=sanitize_to_id(param_name_for_this + "_enable")-%>();
+    }
+    
+    function <%=sanitize_to_id(param_name_for_this + "_execute_update") -%>(e) {
+      v = $("<%=sanitize_to_id(param_name_for_this + "_date")-%>").getValue();
+      if(v == null || v == undefined || v == "") {
+        <%=sanitize_to_id(param_name_for_this + "_clear")-%>();
+      } else {
+        values = v.split("/");
+        if(values.length == 3) {
+          $("<%=sanitize_to_id(param_name_for_this)-%>").setValue(
+            values[2] + "-" + values[1] + "-" + values[0] + " " +
+              <%=sanitize_to_id(param_name_for_this + "_hour")-%>() + ":" +
+              <%=sanitize_to_id(param_name_for_this + "_min" )-%>() + ":" + "00");
+          <%=sanitize_to_id(param_name_for_this + "_enable") -%>();
+        } else {
+          <%=sanitize_to_id(param_name_for_this + "_clear")-%>();
+        }
+      }
+    }
+    
+    
+    $("<%=sanitize_to_id(param_name_for_this + "_date")-%>").observe("change",
+      <%=sanitize_to_id(param_name_for_this + "_execute_update")-%>);
+    $("<%=sanitize_to_id(param_name_for_this + "_hour")-%>").observe("change",
+      <%=sanitize_to_id(param_name_for_this + "_execute_update")-%>);
+    $("<%=sanitize_to_id(param_name_for_this + "_min")-%>").observe("change",
+       <%=sanitize_to_id(param_name_for_this + "_execute_update")-%>);
+  </script>
+</def>
+
+<def tag="view" for="ActiveSupport::TimeWithZone">
+  <%
+     formatted_date = ""
+     hour = 12
+     min = 0
+     tz = ""
+     
+     if this.is_a? ActiveSupport::TimeWithZone
+      formatted_date, _, ex = this.to_s.partition " "
+      time,_, tz = ex.partition " "
+      hour, _, ex = time.partition ":"
+      min, _, ex = ex.partition ":"
+    end
+    
+    ui_formatted_date = if formatted_date.size > 0
+                          year, _, ex = formatted_date.partition '-'
+                          month, _, day = ex.partition '-'
+                          month = "0{month}" if month.to_s.size == 1
+                          day = "0{day}" if day.to_s.size == 1
+                          hour = "0{hour}" if hour.to_s.size == 1
+                          min = "0{min}" if min.to_s.size == 1
+                          "#{day}/#{month}/#{year} #{hour}:#{min} #{tz}"
+                        else
+                          ""
+                        end
+  -%>
+  
+  <%= ui_formatted_date -%>
+</def>
