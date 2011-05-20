@@ -13,6 +13,8 @@ db/schema.rb
 test/rails_root/log/*.log
 doc
 coverage
+coverage.data
+hudson
 .svn/
 .loadpath
 pkg

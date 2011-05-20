@@ -17,6 +17,9 @@ gem "thor"
 gem "htmlentities"
 
 gem "sqlite3", :groups => [:test, :development]
+gem "rcov", :groups => [:test, :development], :require => nil
+gem "ci_reporter", :groups => [:test, :development], :require => nil
+
 
 group :test do
   gem "factory_girl"
