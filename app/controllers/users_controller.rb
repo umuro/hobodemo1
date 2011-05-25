@@ -10,10 +10,13 @@ class UsersController < ApplicationController
 #   caches_action :show, :edit,
 #       :cache_path=>:etag_cache_path.to_proc
 
+  smart_form_setup
+
   def login
-    hobo_login do
-      redirect_to current_user unless request.post? and current_user.is_a? ::Guest
-    end
+    hobo_login
+#    hobo_login do
+#      redirect_to current_user unless request.post? and current_user.is_a? ::Guest
+#    end
     flash[:notice] = nil unless request.post? and current_user.is_a? ::Guest
   end
   
