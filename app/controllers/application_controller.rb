@@ -9,4 +9,15 @@ class ApplicationController < ActionController::Base
   # filter_parameter_logging :password if Rails.env.production?
   filter_parameter_logging :password if Rails.env.production?
 
+  # This is done for the verification of iframe widgets versus normal widgets
+  before_filter :iframe_domain
+  
+  attr_reader :iframe_mode
+  
+  def iframe_domain
+    @iframe_mode = false
+    host = request.env['HTTP_HOST'] ? request.env['HTTP_HOST'] : 'localhost'
+    @iframe_mode = true if (host.partition('.').first == 'widgets') && (!request.xhr?)
+    params[:widget] = 'framed' if @iframe_mode
+  end
 end

@@ -36,7 +36,55 @@ page
   </do>
 </def>
 
-<extend tag="page">
+<def tag="page" attrs="title, full-title">
+  <set divisioned="&params[:widget] == 'divisioned' || request.xhr?"/>
+  <set framed="&params[:widget] == 'framed' && !request.xhr?"/>
+  <% full_title ||= "#{title} : #{app_name}" %>
+  <html merge-attrs unless="&divisioned">
+    <head param>
+      <title param><%= strip_tags full_title %></title>
+      <do param="stylesheets">
+        <!-- note that this is probably overridden in your app/views/taglibs/themes/xxx/xxx.dryml --> 
+        <stylesheet name="reset, hobo-rapid"/>
+        <theme-stylesheet />
+        <stylesheet name="application" param="app-stylesheet"/>
+      </do>
+
+      <do param="scripts">
+        <javascript param name="prototype, effects, dragdrop, controls, lowpro, hobo-rapid"/>
+        <if-ie version="lt IE 7" param="fix-ie6">
+          <javascript name="IE7"/>
+          <javascript name="ie7-recalc"/>
+        </if-ie>
+        <do param="custom-scripts"/>
+        <javascript param="application-javascript" name="application"/>
+      </do>
+    </head>
+
+    <body param>
+      <set-scoped flash-rendered="&false">
+        <ajax-progress param/>
+        <header class="page-header" param unless="&framed">
+          <account-nav if="&login_url(Hobo::User.default_user_model)" param/>
+          <h1 param="app-name"><a href="#{base_url}/"><app-name/></a></h1>
+          <live-search param if="&defined_route? :site_search"/>
+          <main-nav current="&title" param/>
+        </header>
+        <section with-flash-messages param="content"/>
+        <footer class="page-footer" param/>
+        <page-scripts param/>
+      </set-scoped>
+    </body>
+  </html>
+  
+  <div if="&divisioned">
+    <set-scoped flash-rendered="&false">
+      <section with-flash-messages param="content"/>
+    </set-scoped>
+  </div>
+</def>
+
+<extend tag="page" attrs="title, full-title">
   <old-page merge>
     <prepend-head:>
       <meta-tags description="regatta wind surf sail world championship " param/>
