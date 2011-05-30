@@ -3,7 +3,7 @@ class TemplateCourse < Course
   #hobo_model -- Crashes the STI with stack problems (nesting create method aliasing etc.)
 
 
-  belongs_to :organization, :null => false
+  belongs_to :organization
   validates_presence_of :organization
   has_many :spots, :dependent=>:destroy, :foreign_key => 'course_id'
     
