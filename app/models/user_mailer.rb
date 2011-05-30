@@ -90,18 +90,18 @@ class UserMailer < ActionMailer::Base
     @sent_on    = Time.now
   end
 
-  def event_enrollment_rejected(enrollment)
+  def event_abstract_registration_rejected(ar)
     host = Hobo::Controller.request_host
     app_name = Hobo::Controller.app_name || host
 
-    event = enrollment.event
+    event = ar.event
     event_name = event.name
     event_place = event.place
     event_start = event.start_time
-    enroller = enrollment.owner.email_address
-    motivation = enrollment.admin_comment
+    enroller = ar.owner.email_address
+    motivation = ar.admin_comment
 
-    @subject    = "#{app_name} -- #{enrollment.event.name} enrollment rejected"
+    @subject    = "#{app_name} -- #{ar.event.name} #{ar.class.name.titleize.downcase} rejected"
     @from       = "no-reply@#{host}"
     @recipients = enroller
     @body       = {:app_name => app_name, :event_name => event_name, :event_place=>event_place,
@@ -109,17 +109,17 @@ class UserMailer < ActionMailer::Base
     @sent_on    = Time.now
   end
 
-  def event_enrollment_accepted(enrollment)
+  def event_abstract_registration_accepted(ar)
     host = Hobo::Controller.request_host
     app_name = Hobo::Controller.app_name || host
 
-    event = enrollment.event
+    event = ar.event
     event_name = event.name
     event_place = event.place
     event_start = event.start_time
-    enroller = enrollment.owner.email_address
+    enroller = ar.owner.email_address
 
-    @subject    = "#{app_name} -- #{enrollment.event.name} enrollment accepted"
+    @subject    = "#{app_name} -- #{ar.event.name} #{ar.class.name.titleize.downcase} accepted"
     @from       = "no-reply@#{host}"
     @recipients = enroller
     @body       = {:app_name => app_name, :event_name => event_name, :event_place=>event_place,

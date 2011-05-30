@@ -186,7 +186,7 @@ class UserMailerTest < Test::Unit::TestCase
     context "enrollment rejected email" do
 
       setup do
-        UserMailer.deliver_event_enrollment_rejected(@enrollment)
+        UserMailer.deliver_event_abstract_registration_rejected(@enrollment)
       end
 
       should "be sent with the correct information" do
@@ -202,7 +202,7 @@ class UserMailerTest < Test::Unit::TestCase
     context "enrollment accepted email" do
 
       setup do
-        UserMailer.deliver_event_enrollment_accepted(@enrollment)
+        UserMailer.deliver_event_abstract_registration_accepted(@enrollment)
       end
 
       should "be sent with the correct information" do

@@ -32,14 +32,18 @@ module Hobo::Model
                           when :belongs_to
                             [:has_many, :has_one]
                           end
-
-        refl.klass.reflections.values.find do |r|
-          r.macro.in?(reverse_macros) &&
-            r.klass >= self &&
-            !r.options[:conditions] &&
-            !r.options[:scope] &&
-            r.primary_key_name == refl.primary_key_name
-        end
+	  refl.klass.reflections.values.find do |r|
+	    begin
+	    r.macro.in?(reverse_macros) &&
+	      r.klass >= self &&
+	      !r.options[:conditions] &&
+	      !r.options[:scope] &&
+	      r.primary_key_name == refl.primary_key_name
+	    rescue Exception=>e
+	      #Otherwise it's not possible to find the problem
+	      raise "#{e} reflection problem: #{r.active_record.name} #{r.macro} #{r.name}"
+	    end
+	  end
       end
     end #reverse_reflection
   end #ClassMethods

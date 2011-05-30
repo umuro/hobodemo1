@@ -18,6 +18,7 @@ class UsersController < ApplicationController
 #      redirect_to current_user unless request.post? and current_user.is_a? ::Guest
 #    end
     flash[:notice] = nil unless request.post? and current_user.is_a? ::Guest
+    flash.now[:notice] = params[:notice] if params[:notice]
   end
   
   
@@ -41,6 +42,12 @@ class UsersController < ApplicationController
       hobo_update
     else
       render :status => :forbidden, :text => ""
+    end
+  end
+
+  def do_signup
+    do_creator_action :signup do
+      redirect_to :action => :login, :notice => "An activation e-mail has been send to you, please read it before continuing"
     end
   end
   

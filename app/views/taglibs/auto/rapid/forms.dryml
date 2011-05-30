@@ -153,7 +153,7 @@
 <def tag="form" for="Enrollment">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="date_measured, measured, insured, paid, state, boat, country, crew, event, owner" param/>
+    <field-list fields="state, date_measured, measured, insured, paid, boat, country, crew, owner, registration_role" param/>
     <div param="actions">
       <submit label="#{ht 'enrollments.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
@@ -164,35 +164,13 @@
 <def tag="enroll-form" for="Enrollment">
   <form lifecycle="enroll" merge param="default">
     <error-messages param/>
-    <field-list fields="event, boat, crew, country" param/>
+    <field-list fields="registration_role, boat, crew, country" param/>
     <div param="actions">
       <submit label="#{ht 'enrollments.actions.enroll', :default=>['Enroll']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
 
-<def tag="re-enroll-form" polymorphic/>
-<def tag="re-enroll-form" for="Enrollment">
-  <form lifecycle="re_enroll" merge param="default">
-    <error-messages param/>
-    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
-    <field-list fields="" param/>
-    <div param="actions">
-      <submit label="#{ht 'enrollments.actions.re_enroll', :default=>['Re Enroll']}" param/><or-cancel param="cancel"/>
-    </div>
-  </form>
-</def>
-<def tag="re-enroll-form" polymorphic/>
-<def tag="re-enroll-form" for="Enrollment">
-  <form lifecycle="re_enroll" merge param="default">
-    <error-messages param/>
-    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
-    <field-list fields="" param/>
-    <div param="actions">
-      <submit label="#{ht 'enrollments.actions.re_enroll', :default=>['Re Enroll']}" param/><or-cancel param="cancel"/>
-    </div>
-  </form>
-</def>
 <def tag="retract-form" polymorphic/>
 <def tag="retract-form" for="Enrollment">
   <form lifecycle="retract" merge param="default">
@@ -223,6 +201,28 @@
     <field-list fields="admin_comment" param/>
     <div param="actions">
       <submit label="#{ht 'enrollments.actions.reject', :default=>['Reject']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="re-enroll-form" polymorphic/>
+<def tag="re-enroll-form" for="Enrollment">
+  <form lifecycle="re_enroll" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollments.actions.re_enroll', :default=>['Re Enroll']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="re-enroll-form" polymorphic/>
+<def tag="re-enroll-form" for="Enrollment">
+  <form lifecycle="re_enroll" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollments.actions.re_enroll', :default=>['Re Enroll']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
@@ -370,6 +370,95 @@
 </def>
 
 
+
+<def tag="form" for="RegistrationRole">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, operation, external_markdown, event" param/>
+    <div param="actions">
+      <submit label="#{ht 'registration_roles.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Registration">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="state, owner, registration_role" param/>
+    <div param="actions">
+      <submit label="#{ht 'registrations.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="register-form" polymorphic/>
+<def tag="register-form" for="Registration">
+  <form lifecycle="register" merge param="default">
+    <error-messages param/>
+    <field-list fields="registration_role" param/>
+    <div param="actions">
+      <submit label="#{ht 'registrations.actions.register', :default=>['Register']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="retract-form" polymorphic/>
+<def tag="retract-form" for="Registration">
+  <form lifecycle="retract" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'registrations.actions.retract', :default=>['Retract']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="accept-form" polymorphic/>
+<def tag="accept-form" for="Registration">
+  <form lifecycle="accept" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'registrations.actions.accept', :default=>['Accept']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="reject-form" polymorphic/>
+<def tag="reject-form" for="Registration">
+  <form lifecycle="reject" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="admin_comment" param/>
+    <div param="actions">
+      <submit label="#{ht 'registrations.actions.reject', :default=>['Reject']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="re-register-form" polymorphic/>
+<def tag="re-register-form" for="Registration">
+  <form lifecycle="re_register" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'registrations.actions.re_register', :default=>['Re Register']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="re-register-form" polymorphic/>
+<def tag="re-register-form" for="Registration">
+  <form lifecycle="re_register" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'registrations.actions.re_register', :default=>['Re Register']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
 
 <def tag="form" for="RsxMobileService">
   <form merge param="default">

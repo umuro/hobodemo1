@@ -36,9 +36,10 @@ class EventTest < ActiveSupport::TestCase
   context "Advanced Fleet Management" do
     setup do
       @race = Factory(:race)
-      @enrollment_0 = Factory(:enrollment, :event=>@race.event)
-      @enrollment_1 = Factory(:enrollment, :event=>@race.event)
-      @enrollment_2 = Factory(:enrollment, :event=>@race.event)
+      rr = Factory :registration_role, :event=>@race.event
+      @enrollment_0 = Factory :enrollment, :registration_role => rr
+      @enrollment_1 = Factory :enrollment, :registration_role => rr
+      @enrollment_2 = Factory :enrollment, :registration_role => rr
       @fleet_race_0 = Factory(:fleet_race, :race=>@race)
       Factory(:fleet_race_membership, :fleet_race=>@fleet_race_0, :enrollment=>@enrollment_0)
       @fleet_race_1 = Factory(:fleet_race, :race=>@race)

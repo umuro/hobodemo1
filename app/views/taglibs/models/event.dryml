@@ -44,37 +44,49 @@ page[title]
 
 <extend tag="show-page" for="Event">
   <old-show-page merge>
-    
-    <before-heading:>
-      <enroll-button event="&this"/>
-    </before-heading:>
-    
-    <collection: replace>
-      <table-plus:enrollments fields="boat, crew, country, paid, insured, measured, date_measured, gender, state">
-        <search-form: replace/>
-        <controls:>
-          <transition-buttons/>
-          <a action="edit" if="&can_edit?" param="edit-link">
-            <ht key="enrollments.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
-              Edit Enrollment</ht></a></controls:>
-        <empty-message:>You have not enrolled to any event</empty-message:>
 
-      </table-plus></collection:>
+  <before-heading:>
+    <register-button event="&this"/>
+  </before-heading:>
 
-       <races-preview: replace>
-         <races-preview restore unless="&this.registration_only"/>
-       </races-preview:>
-       <calendar-entries-preview: replace>
-         <preview-with-more with="&this.calendar_entries.limit(6)" unless="&this.registration_only">
-           <more:>
-             <ht key="hobo.actions.more">more</ht>
-           </more:>
-         </preview-with-more>
-       </calendar-entries-preview:>
+  <collection: replace>
+    <table-plus:enrollments fields="boat, crew, country, paid, insured, measured, date_measured, gender, state">
+      <search-form: replace/>
+      <controls:>
+	<transition-buttons/>
+	<a action="edit" if="&can_edit?" param="edit-link">
+	  <ht key="enrollments.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+	    Edit Enrollment</ht></a></controls:>
+      <empty-message:>You have not enrolled to any event</empty-message:>
 
-    <after-collection:>
-      <enroll-button event="&this"/>
-    </after-collection:>
+    </table-plus>
+
+
+    <table-plus:registrations fields="name, owner, state">
+      <search-form: replace/>
+      <controls:>
+	<transition-buttons/>
+	<a action="edit" if="&can_edit?" param="edit-link">
+	  <ht key="registrations.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+	    Edit Enrollment
+          </ht>
+        </a>
+      </controls:>
+    </table-plus>
+
+  </collection:>
+
+  <races-preview: replace>
+    <races-preview restore unless="&this.registration_only"/>
+  </races-preview:>
+
+  <calendar-entries-preview: replace>
+    <preview-with-more with="&this.calendar_entries.limit(6)" unless="&this.registration_only">
+      <more:>
+	<ht key="hobo.actions.more">more</ht>
+      </more:>
+    </preview-with-more>
+  </calendar-entries-preview:>
 
   </old-show-page>
 </extend>

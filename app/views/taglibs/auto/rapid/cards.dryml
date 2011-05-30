@@ -228,6 +228,30 @@
   </card>
 </def>
 
+<def tag="card" for="Registration">
+  <card class="registration" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+    <body: param>
+      <a:owner param="creator-link"/>
+    </body:>
+  </card>
+</def>
+
+<def tag="card" for="RegistrationRole">
+  <card class="registration-role" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+    <body: param>
+      <ht key="registrations.collection.count" count="&this.registrations.size">
+         <count:registrations param/>
+      </ht>
+    </body:>
+  </card>
+</def>
+
 <def tag="card" for="RsxMobileService">
   <card class="rsx-mobile-service" param="default" merge>
     <header: param>

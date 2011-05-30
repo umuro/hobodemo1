@@ -294,7 +294,7 @@ a:hover {
 .card.crew .body {
   display: none; }
 
-.content-header .enroll-button, .content-body .create-profile {
+.content-header .register-button, .content-body .create-profile {
   clear: both;
   float: right;
   font-size: 200%;
@@ -302,21 +302,21 @@ a:hover {
   z-index: 10;
   width: 240px;
   height: 25px; }
-  .content-header .enroll-button a, .content-body .create-profile a {
+  .content-header .register-button a, .content-body .create-profile a {
     color: white;
     padding: 15px;
     display: inline-block;
     text-align: center;
     width: 100%;
     height: 100%; }
-    .content-header .enroll-button a:hover, .content-body .create-profile a:hover {
+    .content-header .register-button a:hover, .content-body .create-profile a:hover {
       text-decoration: none; }
 
-.content-header .enroll-button {
+.content-header .register-button {
   margin: 25px 0 0; }
-  .content-header .enroll-button a {
+  .content-header .register-button a {
     background-color: #ab1529; }
-    .content-header .enroll-button a:hover {
+    .content-header .register-button a:hover {
       background-color: #ab5964; }
 
 .content-body .create-profile {

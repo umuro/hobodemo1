@@ -30,7 +30,10 @@ class Event < ActiveRecord::Base
   validates_uniqueness_of :name, :scope=>:event_folder_id  
   delegate :organization, :to=>:event_folder
   
-  has_many :enrollments, 		:dependent=>:destroy
+#  has_many :enrollments, 		:dependent=>:destroy
+  has_many :registration_roles, 	:dependent=>:destroy
+  has_many :enrollments, :through=>:registration_roles
+  has_many :registrations, :through=>:registration_roles
   has_many :boats, :through=>:enrollments
   has_many :races, 			:dependent=>:destroy
   has_many :fleet_races, :through=>:races

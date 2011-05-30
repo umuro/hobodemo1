@@ -20,15 +20,20 @@ class EnrollmentsControllerTest < ActionController::TestCase
       user = Factory(:user)
       boat = Factory(:boat, :owner => user)
       crew = Factory(:crew, :owner => user)
-      event = Factory(:event)
       country = Factory(:country)
 
       @enrollment = Factory(:enrollment, :owner=>user, :boat=>boat, 
                             :crew=>crew, :country=>country)
+      
+      registration_role = @enrollment.registration_role
+
+      assert_not_nil @enrollment.organization
       assert_not_nil @enrollment.id
 
-      @enrollment_params = {:event_id => event.id, :boat_id => boat.id, 
-                            :crew_id => crew.id, :country_id => country.id}
+      @enrollment_params = {:registration_role_id => registration_role.id,
+                            :boat_id => boat.id,
+                            :crew_id => crew.id,
+                            :country_id => country.id}
     end
 
     context "CRUD actions" do
@@ -110,13 +115,13 @@ class EnrollmentsControllerTest < ActionController::TestCase
             assert_not_equal enrollment.country_id, country.id
           end
 
-          should "fail for #event" do
-            event = Factory(:event)
-            put :update, :id=>@enrollment.id, :enrollment => {:event_id=>event.id}
-            assert_response :forbidden
+          should "fail for #registration_role" do
+	    registration_role = Factory :registration_role
+	    put :update, :id=>@enrollment.id, :enrollment => {:registration_role_id=>registration_role.id}
+	    assert_response :forbidden
 
-            enrollment = Enrollment.find(@enrollment.id)
-            assert_not_equal enrollment.event_id, event.id
+	    enrollment = Enrollment.find(@enrollment.id)
+	    assert_not_equal enrollment.registration_role_id, registration_role.id
           end
 
           should "fail for #boat" do
@@ -187,7 +192,6 @@ class EnrollmentsControllerTest < ActionController::TestCase
         user = Factory(:user)
         boat = Factory(:boat, :owner => user)
         crew = Factory(:crew, :owner => user)
-        event = Factory(:event)
         country = Factory(:country)
 
         @enrollment = Factory(:enrollment, :owner=>user, :boat=>boat, 
@@ -195,8 +199,12 @@ class EnrollmentsControllerTest < ActionController::TestCase
 
         assert_not_nil @enrollment.id
 
-        @enrollment_params = {:event_id => event.id, :boat_id => boat.id, 
-                              :crew_id => crew.id, :country_id => country.id}
+	registration_role = @enrollment.registration_role
+
+        @enrollment_params = {:registration_role_id => registration_role.id,
+	                      :boat_id => boat.id,
+                              :crew_id => crew.id,
+	                      :country_id => country.id}
 
         login_as user
       end
@@ -242,13 +250,13 @@ class EnrollmentsControllerTest < ActionController::TestCase
               @enrollment.save
             end
 
-            should "succeed for #event" do
-              event = Factory(:event)
-              put :update, :id=>@enrollment.id, :enrollment => {:event_id=>event.id}
+            should "succeed for #registration_role" do
+              registration_role = Factory :registration_role
+              put :update, :id=>@enrollment.id, :enrollment => {:registration_role_id=>registration_role.id}
               assert_response :found
 
               enrollment = Enrollment.find(@enrollment.id)
-              assert_equal enrollment.event_id, event.id
+              assert_equal enrollment.registration_role_id, registration_role.id
             end
 
             should "succeed for #boat" do
@@ -287,13 +295,13 @@ class EnrollmentsControllerTest < ActionController::TestCase
               @enrollment.save
             end
 
-            should "fail for #event" do
-              event = Factory(:event)
-              put :update, :id=>@enrollment.id, :enrollment => {:event_id=>event.id}
+            should "fail for #registration_role" do
+              registration_role = Factory :registration_role
+              put :update, :id=>@enrollment.id, :enrollment => {:registration_role_id=>registration_role.id}
               assert_response :forbidden
 
               enrollment = Enrollment.find(@enrollment.id)
-              assert_not_equal enrollment.event_id, event.id
+              assert_not_equal enrollment.registration_role_id, registration_role.id
             end
 
             should "fail for #boat" do
@@ -332,13 +340,13 @@ class EnrollmentsControllerTest < ActionController::TestCase
               @enrollment.save
             end
 
-            should "succeed for #event" do
-              event = Factory(:event)
-              put :update, :id=>@enrollment.id, :enrollment => {:event_id=>event.id}
+            should "succeed for #registration_role" do
+              registration_role = Factory :registration_role
+              put :update, :id=>@enrollment.id, :enrollment => {:registration_role_id=>registration_role.id}
               assert_response :found
 
               enrollment = Enrollment.find(@enrollment.id)
-              assert_equal enrollment.event_id, event.id
+              assert_equal enrollment.registration_role_id, registration_role.id
             end
 
             should "succeed for #boat" do
@@ -367,13 +375,13 @@ class EnrollmentsControllerTest < ActionController::TestCase
               @enrollment.save
             end
 
-            should "succeed for #event" do
-              event = Factory(:event)
-              put :update, :id=>@enrollment.id, :enrollment => {:event_id=>event.id}
+            should "succeed for #registration_role" do
+              registration_role = Factory :registration_role
+              put :update, :id=>@enrollment.id, :enrollment => {:registration_role_id=>registration_role.id}
               assert_response :found
 
               enrollment = Enrollment.find(@enrollment.id)
-              assert_equal enrollment.event_id, event.id
+              assert_equal enrollment.registration_role_id, registration_role.id
             end
 
             should "succeed for #boat" do
@@ -447,11 +455,13 @@ class EnrollmentsControllerTest < ActionController::TestCase
         user = Factory(:user)
         boat = Factory(:boat, :owner => user)
         crew = Factory(:crew, :owner => user)
-        event = Factory(:event)
+	registration_role = Factory(:registration_role, :operation => RegistrationRole::OperationType::ENROLLMENT)
         country = Factory(:country)
 
-        @enrollment_params = {:event_id => event.id, :boat_id => boat.id, 
-                              :crew_id => crew.id, :country_id => country.id}
+        @enrollment_params = {:registration_role_id => registration_role.id,
+	                      :boat_id => boat.id,
+                              :crew_id => crew.id,
+	                      :country_id => country.id}
 
         login_as user
 
@@ -468,8 +478,8 @@ class EnrollmentsControllerTest < ActionController::TestCase
         assert_not_nil enrollment
         assert_not_nil enrollment.id
 
-        assert_not_nil enrollment.event
-        assert_equal enrollment.event_id, @enrollment_params[:event_id]
+        assert_not_nil enrollment.registration_role
+        assert_equal enrollment.registration_role_id, @enrollment_params[:registration_role_id]
 
         assert_not_nil enrollment.boat
         assert_equal enrollment.boat_id, @enrollment_params[:boat_id]
@@ -541,6 +551,9 @@ class EnrollmentsControllerTest < ActionController::TestCase
       crew = Factory(:crew, :owner => user)
 
       @enrollment = Factory(:enrollment, :owner=>user, :boat=>boat, :crew=>crew)
+
+      assert_not_nil @enrollment.organization
+      
       admin_role = Factory(:user)
       org = @enrollment.organization
       org.organization_admins = [admin_role]

@@ -27,8 +27,9 @@ class User < ActiveRecord::Base
   has_many :joined_crews, :through=>:joined_crew_memberships
   
   has_many :crews, :foreign_key=>"owner_id",  :dependent=>:destroy #because crew belongs_to user
-  has_many :enrollments, :foreign_key=>"owner_id", :dependent=>:destroy
-  
+  [:enrollments, :registrations].each {|v|
+    has_many v, :foreign_key=>"owner_id", :dependent=>:destroy
+  }
   has_many :crew_memberships, :through => :crews, :foreign_key=>"owner_id", :dependent => :destroy
 
   # Create a new crew
@@ -84,9 +85,9 @@ class User < ActiveRecord::Base
 
     create :signup, :new_key => true, :available_to => "Guest",
            :params => [:email_address], :become => :signed_up do
-
+      
       UserMailer.deliver_signup_activation email_address, lifecycle.key
-
+      
     end
 
     transition :activate_signup, {:signed_up => :active}, :available_to => :key_holder,

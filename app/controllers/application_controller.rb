@@ -25,8 +25,14 @@ class ApplicationController < ActionController::Base
   private
   def keep_referer
     if request.method == :get
-      session['HTTP_REFERER'] = request.env['HTTP_REFERER']
+      logger.info request.env['HTTP_REFERER']
+      begin
+	old_path = ActionController::Routing::Routes.recognize_path URI.parse(request.env['HTTP_REFERER']).path
+	session['HTTP_REFERER'] = request.env['HTTP_REFERER'] unless old_path[:controller] == 'users'
+      rescue
+      end
     end
+    true
   end
 
   def self.smart_form_setup

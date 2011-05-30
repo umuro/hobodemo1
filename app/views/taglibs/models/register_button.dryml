@@ -1,0 +1,16 @@
+<def tag="register-button" attrs="event">
+  <%
+     pass = true if event and event.end_time >= DateTime.now.utc
+     pass = true unless event
+     params = {}
+     params.merge! :id=>event.id if event-%>
+  
+  <span class="register-button" if="&pass">
+    <if test="&current_user.is_a? Guest">
+      <a href="&user_login_url" param="default">Login To Register</a>
+    </if>
+    <unless test="&current_user.is_a? Guest">
+      <a href="&event_shop_url :event=>params" param="default">Register Here</a>
+    </unless>
+  </span>
+</def>

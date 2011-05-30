@@ -49,9 +49,12 @@ class UseCaseSamples
     boat = options[:boat]
     fleet_race = options[:fleet_race]
     user = options[:user] || Factory(:user)
-
+    rr = Factory :registration_role, :event=>fleet_race.event
+    
     boat.owner = user and boat.save! unless boat.owner
-    e = Factory :enrollment, :event=>fleet_race.event, :boat=>boat, :owner=>boat.owner
+
+    e = Factory :enrollment, :registration_role=>rr, :boat=>boat, :owner=>boat.owner
+
     m = Factory :fleet_race_membership, :fleet_race=>fleet_race, :enrollment=>e
 
     e

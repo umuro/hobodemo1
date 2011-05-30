@@ -18,7 +18,7 @@
 <include src="taglibs/models/extended_date"/>
 <include src="taglibs/models/extended_date_time"/>
 
-<include src="taglibs/models/enroll_button"/>
+<include src="taglibs/models/register_button"/>
 
 <include src="taglibs/models/site"/>
 <include src="taglibs/models/user"/>

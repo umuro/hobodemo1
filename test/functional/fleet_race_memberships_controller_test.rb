@@ -7,7 +7,8 @@ class FleetRaceMembershipsControllerTest < ActionController::TestCase
 
       @race = Factory(:race, :event=>@fleet_race_membership.event)
       @fleet_race = Factory(:fleet_race, :race=>@race)
-      @enrollment = Factory(:enrollment, :event=>@race.event)
+      @registration_role = Factory(:registration_role, :event => @race.event)
+      @enrollment = Factory(:enrollment, :registration_role => @registration_role)
     }
 
     context "Someone else" do

@@ -1649,7 +1649,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="date_measured, state, boat, country, crew" param/>
+            <field-list fields="state, date_measured, boat, country, crew, registration_role" param/>
           </section>
     </content:>
 
@@ -1741,29 +1741,6 @@
   </page>
 </def>
 
-<def tag="re-enroll-page" polymorphic/>
-<def tag="re-enroll-page" for="Enrollment">
-  <page title="#{ht 'enrollments.re_enroll.title', :default=>['Re Enroll']}" merge>
-
-    <body: class="lifecycle-transition-page re-enroll-page" param/>
-
-    <content:>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="enrollments.re_enroll.heading">
-            Re Enroll
-          </ht>
-        </h2>
-      </header>
-
-      <section param="content-body">
-        <re-enroll-form param="form"/>
-      </section>
-    </content:>
-
-  </page>
-</def>
-
 <def tag="retract-page" polymorphic/>
 <def tag="retract-page" for="Enrollment">
   <page title="#{ht 'enrollments.retract.title', :default=>['Retract']}" merge>
@@ -1827,6 +1804,29 @@
 
       <section param="content-body">
         <reject-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="re-enroll-page" polymorphic/>
+<def tag="re-enroll-page" for="Enrollment">
+  <page title="#{ht 'enrollments.re_enroll.title', :default=>['Re Enroll']}" merge>
+
+    <body: class="lifecycle-transition-page re-enroll-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollments.re_enroll.heading">
+            Re Enroll
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <re-enroll-form param="form"/>
       </section>
     </content:>
 
@@ -2538,6 +2538,11 @@
         </section>
 
         <aside param>
+          <preview-with-more:registration_roles.recent param="registration_roles-preview">
+            <more:>
+              <ht key="hobo.actions.more">more</ht>
+            </more:>
+          </preview-with-more:registration_roles.recent>
           <preview-with-more:races.recent param="races-preview">
             <more:>
               <ht key="hobo.actions.more">more</ht>
@@ -3889,6 +3894,481 @@
 
 
 
+<!-- ====== RegistrationRole Pages ====== -->
+
+<def tag="index-page" for="RegistrationRole">
+  <page merge title="#{ht 'registration_roles.index.title', :default=>['Registration Roles'] }">
+    <body: class="index-page registration-role" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="registration_roles.index.heading">
+            Registration Roles
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="registration_roles.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+        <a action="new" to="&model" param="new-link">
+          <ht key="registration_roles.actions.new">New Registration Role</ht>
+        </a>
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="RegistrationRole">
+  <page merge title="#{ht 'registration_roles.new.title', :default=>[' New Registration Role'] }">
+    <body: class="new-page registration-role" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="registration_roles.new.heading">
+            New Registration Role
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'registration_roles.actions.create', :default=>['Create Registration Role']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="RegistrationRole">
+  <page merge title="#{ht 'registration_roles.show.title', :default=>['Registration Role'] }">
+
+    <body: class="show-page registration-role" param/>
+
+    <content: param>
+          <header param="content-header">
+            <a:event param="parent-link">&laquo; <ht key="registration_roles.actions.back" to="event"><name/></ht></a:event>
+            <h2 param="heading">
+              <ht key="registration_roles.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="" param/>
+
+            <a action="edit" if="&can_edit?" param="edit-link">
+              <ht key="registration_roles.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+                Edit Registration Role
+              </ht>
+            </a>
+          </header>
+
+          <section param="content-body">
+            <field-list fields="operation, external_markdown" param/>
+            <section param="collection-section">
+              <h3 param="collection-heading">
+                <ht key="registration_roles.collection.heading.other" >
+                  Registrations
+                </ht>
+              </h3>
+
+              <collection:registrations param/>
+            </section>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="RegistrationRole">
+  <page merge title="#{ht 'registration_roles.edit.title', :default=>['Edit Registration Role'] }">
+
+    <body: class="edit-page registration-role" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="registration_roles.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'registration_roles.actions.delete', :default=>['Remove This Registration Role']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="index-for-event-page" polymorphic/>
+<def tag="index-for-event-page" for="RegistrationRole">
+  <page merge title="#{ht 'registration_roles.index_for_owner.title', :default=>['Registration Roles for']} #{name :with => @event, :no_wrapper => true}">    
+    <body: class="index-for-owner-page event registration-role" param/>
+    <content: param>
+      <header param="content-header">
+        <div param="back-to">
+          <ht key="hobo.actions.back">Back to</ht> <a with="&@event"/>
+        </div>
+        <h2 param="heading">
+          <ht key="registration_roles.index_for_owner.heading.other">
+            Registration Roles
+          </ht>
+        </h2>
+        <h3 param="subheading">
+          <ht key="registration_roles.index_for_owner.subheading">
+            For:
+          </ht>
+          <a with="&@event"/>
+        </h3>
+        <p param="count" if>
+          <ht key="registration_roles.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+        <a action="new" to="&model" param="new-link">
+          <ht key="registration_roles.actions.new" >New Registration Role</ht>
+        </a>
+
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-for-event-page" polymorphic/>
+<def tag="new-for-event-page" for="RegistrationRole">
+  <page merge title="#{ht 'registration_roles.new_for_owner.title', :default=>['New Registration Role for']} #{name :with => @event}">
+    <body: class="new-for-owner-page  registration-role" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="registration_roles.new_for_owner.heading">
+            New Registration Role
+          </ht>
+        </h2>
+        <h3 param="subheading">
+          <ht key="registration_roles.new_for_owner.subheading">
+            For:
+          </ht>
+          <a with="&@event"/>
+        </h3>
+      </header>
+
+      <section param="content-body">
+        <form owner="event" method="post" param>
+          <field-list: skip="event"/>
+          <submit: label="#{ht 'registration_roles.actions.create', :default=>['Create Registration Role']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+
+
+
+<!-- ====== Registration Pages ====== -->
+
+<def tag="index-page" for="Registration">
+  <page merge title="#{ht 'registrations.index.title', :default=>['Registrations'] }">
+    <body: class="index-page registration" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="registrations.index.heading">
+            Registrations
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="registrations.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="Registration">
+  <page merge title="#{ht 'registrations.new.title', :default=>[' New Registration'] }">
+    <body: class="new-page registration" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="registrations.new.heading">
+            New Registration
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'registrations.actions.create', :default=>['Create Registration']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="Registration">
+  <page merge title="#{ht 'registrations.show.title', :default=>['Registration'] }">
+
+    <body: class="show-page registration" param/>
+
+    <content: param>
+          <header param="content-header">
+            <a:registration_role param="parent-link">&laquo; <ht key="registrations.actions.back" to="registration_role"><name/></ht></a:registration_role>
+            <h2 param="heading">
+              <ht key="registrations.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="" param/>
+
+            <a:owner param="creator-link"/>
+
+            <a action="edit" if="&can_edit?" param="edit-link">
+              <ht key="registrations.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+                Edit Registration
+              </ht>
+            </a>
+          </header>
+
+          <section param="content-body">
+            <field-list fields="state" param/>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="Registration">
+  <page merge title="#{ht 'registrations.edit.title', :default=>['Edit Registration'] }">
+
+    <body: class="edit-page registration" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="registrations.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'registrations.actions.delete', :default=>['Remove This Registration']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="index-for-owner-page" polymorphic/>
+<def tag="index-for-owner-page" for="Registration">
+  <page merge title="#{ht 'registrations.index_for_owner.title', :default=>['Registrations for']} #{name :with => @owner, :no_wrapper => true}">    
+    <body: class="index-for-owner-page owner registration" param/>
+    <content: param>
+      <header param="content-header">
+        <div param="back-to">
+          <ht key="hobo.actions.back">Back to</ht> <a with="&@owner"/>
+        </div>
+
+        <h2 param="heading">
+          <ht key="registrations.index_for_owner.heading.your">
+            <Your with="&@owner"/> Registrations
+          </ht>
+        </h2>
+        <p param="count" if>
+          <ht key="registrations.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+
+
+<def tag="register-page" polymorphic/>
+<def tag="register-page" for="Registration">
+  
+  <page title="#{ht 'registrations.register.title', :default=>['Register']}" merge>  
+
+    <body: class="lifecycle-start-page register-page" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="registrations.register.heading">
+            Register
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <register-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="retract-page" polymorphic/>
+<def tag="retract-page" for="Registration">
+  <page title="#{ht 'registrations.retract.title', :default=>['Retract']}" merge>
+
+    <body: class="lifecycle-transition-page retract-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="registrations.retract.heading">
+            Retract
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <retract-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="accept-page" polymorphic/>
+<def tag="accept-page" for="Registration">
+  <page title="#{ht 'registrations.accept.title', :default=>['Accept']}" merge>
+
+    <body: class="lifecycle-transition-page accept-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="registrations.accept.heading">
+            Accept
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <accept-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="reject-page" polymorphic/>
+<def tag="reject-page" for="Registration">
+  <page title="#{ht 'registrations.reject.title', :default=>['Reject']}" merge>
+
+    <body: class="lifecycle-transition-page reject-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="registrations.reject.heading">
+            Reject
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <reject-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="re-register-page" polymorphic/>
+<def tag="re-register-page" for="Registration">
+  <page title="#{ht 'registrations.re_register.title', :default=>['Re Register']}" merge>
+
+    <body: class="lifecycle-transition-page re-register-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="registrations.re_register.heading">
+            Re Register
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <re-register-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+
+
 <!-- ====== RsxMobileService Pages ====== -->
 
 <def tag="index-page" for="RsxMobileService">
@@ -4647,7 +5127,7 @@
       <header param="content-header">
         <h2 param="heading">
           <ht key="template_courses.new_for_owner.heading">
-            New Course
+            New Template Course
           </ht>
         </h2>
         <h3 param="subheading">

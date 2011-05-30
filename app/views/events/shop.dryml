@@ -1,0 +1,34 @@
+<!-- ====== Event ====== -->
+
+<page title="#{ht 'events.show.title', :default=>['Event'] }">
+  <content:>
+    <section-group>
+        <section class="main-content">
+          <header class="content-header">
+            <a class="parent-link">&laquo; <ht key="events.actions.back" to="event"><name/></ht></a>
+            <h2 class="heading">
+              Registration for <ht key="events.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+          </header>
+
+          <section class="content-body" with-flash-messages>
+	    <table-plus:registration_roles fields="name, external_markdown">
+	      <search-form: replace/>
+	      <controls:>
+		<do with="&Registration.new  :registration_role => this">
+		  <register-form>
+		    <cancel: replace/>
+		  </register-form>
+
+		</do>
+	      </controls:>
+	    </table-plus>
+          </section>
+        </section>
+
+      </section-group>
+    </content:>
+</page>

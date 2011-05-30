@@ -14,4 +14,9 @@ class EventsController < ApplicationController
     hobo_show
     @todays_active_fleet_races = @this.fleet_races.today_for(@this).active
   end
+
+  show_action :shop do
+    hobo_show do
+    end
+  end
 end

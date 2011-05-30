@@ -54,10 +54,6 @@ page[title]
 
   <old-show-page merge title="&this.email_address">
 
-    <before-heading:>
-      <enroll-button>Enroll to an Event</enroll-button>
-    </before-heading:>
-
     <meta-tags: param>
       <meta name="description" content="#{this.email_address}"/>
     </meta-tags>
@@ -80,11 +76,6 @@ page[title]
           <% else %>
             <user-nav-menu/>
           <% end %> </prepend-aside:>
-
-        <after-enrollments-preview:>
-          <% params = {:country_id=>current_user.country.id} if current_user.signed_up? && current_user.country %>  
-          <a href="&enrollment_enroll_url :enrollment=>params">New Enrollment</a>
-        </after-enrollments-preview:>
     
     <before-collection-section:>
           <% if this.user_profile %>
@@ -103,10 +94,6 @@ page[title]
     <collection:>
       <card with="&this.event"/>
     </collection:>
-    
-    <after-collection:>
-      <enroll-button/>
-    </after-collection:>
 
   </old-show-page>
 </extend>

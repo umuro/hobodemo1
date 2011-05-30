@@ -15,7 +15,9 @@ class Boat < ActiveRecord::Base
 #   has_many :fleet_race_memberships
 #   has_many :fleet_races, :through=>:fleet_race_memberships
   has_many :enrollments #has_one: one boat copy per partipication
-  has_many :events, :through=>:enrollments
+  
+#   has_many :events, :through=>:enrollments
+  
   #TODO define scope: missing equipment types. There is an equipment for each equipment_types
   #TODO define scope: skipper
 
@@ -25,9 +27,9 @@ class Boat < ActiveRecord::Base
   #validates_presence_of :boat_class_id
   #TODO races is scope?
 
-  def races
-    fleet_races.*.race
-  end
+#   def races
+#     fleet_races.*.race
+#   end
 
 #   def to_s
 #     "Boat[id: #{id}; name: #{name}; sail_number: #{sail_number}; user_id: #{user_id}]"

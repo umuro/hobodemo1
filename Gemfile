@@ -15,6 +15,7 @@ gem "resque", :require => 'resque/server'
 gem "redis-mutex"
 gem "thor"
 gem "htmlentities"
+gem "bluecloth"
 
 gem "sqlite3", :groups => [:test, :development]
 gem "rcov", :groups => [:test, :development], :require => nil
