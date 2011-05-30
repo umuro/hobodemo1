@@ -7,12 +7,15 @@ var FleetManagementHandler = {
   _prepareAjaxRequest: function(obj_id, method, enroll_id, fr_id, onSuccess) {
     var targetUrl = '/fleet_race_memberships/'+(obj_id?obj_id:'');
     var params = { method: 'post', parameters: {} };
+    if (typeof(formAuthToken) != "undefined") {
+      params['parameters'][formAuthToken.name] = formAuthToken.value;
+    }
     params['parameters']['_method'] = method;
     if (enroll_id) params['parameters']['fleet_race_membership[enrollment_id]'] = enroll_id;
     if (fr_id) params['parameters']['fleet_race_membership[fleet_race_id]'] = fr_id;
     if (onSuccess) params['onSuccess'] = onSuccess;
     params['onComplete'] = function(transport) { Hobo.hideSpinner(); };
-    params['onFailure'] = function(transport) { FleetManagementHandler.onFailedAjaxReq(); };
+    params['onFailure'] = function(transport) { FleetManagementHandler.onFailedAjaxReq(transport); };
     return { targetUrl: targetUrl, params: params};
   },
 
@@ -24,9 +27,13 @@ var FleetManagementHandler = {
     FleetManagementHandler.y1End = FleetManagementHandler.y1Start + FleetManagementHandler.availDroppable.element.getHeight();
   },
 
-  onFailedAjaxReq: function() {
+  onFailedAjaxReq: function(msg) {
+    if (msg.responseText) {
+      msg = msg.responseText+'. ';
+    }
+    msg += 'Page may contain invalid data. Please refresh the page to fix it!';
     $$('.content')[0].insert(
-      {'top': '<div class="flash notice">Error getting response from server, page may contain invalid data. Please refresh the page to fix it!</div>'}
+      {'top': ('<div class="flash error-messages">'+msg+'</div>')}
     );
   },
 
@@ -86,14 +93,10 @@ var FleetManagementHandler = {
 
   onDrop: function(dragged, dropped, event) {
     Position.prepare();
-    /*$$('.enrollments').each(function(elem) {
-      console.log(elem.id+': '+elem.cumulativeOffset()+' '+elem.getHeight()+' '+elem.cumulativeScrollOffset());
-    });*/
     var drag = Draggables.activeDraggable;
     drag.element.style.top = '0px';
     drag.element.style.left = '0px';
     var orig_fleet = $w(drag.element.parentNode.className)[1];
-    //console.log('|'+orig_fleet+'| - |'+dropped.id+'|');
     if ($(orig_fleet) == dropped) { // on the same droppable
       return;
     }
@@ -164,7 +167,6 @@ var FleetManagementHandler = {
         obj['y'] = droppable.element.cumulativeOffset()[1];
         obj['yEnd'] = obj['y']+droppable.element.getHeight();
         FleetManagementHandler.droppables.push(obj);
-        //console.log(droppable.element.cumulativeOffset()[1]+': '+droppable.element.id);
       } else {
         FleetManagementHandler.availDroppable = droppable;
       }
