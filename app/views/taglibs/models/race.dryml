@@ -1,5 +1,15 @@
 <!-- ====== Race ====== -->
 
+<extend tag="form" for="Race">
+  <old-form merge>
+    <field-list:>
+      <boat-class-view:>
+        <select-one options="&@this.event.boat_classes"/>
+      </boat-class-view:>
+    </field-list:>
+  </old-form>
+</extend>
+
 <extend tag="show-page" for="Race">
   <old-show-page merge>
     <collection-section:>

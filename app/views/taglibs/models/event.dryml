@@ -43,6 +43,16 @@ page[title]
   </old-card>
 </extend>
 
+<extend tag="form" for="Event">
+  <old-form merge>
+    <field-list:>
+      <boat-classes-view:>
+        <select-many options="&@this.organization.boat_classes"/>
+      </boat-classes-view:>
+    </field-list:>
+  </old-form>
+</extend>
+
 <extend tag="show-page" for="Event">
   <old-show-page merge>
 

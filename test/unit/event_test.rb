@@ -9,6 +9,7 @@ class EventTest < ActiveSupport::TestCase
       should validate_uniqueness_of(:name).scoped_to(:event_folder_id)
     should validate_presence_of :name  
     
+    should have_many :boat_classes
     should have_many :boats
     should have_many :races
     should have_many :course_areas    

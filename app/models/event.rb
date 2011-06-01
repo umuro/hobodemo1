@@ -39,6 +39,8 @@ class Event < ActiveRecord::Base
   has_many :fleet_races, :through=>:races
   has_many :course_areas, 		:dependent=>:destroy
   has_many :calendar_entries, :dependent=>:destroy, :order=>'scheduled_time DESC'
+  has_many :event_boat_classes, :dependent=>:destroy
+  has_many :boat_classes, :through=>:event_boat_classes, :accessible=>true
   
   after_save :handle_rsx_mobile_service
   register_update_trigger :rsx_mobile_service_update_trigger

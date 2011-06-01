@@ -6,5 +6,6 @@ class OrganizationTest < ActiveSupport::TestCase
     should validate_uniqueness_of :name
     should validate_presence_of :name
     should have_many :event_folders
+    should have_many :boat_classes
   end
 end
