@@ -17,7 +17,7 @@ class Event < ActiveRecord::Base
     #TODO rich type for time zone
     time_zone   :time_zone
     description :text, :primary_content=>true
-    site_url    :string
+    site_url    UrlHyperlink
     registration_only :boolean
     timestamps
   end

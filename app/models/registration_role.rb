@@ -26,6 +26,7 @@ class RegistrationRole < ActiveRecord::Base
 
   def update_permitted?
 #     return false if any_changed? :start_time, :end_time
+     return false if any_changed? :operation
      acting_user.is_owner_of? self
   end
 

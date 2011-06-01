@@ -21,14 +21,16 @@
   <set theuser="&if this; this.owner; else; current_user; end"/>
   <old-enroll-form merge>
     <field-list:>
-      <event-view:>
-	<select-one options="&Event.active"/>
-      </event-view:>
+      <registration-role-view:>
+	<select-one options="&[this]"/>
+      </registration-role-view:>
       <crew-view:>
       	<select-one options="&theuser.crews"/>
+	<a:crews with="&theuser"/>
       </crew-view:>
       <boat-view:>
       	<select-one options="&theuser.boats"/>
+	<a:boats with="&theuser"/>
       </boat-view:>
     </field-list:>
   </old-enroll-form>

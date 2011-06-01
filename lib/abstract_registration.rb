@@ -3,11 +3,14 @@ module AbstractRegistration
     c.class_eval do
 #      belongs_to :event
       # Validate registration role and enrollment role (enrollment role before save, registration role after save)
-      if self != Enrollment
 	belongs_to :registration_role, :null => false
-      else
-	belongs_to :registration_role, :conditions => "operation = \"#{self.name}\"", :null => false
-      end
+#       if self != Enrollment
+# 	belongs_to :registration_role, :null => false
+#       else
+# 	belongs_to :registration_role, :conditions => "operation = \"#{self.name}\"", :null => false
+# 	Fails in PostGres:
+# 	SELECT * FROM "registration_roles" WHERE ("registration_roles"."id" = 1 AND ((operation = "Enrollment"))) ):
+#       end
       belongs_to :owner, :class_name => "User", :creator => true
       
       validates_presence_of :owner
@@ -54,7 +57,6 @@ module AbstractRegistration
       
       def update_permitted?
 	return false if state == 'accepted'
-	
  	return false if !acting_user.organization_admin?(self.organization) &&
  	  any_additional_changed?
  

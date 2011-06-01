@@ -1,16 +1,18 @@
-<def tag="register-button" attrs="event">
+<!-- Register Button -->
+<def tag="register-button" polymorphic/>
+<def tag="register-button" for="Event">
   <%
-     pass = true if event and event.end_time >= DateTime.now.utc
-     pass = true unless event
+     pass = true if this and this.end_time >= DateTime.now.utc
+     pass = true unless this
      params = {}
-     params.merge! :id=>event.id if event-%>
+     params.merge! :id=>this.id if this-%>
   
   <span class="register-button" if="&pass">
     <if test="&current_user.is_a? Guest">
       <a href="&user_login_url" param="default">Login To Register</a>
     </if>
     <unless test="&current_user.is_a? Guest">
-      <a href="&event_shop_url :event=>params" param="default">Register Here</a>
+      <a href="&event_shop_url params" param="default">Register Here</a>
     </unless>
   </span>
 </def>

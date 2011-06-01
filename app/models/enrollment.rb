@@ -50,5 +50,5 @@ class Enrollment < ActiveRecord::Base
   def any_additional_changed?
     any_changed? :gender, :paid, :insured, :measured
   end
-  
+
 end

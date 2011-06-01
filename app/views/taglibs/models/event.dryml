@@ -37,7 +37,8 @@ page[title]
 <extend tag="card" for="Event">
   <old-card merge>
     <body:>
-      <%= this.start_time.to_date %> in <view:place/>
+      <p><%= this.start_time.to_date %> in <view:place/></p>
+      <register-button/>
     </body:>
   </old-card>
 </extend>
@@ -75,6 +76,10 @@ page[title]
     </table-plus>
 
   </collection:>
+
+  <registration-roles-preview: replace>
+    <registration-roles-preview restore if="&current_user.is_owner_of? this"/>
+  </registration-roles-preview:>
 
   <races-preview: replace>
     <races-preview restore unless="&this.registration_only"/>
