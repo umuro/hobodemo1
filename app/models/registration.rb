@@ -8,8 +8,12 @@ class Registration < ActiveRecord::Base
   end
 
   def label
-    owner.to_s
+    "#{owner.label} as #{registration_role.name}"
   end
+
+  def name
+    label
+  end 
 
   lifecycle do
     create :register, :params => [:registration_role],

@@ -31,6 +31,7 @@
 <include src="taglibs/models/event"/>
 <include src="taglibs/models/calendar_entry"/>
 <include src="taglibs/models/race"/>
+<include src="taglibs/models/registration"/>
 
 <def tag="ctxt">
   <%= "context-debug: #{this.class}" %>

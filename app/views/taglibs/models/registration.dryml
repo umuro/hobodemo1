@@ -1,0 +1,6 @@
+<!-- ====== Registration ====== -->
+<extend tag="card" for="Registration">
+  <old-card merge>
+    <body: replace/>
+  </old-card>
+</extend>

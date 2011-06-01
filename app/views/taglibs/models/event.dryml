@@ -61,14 +61,14 @@ page[title]
 
     </table-plus>
 
-
-    <table-plus:registrations fields="name, owner, state">
+    <h3 class="collection-heading">Registrations</h3>
+    <table-plus:registrations fields="registration_role, owner, state">
       <search-form: replace/>
       <controls:>
 	<transition-buttons/>
 	<a action="edit" if="&can_edit?" param="edit-link">
 	  <ht key="registrations.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
-	    Edit Enrollment
+	    Edit Registration
           </ht>
         </a>
       </controls:>
