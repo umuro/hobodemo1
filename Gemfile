@@ -15,7 +15,7 @@ gem "resque", :require => 'resque/server'
 gem "redis-mutex"
 gem "thor"
 gem "htmlentities"
-gem "bluecloth"
+gem "bluecloth",             "=2.0.9"
 gem "fastercsv"
 
 gem "sqlite3", :groups => [:test, :development]

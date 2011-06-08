@@ -4,7 +4,7 @@ class Enrollment < ActiveRecord::Base
   abstract_registration_model
   
   fields do
-    date_measured   :date
+    date_measured   ExtendedDate
     measured        :boolean, :default=>false
     insured         :boolean, :default=>false
     paid            :boolean, :default=>false

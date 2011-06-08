@@ -14,7 +14,7 @@ GEM
     activesupport (2.3.11)
     autotest-rails (4.1.0)
       ZenTest
-    bluecloth (2.1.0)
+    bluecloth (2.0.9)
     builder (3.0.0)
     capybara (0.4.1.2)
       celerity (>= 0.7.9)
@@ -123,7 +123,7 @@ PLATFORMS
 
 DEPENDENCIES
   autotest-rails
-  bluecloth
+  bluecloth (= 2.0.9)
   builder
   capybara
   ci_reporter
