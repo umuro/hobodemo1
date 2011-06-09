@@ -21,5 +21,11 @@ class RegistrationRoleTest < ActiveSupport::TestCase
       subject.save!
       assert_equal "test", subject.external_markdown
     end
+    
+    should "not allow change of operation" do
+      subject.operation = RegistrationRole::OperationType::ENROLLMENT
+      subject.save!
+      assert_equal subject.class.find(subject.id).operation, RegistrationRole::OperationType::DEFAULT
+    end
   end
 end

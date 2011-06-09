@@ -9,6 +9,8 @@ class RegistrationRole < ActiveRecord::Base
     external_markdown HoboFields::MarkdownString
     timestamps
   end
+  
+  attr_readonly :operation
 
   belongs_to :event
   has_many :enrollments, 		:dependent=>:destroy
@@ -25,8 +27,6 @@ class RegistrationRole < ActiveRecord::Base
   end
 
   def update_permitted?
-#     return false if any_changed? :start_time, :end_time
-     return false if any_changed? :operation
      acting_user.is_owner_of? self
   end
 
