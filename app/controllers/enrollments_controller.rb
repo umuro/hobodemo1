@@ -5,6 +5,8 @@ class EnrollmentsController < ApplicationController
   auto_actions :lifecycle, :edit, :update
   auto_actions_for :owner, [:index]
 
+  smart_form_setup
+
 # FIXME: delete redirect_to_event when merging uddin's returning forms
 #   def update
 #     hobo_update do

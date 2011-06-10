@@ -12,7 +12,7 @@
       <a href="&user_login_url" param="default">Login To Register</a>
     </if>
     <unless test="&current_user.is_a? Guest">
-      <a href="&event_shop_url params" param="default">Register Here</a>
+      <a href="&event_shop_url params" params="&{:keep_referrer=>true}">Register Here</a>
     </unless>
   </span>
 </def>

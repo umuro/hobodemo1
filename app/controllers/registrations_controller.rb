@@ -5,6 +5,8 @@ class RegistrationsController < ApplicationController
   auto_actions :lifecycle, :edit, :update, :show
   auto_actions_for :owner, [:index]
 
+  smart_form_setup
+
   def do_register
     rrid = params[:registration][:registration_role_id]
     rr = RegistrationRole.find rrid

@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   # This is done for the verification of iframe widgets versus normal widgets
   before_filter :iframe_domain
-  before_filter :keep_referer
+  around_filter :keep_referer
   
   attr_reader :iframe_mode
   
@@ -23,16 +23,38 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def std_form_actions url_params
+    url_params[:action] == 'new' or url_params[:action].start_with?('new_for_') or
+        url_params[:action] == 'edit' or self.class.instance_methods.include?('do_'+url_params[:action])
+  end
+
   def keep_referer
-    if request.method == :get
-      logger.info request.env['HTTP_REFERER']
-      begin
-	old_path = ActionController::Routing::Routes.recognize_path URI.parse(request.env['HTTP_REFERER']).path
-	session['HTTP_REFERER'] = request.env['HTTP_REFERER'] unless old_path[:controller] == 'users'
-      rescue
+    req = request.env['action_controller.request.path_parameters']
+    begin
+      ref = ActionController::Routing::Routes.recognize_path URI.parse(request.env['HTTP_REFERER']).path,:method=>:get
+    rescue
+    end
+    if session[:keep_referrer] and (ref == nil or url_for(req) == session['HTTP_REFERER']) # form sequence cancelled
+      session.delete(:keep_referrer)
+      params[:keep_referrer] = nil
+    end
+    if session[:keep_referrer] == nil and ref != nil and ref[:controller] != 'users' and not std_form_actions(ref)
+      session['HTTP_REFERER'] = request.env['HTTP_REFERER']
+    end
+    if params[:keep_referrer]
+      session[:keep_referrer] = true
+    end
+    begin
+      yield
+    rescue
+    end
+    if request.method != :get and @performed_redirect
+      if response.location == session['HTTP_REFERER']
+        session.delete('HTTP_REFERER')
+        session.delete(:keep_referrer)
       end
     end
-    true
   end
 
   def self.smart_form_setup
@@ -40,6 +62,13 @@ class ApplicationController < ActionController::Base
       alias_method :orig_hobo_login, :hobo_login
       define_method(:hobo_login) { |&b|
         orig_hobo_login :redirect_to=>session['HTTP_REFERER'], &b
+      }
+    end
+
+    if instance_methods.include?('hobo_create') and not instance_methods.include?('orig_hobo_create')
+      alias_method :orig_hobo_create, :hobo_create
+      define_method(:hobo_create_for) { |*args, &b|
+        orig_hobo_create :redirect=>session['HTTP_REFERER'], &b
       }
     end
 
@@ -56,6 +85,19 @@ class ApplicationController < ActionController::Base
         orig_hobo_create_for owner_association, :redirect=>session['HTTP_REFERER'], &b
       }
     end
-  end
 
+    if instance_methods.include?('do_creator_action') and not instance_methods.include?('orig_do_creator_action')
+      alias_method :orig_do_creator_action, :do_creator_action
+      define_method(:do_creator_action) { |name, *params, &b|
+        orig_do_creator_action name, :redirect=>session['HTTP_REFERER'], &b
+      }
+    end
+
+    if instance_methods.include?('do_transition_action') and not instance_methods.include?('orig_do_transition_action')
+      alias_method :orig_do_transition_action, :do_transition_action
+      define_method(:do_transition_action) { |name, *params, &b|
+        orig_do_transition_action name, :redirect=>session['HTTP_REFERER'], &b
+      }
+    end
+  end
 end

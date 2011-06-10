@@ -6,6 +6,8 @@ class CalendarEntriesController < ApplicationController
 
   auto_actions_for :event, [:index, :new, :create]
 
+  smart_form_setup
+
   def index_for_event
     @event = Event.find(params[:event_id])
 
