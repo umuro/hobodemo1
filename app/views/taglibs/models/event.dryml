@@ -51,7 +51,7 @@ page[title]
   </before-heading:>
 
   <collection: replace>
-    <table-plus:enrollments fields="boat, crew, country, paid, insured, measured, date_measured, gender, state">
+    <table-plus:enrollments fields="&'boat, crew, country, gender, state, date_measured'+(current_user.organization_admin?(this.organization) ? ', paid, insured, measured' : '')">
       <search-form: replace/>
       <controls:>
 	<transition-buttons/>
