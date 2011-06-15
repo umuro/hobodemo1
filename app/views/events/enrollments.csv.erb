@@ -1,0 +1,6 @@
+<%= (@fields.map{|field| field.titleize}).join(',') %>
+<%= FasterCSV.generate do |csv|
+  @this.enrollments.each do |enrollment|
+    csv << @fields.map{|field| enrollment.send(field)}
+  end
+end %>

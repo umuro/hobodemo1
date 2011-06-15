@@ -38,6 +38,7 @@ GEM
     delorean (1.0.0)
       chronic
     factory_girl (1.3.3)
+    fastercsv (1.5.4)
     ffi (1.0.9)
     hobo (1.0.2)
       hobofields (= 1.0.2)
@@ -130,6 +131,7 @@ DEPENDENCIES
   database_cleaner
   delorean
   factory_girl
+  fastercsv
   hobo (= 1.0.2)
   htmlentities
   mocha

@@ -19,4 +19,20 @@ class EventsController < ApplicationController
     hobo_show do
     end
   end
+
+  show_action :enrollments do
+    hobo_show
+    @fields = %w[boat crew country gender state date_measured paid insured measured]
+    respond_to do |format|
+      format.csv { render_csv("enrollments-#{@this.id}-#{Time.now.strftime("%Y%m%d")}") }
+    end
+  end
+
+  show_action :registrations do
+    hobo_show
+    @fields = %w[registration_role owner state]
+    respond_to do |format|
+      format.csv { render_csv("registrations-#{@this.id}-#{Time.now.strftime("%Y%m%d")}") }
+    end
+  end
 end

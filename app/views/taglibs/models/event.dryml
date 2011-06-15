@@ -59,6 +59,13 @@ page[title]
 	  <ht key="enrollments.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
 	    Edit Enrollment</ht></a></controls:>
       <empty-message:>You have not enrolled to any event</empty-message:>
+      <tfoot:>
+        <tr if="&current_user.organization_admin?(@event.organization)">
+          <td colspan="<%= (current_user.organization_admin?(@event.organization) ? 10 : 7) -%>">
+            <span style="float: right;"><a with="&@event" action="enrollments">DownloadCSV</a></span>
+          </td>
+        </tr>
+      </tfoot:>
 
     </table-plus>
 
@@ -73,6 +80,13 @@ page[title]
           </ht>
         </a>
       </controls:>
+      <tfoot:>
+        <tr if="&current_user.organization_admin?(@event.organization)">
+          <td colspan="4">
+            <span style="float: right;"><a with="&@event" action="registrations">DownloadCSV</a></span>
+          </td>
+        </tr>
+      </tfoot:>
     </table-plus>
 
   </collection:>

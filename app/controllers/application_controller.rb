@@ -99,5 +99,21 @@ class ApplicationController < ActionController::Base
         orig_do_transition_action name, :redirect=>session['HTTP_REFERER'], &b
       }
     end
-  end
-end
+  end#smart_form_setup
+
+  def render_csv(filename = nil)
+    filename ||= params[:action]
+    filename += '.csv'
+
+    if request.env['HTTP_USER_AGENT'] =~ /msie/i
+      headers['Pragma'] = 'public'
+      headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
+      headers['Expires'] = "0"
+    end
+    headers["Content-Type"] ||= 'application/vnd.ms-excel'
+    headers["Content-Disposition"] = "attachment; filename=\"#{filename}\""
+
+    render :layout => false
+  end#render_csv
+  
+end#class
