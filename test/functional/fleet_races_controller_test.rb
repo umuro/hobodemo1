@@ -327,6 +327,17 @@ class FleetRacesControllerTest < ActionController::TestCase
           assert_response :found
         end
         
+        should "post #create_for_race where scheduled time is nil" do
+          @fleet_race_params[:scheduled_time] = nil
+          post :create_for_race, :race_id=>@race.id, 
+               :fleet_race=> @fleet_race_params
+          assert_response :found
+          assert_not_nil Race.find(@race.id).fleet_races.first(
+            :conditions => {:color => @fleet_race_params[:color],
+                            :scheduled_time => @fleet_race_params[:scheduled_time],
+                            :course_area_id => @fleet_race_params[:course_area_id]})
+        end
+        
       end #write actions
 
       context "read actions" do
@@ -344,10 +355,13 @@ class FleetRacesControllerTest < ActionController::TestCase
 
       context "edit actions" do
         
-        should "not get #new_for_race" do
+        should "get #new_for_race" do
           get :new_for_race, :race_id=>@race.id
           assert_response :success
           assert_tag :tag => 'form'
+          
+          # The scheduled time should be proposed
+          assert_tag :tag => 'input', :attributes => { :id => 'fleet_race_scheduled_time', :value => /.*/ }
         end
 
         should "not get new" do
@@ -363,7 +377,7 @@ class FleetRacesControllerTest < ActionController::TestCase
         end
 
         context "put update" do
-
+        
           should "succeed for #color" do
             new_color = 'Gold'
 

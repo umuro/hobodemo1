@@ -31,6 +31,12 @@ class FleetRace < ActiveRecord::Base
   validates_presence_of :race
   validates_uniqueness_of :color, :scope=>:race_id
   
+  after_user_new { |r|
+      r[:scheduled_time] = r.event && r.event.start_time &&
+                             r.event.start_time > Time.zone.now.in_time_zone(r.event.time_zone) ?
+                             r.event.start_time : Time.zone.now if r.new_record?
+  }
+  
   # In memory update for rsx mobile service
   initiate_update_trigger :recipient => :event, :scenario => :rsx_mobile_service
 
