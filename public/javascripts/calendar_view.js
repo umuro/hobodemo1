@@ -92,11 +92,18 @@ var CalendarViewHandler = {
   },
 
   _prepareForm: function(dateDec) {
-    $('calendar_entry_scheduled_time_year').value = parseInt(dateDec['year']);
-    $('calendar_entry_scheduled_time_month').value = parseInt(dateDec['month']);
-    $('calendar_entry_scheduled_time_day').value = parseInt(dateDec['day']);
-    $('calendar_entry_scheduled_time_hour').value = dateDec['hour'];
-    $('calendar_entry_scheduled_time_minute').value = dateDec['minute'];
+    $$('.scheduled-time-view select').each(function(elem){elem.style.display='none';});
+    $$('.scheduled-time-view input').each(function(elem){elem.style.display='none';});
+    $$('.scheduled-time-view a').each(function(elem){elem.style.display='none';});
+    $('calendar_entry_scheduled_time').value =
+        dateDec['year']+'-'+dateDec['month']+'-'+dateDec['day']+' '+
+        dateDec['hour']+':'+dateDec['minute']+':00';
+    var scheduledTimeText = dateDec['year']+'-'+dateDec['month']+'-'+dateDec['day']+' '+dateDec['hour']+':'+dateDec['minute'];
+    if ($('scheduled-time-text')) {
+      $('scheduled-time-text').innerHTML = scheduledTimeText;
+    } else {
+      $$('.scheduled-time-view')[0].insert("<span id='scheduled-time-text'>"+scheduledTimeText+"</span>");
+    }
   },
 
   _reFlowElemsInBox: function(boxId) {
@@ -381,9 +388,15 @@ var CalendarViewHandler = {
   },
 
   onFailedAjaxReq: function(msg) {
+    if (msg.responseText) {
+      msg = msg.responseText;
+    } else {
+      msg = 'Error getting response from server, page may contain invalid data. Please refresh the page to fix it!';
+    }
     $$('.content')[0].insert(
-      {'top': '<div class="flash notice">Error getting response from server, page may contain invalid data. Please refresh the page to fix it!</div>'}
+      {'top': '<div class="flash error-messages">'+msg+'</div>'}
     );
+    $$('.flash')[0].fade({delay: 5.0, duration: 2.0});
   },
 
   // --- DnD Handler ----------------------------------------------------------
@@ -431,7 +444,7 @@ var CalendarViewHandler = {
           method: 'post',
           parameters: params,
           //onSuccess: function(transport) { CalendarViewHandler.onSuccessDelete(drag); },
-          onFailure: function(transport) { CalendarViewHandler.onFailedAjaxReq('delete/unschedule'); },
+          onFailure: function(transport) { CalendarViewHandler.onFailedAjaxReq(transport); },
           onComplete: function(transport) { Hobo.hideSpinner(); },
         });
         CalendarViewHandler.onSuccessDelete(drag);
@@ -460,7 +473,7 @@ var CalendarViewHandler = {
       method: 'post',
       parameters: updateData.params,
       //onSuccess: function(transport) { CalendarViewHandler.onSuccessUpdate(drag, dropped); },
-      onFailure: function(transport) { CalendarViewHandler.onFailedAjaxReq('update entry/fleet race'); },
+      onFailure: function(transport) { CalendarViewHandler.onFailedAjaxReq(transport); },
       onComplete: function(transport) { Hobo.hideSpinner(); },
     });
     CalendarViewHandler.onSuccessUpdate(drag, dropped);
@@ -475,10 +488,6 @@ var CalendarViewHandler = {
     }
     var dateDec = CalendarViewHandler._decodeTime(event.currentTarget.id);
     CalendarViewHandler._prepareForm(dateDec);
-    $$('.scheduled-time-view select').each(function(elem){elem.style.display='';});
-    if ($('scheduled-time-text')) {
-      $('scheduled-time-text').innerHTML = '';
-    }
     CalendarViewHandler.openModal();
   },
 
@@ -492,12 +501,6 @@ var CalendarViewHandler = {
     CalendarViewHandler._prepareForm(dateDec);
     $('calendar-entry-form').action = '/calendar_entries/'+elem.id.substr(5);
     $('calendar_entry_name').value = event.currentTarget.innerHTML;
-    var scheduledTimeText = dateDec['year']+'-'+dateDec['month']+'-'+dateDec['day']+' '+dateDec['hour']+':'+dateDec['minute'];
-    if ($('scheduled-time-text')) {
-      $('scheduled-time-text').innerHTML = scheduledTimeText;
-    } else {
-      $$('.scheduled-time-view')[0].insert("<span id='scheduled-time-text'>"+scheduledTimeText+"</span>");
-    }
     if ($('_method')) {
       $('_method').value = 'PUT';
     } else {
@@ -518,23 +521,23 @@ var CalendarViewHandler = {
     }
     CalendarViewHandler._setUndo(null);
     new Ajax.Updater({ success: successId}, $('calendar-entry-form').action+'?'+$('params').value, {
-      asynchronous: true, 
-      evalScripts: true, 
+      asynchronous: true,
+      evalScripts: true,
       parameters: Form.serialize($('calendar-entry-form')),
-      onFailure: function(request) {
-        CalendarViewHandler.onFailedAjaxReq('create/edit');
+      onFailure: function(transport) {
+        CalendarViewHandler.onFailedAjaxReq(transport);
       },
-      onSuccess: function(request) {
+      onSuccess: function(transport) {
         if ($('_method') && $('_method').value == 'PUT') {  // update
-          var elem = $($('entry-elem-id').value); 
-          elem.childElements()[0].innerHTML = $('calendar_entry_name').value; 
+          var elem = $($('entry-elem-id').value);
+          elem.childElements()[0].innerHTML = $('calendar_entry_name').value;
           if (elem.scrollHeight > elem.clientHeight || elem.scrollWidth > elem.clientWidth) {
             Event.observe(elem, 'mouseover', CalendarViewHandler.expandEntry);
             Event.observe(elem, 'mouseout', CalendarViewHandler.restoreEntryWidth);
           }
         }
       },
-      onComplete: function(request) { Hobo.hideSpinner(); },
+      onComplete: function(transport) { Hobo.hideSpinner(); },
     });
     event.stop();
   },
@@ -571,7 +574,7 @@ var CalendarViewHandler = {
       method: 'post',
       parameters: updateData.params,
       //onSuccess: function(transport) { CalendarViewHandler.onSuccessUpdate(drag, dropped); },
-      onFailure: function(transport) { CalendarViewHandler.onFailedAjaxReq('update entry/fleet race'); },
+      onFailure: function(transport) { CalendarViewHandler.onFailedAjaxReq(transport); },
       onComplete: function(transport) { Hobo.hideSpinner(); },
     });
     CalendarViewHandler.onSuccessUpdate(drag, dropped);
