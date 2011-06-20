@@ -37,7 +37,7 @@ page[title]
 <extend tag="card" for="Event">
   <old-card merge>
     <body:>
-      <p><%= this.start_time.to_date %> in <view:place/></p>
+      <p><%= (this.event_tz.nil?) ? this.start_time : this.start_time_event %> in <view:place/></p>
       <register-button/>
     </body:>
   </old-card>

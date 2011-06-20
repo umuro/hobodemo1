@@ -21,6 +21,7 @@ class Event < ActiveRecord::Base
     registration_only :boolean
     timestamps
   end
+  include EventLocalTime
   never_show  :registration_only
   
   set_default_order "updated_at DESC"

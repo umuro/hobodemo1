@@ -19,6 +19,7 @@ gem "bluecloth",             "=2.0.9"
 gem "fastercsv"
 
 gem "sqlite3", :groups => [:test, :development]
+gem "launchy", :groups => [:test, :development]
 gem "rcov", :groups => [:test, :development], :require => nil
 gem "ci_reporter", :groups => [:test, :development], :require => nil
 
@@ -31,6 +32,8 @@ group :test do
   gem "rspec-rails",        "= 1.3.3",  :require => nil
   gem "steak"
   gem "capybara"
+  gem "envjs"
+  gem "capybara-envjs"
   gem  "delorean" #Change Time.now in tests
   gem  "database_cleaner" #Remove data
   gem  "spork",		"~> 0.9.0.rc4"

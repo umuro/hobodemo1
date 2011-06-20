@@ -7,9 +7,10 @@ class CalendarEntry < ActiveRecord::Base
     scheduled_time :datetime
     timestamps
   end
+  include EventLocalTime
 
   set_default_order "scheduled_time DESC"
-  
+
   belongs_to :event, :null=>false
   validates_presence_of :event
   validates_uniqueness_of :name, :scope=>:event_id
@@ -38,7 +39,7 @@ class CalendarEntry < ActiveRecord::Base
   end
 
   def label
-    short_label + ' ('+scheduled_time.to_s+')'
+    short_label + ' ('+(event_tz.nil? ? scheduled_time : scheduled_time_event).to_s+')'
   end
-  
+
 end

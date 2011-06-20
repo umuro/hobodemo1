@@ -10,6 +10,7 @@ class Enrollment < ActiveRecord::Base
     paid            :boolean, :default=>false
     timestamps
   end
+  include EventLocalTime
 
   index [:boat_id, :registration_role_id], :unique=>true
 

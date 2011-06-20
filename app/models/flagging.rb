@@ -6,6 +6,7 @@ class Flagging < ActiveRecord::Base
     flagging_time :datetime
     timestamps
   end
+  include EventLocalTime
   
   belongs_to :fleet_race
   validates_presence_of :fleet_race

@@ -6,6 +6,7 @@ class Registration < ActiveRecord::Base
   fields do
     timestamps
   end
+  include EventLocalTime
 
   def label
     "#{owner.label} as #{registration_role.name}"

@@ -23,6 +23,8 @@
 
 <include src="taglibs/models/register_button"/>
 
+<include src="taglibs/models/event_time_zone"/>
+
 <include src="taglibs/models/site"/>
 <include src="taglibs/models/user"/>
 <include src="taglibs/models/user_profile"/>

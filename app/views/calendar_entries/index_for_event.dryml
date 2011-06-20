@@ -2,6 +2,11 @@
   <back-to: replace>
     <a:event class="parent-link">&laquo; <ht key="calendar_entries.actions.back" to="event"><name/></ht></a:event>
   </back-to:>
+  <prepend-content:>
+    <if test="&can_create? && !@has_tz">
+    <div class="flash error-messages">Read-only mode. Please define event's time zone</div>
+    </if>
+  </prepend-content:>
   <heading: replace>
     <h2>
       <form id="page-form" action="" method="get" with="&@course_area">
@@ -22,7 +27,7 @@
     <javascript name="calendar_view, resizable, livepipe, window"/>
     <script type="text/javascript">
       Event.observe(window, 'resize', CalendarViewHandler._resizeCalendarView);
-      <% if can_create? %>
+      <% if can_create? && @has_tz %>
       CalendarViewHandler.can_create = true;
       <% end %>
       Event.observe(window, 'load', CalendarViewHandler.onLoad);

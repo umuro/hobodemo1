@@ -1,0 +1,81 @@
+<!-- Field list customization for Event's related models to use Event's time zone for datetime fields -->
+
+<extend tag="show-page" for="Event">
+  <old-show-page merge>
+  <field-list: replace>
+    <if test="&this.event_tz.nil?">
+      <field-list restore/>
+    </if>
+    <else>
+      <field-list fields="start_time_event, end_time_event, place, time_zone, site_url"/>
+    </else>
+  </field-list:>
+  </old-show-page>
+</extend>
+
+<extend tag="form" for="Event">
+  <old-form merge>
+  <field-list: replace>
+    <if test="&this.event_tz.nil?">
+      <field-list restore/>
+    </if>
+    <else>
+      <field-list fields="name, start_time_event, end_time_event, place, time_zone, description, site_url, event_folder"  param/>
+    </else>
+  </field-list:>
+  </old-form>
+</extend>
+
+<extend tag="show-page" for="FleetRace">
+  <old-show-page merge>
+  <field-list: replace>
+    <if test="&this.event_tz.nil?">
+      <field-list restore/>
+    </if>
+    <else>
+      <field-list fields="status, scheduled_time_event, start_time_event, end_time_event, course, course_area"/>
+    </else>
+  </field-list:>
+  </old-show-page>
+</extend>
+
+<extend tag="form" for="FleetRace">
+  <old-form merge>
+  <field-list: replace>
+    <if test="&this.event_tz.nil?">
+      <field-list restore/>
+    </if>
+    <else>
+      <field-list fields="color, status, scheduled_time_event, start_time_event, end_time_event, course, course_area, race" param/>
+    </else>
+  </field-list:>
+  </old-form>
+</extend>
+
+<extend tag="show-page" for="CalendarEntry">
+  <old-show-page merge>
+  <field-list: replace>
+    <if test="&this.event_tz.nil?">
+      <field-list restore/>
+    </if>
+    <else>
+      <field-list fields="scheduled_time_event"/>
+    </else>
+  </field-list:>
+  </old-show-page>
+</extend>
+
+<extend tag="form" for="CalendarEntry">
+  <old-form merge>
+  <field-list: replace>
+    <if test="&this.event_tz.nil?">
+      <field-list restore/>
+    </if>
+    <else>
+      <field-list fields="name, scheduled_time_event, event"/>
+    </else>
+  </field-list:>
+  </old-form>
+</extend>
+
+

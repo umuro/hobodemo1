@@ -82,27 +82,27 @@ var CalendarViewHandler = {
       result['targetUrl'] = '/calendar_entries/'+objectId;
       prefix = 'calendar_entry';
     }
-    params[prefix+'[scheduled_time][year]'] = dateDec['year'];
-    params[prefix+'[scheduled_time][month]'] = dateDec['month'];
-    params[prefix+'[scheduled_time][day]'] = dateDec['day'];
-    params[prefix+'[scheduled_time][hour]'] = dateDec['hour'];
-    params[prefix+'[scheduled_time][minute]'] = dateDec['minute'];
+    params[prefix+'[scheduled_time_event][year]'] = dateDec['year'];
+    params[prefix+'[scheduled_time_event][month]'] = dateDec['month'];
+    params[prefix+'[scheduled_time_event][day]'] = dateDec['day'];
+    params[prefix+'[scheduled_time_event][hour]'] = dateDec['hour'];
+    params[prefix+'[scheduled_time_event][minute]'] = dateDec['minute'];
     result['params'] = params;
     return result;
   },
 
   _prepareForm: function(dateDec) {
-    $$('.scheduled-time-view select').each(function(elem){elem.style.display='none';});
-    $$('.scheduled-time-view input').each(function(elem){elem.style.display='none';});
-    $$('.scheduled-time-view a').each(function(elem){elem.style.display='none';});
-    $('calendar_entry_scheduled_time').value =
+    $$('.scheduled-time-event-view select').each(function(elem){elem.style.display='none';});
+    $$('.scheduled-time-event-view input').each(function(elem){elem.style.display='none';});
+    $$('.scheduled-time-event-view a').each(function(elem){elem.style.display='none';});
+    $('calendar_entry_scheduled_time_event').value =
         dateDec['year']+'-'+dateDec['month']+'-'+dateDec['day']+' '+
         dateDec['hour']+':'+dateDec['minute']+':00';
     var scheduledTimeText = dateDec['year']+'-'+dateDec['month']+'-'+dateDec['day']+' '+dateDec['hour']+':'+dateDec['minute'];
-    if ($('scheduled-time-text')) {
-      $('scheduled-time-text').innerHTML = scheduledTimeText;
+    if ($('scheduled-time-event-text')) {
+      $('scheduled-time-event-text').innerHTML = scheduledTimeText;
     } else {
-      $$('.scheduled-time-view')[0].insert("<span id='scheduled-time-text'>"+scheduledTimeText+"</span>");
+      $$('.scheduled-time-event-view')[0].insert("<span id='scheduled-time-event-text'>"+scheduledTimeText+"</span>");
     }
   },
 
@@ -418,7 +418,7 @@ var CalendarViewHandler = {
   onStartInCalendar: function(drag, event) {
     CalendarViewHandler.onStart(drag, event);
     CalendarViewHandler.lastDraggableLastPost = drag.currentDelta();
-  }, 
+  },
 
   onEndInCalendar: function(drag, event) {
     CalendarViewHandler.onEnd(drag, event);
@@ -432,11 +432,11 @@ var CalendarViewHandler = {
           targetUrl = '/fleet_races/'+objectId;
           params = {
             '_method': 'put',
-            'fleet_race[scheduled_time]': null,
-          }; 
+            'fleet_race[scheduled_time_event]': null,
+          };
         } else {
           targetUrl = '/calendar_entries/'+objectId;
-          params = {'_method': 'delete'}; 
+          params = {'_method': 'delete'};
         }
         Hobo.showSpinner('Deleting...');
         CalendarViewHandler._setUndo(null);
@@ -506,7 +506,7 @@ var CalendarViewHandler = {
     } else {
       $('page_path').insert({'after': "<input type='hidden' id='_method' name='_method' value='PUT'>"});
     }
-    $$('.scheduled-time-view select').each(function(elem){elem.style.display='none';});
+    $$('.scheduled-time-event-view select').each(function(elem){elem.style.display='none';});
     CalendarViewHandler.openModal();
   },
 
@@ -515,7 +515,7 @@ var CalendarViewHandler = {
     Hobo.showSpinner('Saving...');
     var succesId = '';
     if ($('_method') && $('_method').value == 'PUT') {
-      successId = 'scheduled-time-text';  // update
+      successId = 'scheduled-time-event-text';  // update
     } else {
       successId = 'overlays';  // create
     }

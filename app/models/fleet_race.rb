@@ -10,6 +10,7 @@ class FleetRace < ActiveRecord::Base
     end_time        :datetime
     timestamps
   end
+  include EventLocalTime
 
   set_default_order "color ASC"
 

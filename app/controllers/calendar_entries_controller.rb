@@ -10,6 +10,7 @@ class CalendarEntriesController < ApplicationController
 
   def index_for_event
     @event = Event.find(params[:event_id])
+    @has_tz = @event.time_zone != nil && @event.time_zone.strip.length > 0
 
     if params[:course_area_id].to_i > 0
       @course_area = @event.course_areas.find(params[:course_area_id])
@@ -17,13 +18,23 @@ class CalendarEntriesController < ApplicationController
       @course_area = CourseArea.new
     end
 
-    d = if @event.start_time.nil? || @event.start_time < Date.today then Date.today else @event.start_time.to_date end
+    if @has_tz
+      d = if @event.start_time.nil? || @event.start_time_event < Date.today then Date.today else @event.start_time_event.to_date end
+    else
+      d = if @event.start_time.nil? || @event.start_time < Date.today then Date.today else @event.start_time.to_date end
+    end
     @year = params[:year].to_i > 0 ?  params[:year].to_i : d.year
     @woy = params[:week].to_i > 0 ? params[:week].to_i : d.cweek
-    @date_start = Date.commercial(@year, @woy, 1)
-    @date_end = Date.commercial(@year, @woy, 7)
+    @date_start = Date.commercial(@year, @woy, 1).to_datetime
+    @date_end = Date.commercial(@year, @woy, 7).to_datetime
     @prev_week = @date_start-1.week
     @next_week = @date_start+1.week
+
+    if @has_tz
+      tz_offset = @date_start.in_time_zone(@event.time_zone).utc_offset
+      @date_start -= tz_offset.second
+      @date_end -= tz_offset.second
+    end
 
     conditions = {:scheduled_time=>@date_start..(@date_end+1.day)}
     calendar_entries = @event.calendar_entries.find(:all, :conditions=>conditions)
@@ -33,7 +44,14 @@ class CalendarEntriesController < ApplicationController
     fleet_races = @event.fleet_races.find(:all, :conditions=>conditions)
     @unscheduled_fleet_races = @event.fleet_races.find(:all, :conditions=>conditions.update({:scheduled_time=>nil}))
 
-    @boxes = (calendar_entries+fleet_races).group_by {|e| e.scheduled_time.strftime('%Y%m%d%H')+'%02d'%(e.scheduled_time.min/15*15)} 
+    if @has_tz
+      @date_start += tz_offset.second
+      @date_end += tz_offset.second
+
+      @boxes = (calendar_entries+fleet_races).group_by {|e| e.scheduled_time_event.strftime('%Y%m%d%H')+'%02d'%(e.scheduled_time_event.min/15*15)}
+    else
+      @boxes = (calendar_entries+fleet_races).group_by {|e| e.scheduled_time.strftime('%Y%m%d%H')+'%02d'%(e.scheduled_time.min/15*15)}
+    end
     @rows = Hash.new
     (0..23).each do |hour|
       (0..45).step(15) do |minute|
@@ -62,7 +80,7 @@ class CalendarEntriesController < ApplicationController
 
   def create_for_event
     hobo_create_for :event do |format|
-      format.html
+      format.html { redirect_to session['HTTP_REFERER'] }
       format.js { index_for_event }
     end
   end
