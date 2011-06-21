@@ -51,7 +51,8 @@ page[title]
   </before-heading:>
 
   <collection: replace>
-    <table-plus:enrollments fields="&'boat, crew, country, gender, state, date_measured'+(current_user.organization_admin?(this.organization) ? ', paid, insured, measured' : '')">
+    <set enrs="&if current_user.organization_admin?(this.organization); this.enrollments; else; this.enrollments.visible(current_user.id); end"/>
+    <table-plus with="&enrs" fields="&'boat, crew, country, gender, state, date_measured'+(current_user.organization_admin?(this.organization) ? ', paid, insured, measured' : '')">
       <search-form: replace/>
       <controls:>
 	<transition-buttons/>
@@ -70,7 +71,8 @@ page[title]
     </table-plus>
 
     <h3 class="collection-heading">Registrations</h3>
-    <table-plus:registrations fields="registration_role, owner, state">
+    <set regs="&if current_user.organization_admin?(this.organization); this.registrations; else; this.registrations.visible(current_user.id); end"/>
+    <table-plus with="&regs" fields="registration_role, owner, state">
       <search-form: replace/>
       <controls:>
 	<transition-buttons/>
