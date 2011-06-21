@@ -37,9 +37,6 @@ class FleetRace < ActiveRecord::Base
                              r.event.start_time : Time.zone.now if r.new_record?
   }
   
-  # In memory update for rsx mobile service
-  initiate_update_trigger :recipient => :event, :scenario => :rsx_mobile_service
-
   named_scope :active, :conditions => {:end_time => nil}
       
   named_scope :today_for, lambda { |object_with_time_zone|

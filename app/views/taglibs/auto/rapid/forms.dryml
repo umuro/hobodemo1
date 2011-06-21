@@ -460,28 +460,6 @@
   </form>
 </def>
 
-<def tag="form" for="RsxMobileService">
-  <form merge param="default">
-    <error-messages param/>
-    <field-list fields="api_key, state, event" param/>
-    <div param="actions">
-      <submit label="#{ht 'rsx_mobile_services.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
-    </div>
-  </form>
-</def>
-
-<def tag="ready-form" polymorphic/>
-<def tag="ready-form" for="RsxMobileService">
-  <form lifecycle="ready" merge param="default">
-    <error-messages param/>
-    <field-list fields="" param/>
-    <div param="actions">
-      <submit label="#{ht 'rsx_mobile_services.actions.ready', :default=>['Ready']}" param/><or-cancel param="cancel"/>
-    </div>
-  </form>
-</def>
-
-
 <def tag="form" for="Site">
   <form merge param="default">
     <error-messages param/>

@@ -25,9 +25,6 @@ class Race < ActiveRecord::Base
 
   validates_presence_of :boat_class_id
 
-  # In memory update for rsx mobile service
-  initiate_update_trigger :recipient => :event, :scenario => :rsx_mobile_service
-  
   # --- Permissions --- #
 
   def create_permitted?

@@ -42,20 +42,6 @@ class Event < ActiveRecord::Base
   has_many :event_boat_classes, :dependent=>:destroy
   has_many :boat_classes, :through=>:event_boat_classes, :accessible=>true
   
-  after_save :handle_rsx_mobile_service
-  register_update_trigger :rsx_mobile_service_update_trigger
-  
-  def handle_rsx_mobile_service
-    rms = RsxMobileService.find :first, :conditions => {:event_id => self}
-    return unless rms
-    rms.touch
-  end
-  
-  def rsx_mobile_service_update_trigger scenario
-    return unless scenario == :rsx_mobile_service
-    handle_rsx_mobile_service
-  end
-
   def available_enrollments
     return (enrollments - fleet_races.*.enrollments.flatten)
   end
