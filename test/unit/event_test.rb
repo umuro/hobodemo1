@@ -14,6 +14,8 @@ class EventTest < ActiveSupport::TestCase
     should have_many :races
     should have_many :course_areas    
     should have_many :enrollments
+    should have_many :event_spotter_roles
+    should have_many(:event_spotters).through(:event_spotter_roles)
   end
   
   context "A new event" do

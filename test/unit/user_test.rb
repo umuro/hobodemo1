@@ -20,6 +20,9 @@ class UserTest < ActiveSupport::TestCase
     context "relations" do
       should have_many(:organization_admin_roles).dependent(:destroy)
       should have_many(:organizations_as_admin).through(:organization_admin_roles)
+      
+      should have_many(:event_spotter_roles).dependent(:destroy)
+      should have_many(:events_as_spotter).through(:event_spotter_roles)
 
       should have_many(:user_profiles).dependent(:destroy)
       should have_many(:boats).dependent(:destroy)
@@ -79,6 +82,32 @@ class UserTest < ActiveSupport::TestCase
     should "repond to #user_profile and #user_profile=" do
       ['user_profile', 'user_profile='].each do |m|
         assert subject.respond_to? m
+      end
+    end
+    
+    context "as a spotter" do
+      setup do
+        @event_spotter_role = Factory :event_spotter_role, :user => @user
+        @event = @event_spotter_role.event
+      end
+      
+      subject { @event }
+      
+      # For some kindof odd reason, Delorean is not resetting Time.zone.now.utc where it is used on named_scopes
+      # and/or conditions. Perhaps these are initialize beforehand
+      #
+      # These tests are as thus done by manipulating the event itself
+      
+      should "when time has not passed see the event" do
+        subject.end_time = Time.zone.now.utc + 1.days
+        subject.save!
+        assert_not_nil @user.events_as_spotter.find(subject.id)
+      end
+      
+      should "when time has passed not see the event" do
+        subject.end_time = Time.zone.now.utc - 1.minutes
+        subject.save!
+        assert_raise(ActiveRecord::RecordNotFound) { @user.events_as_spotter.find(subject.id) }
       end
     end
 

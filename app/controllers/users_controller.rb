@@ -51,4 +51,7 @@ class UsersController < ApplicationController
     end
   end
   
+  show_action :events_as_spotter do
+    hobo_show
+  end
 end

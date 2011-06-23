@@ -263,10 +263,22 @@
 
 
 
+<def tag="form" for="EventSpotterRole">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="event, user" param/>
+    <div param="actions">
+      <submit label="#{ht 'event_spotter_roles.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
 <def tag="form" for="Event">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, start_time, end_time, place, time_zone, description, site_url, boat_classes, event_folder" param/>
+    <field-list fields="name, start_time, end_time, place, time_zone, description, site_url, boat_classes, event_folder, event_spotters" param/>
     <div param="actions">
       <submit label="#{ht 'events.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>

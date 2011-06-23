@@ -16,6 +16,10 @@ class User < ActiveRecord::Base
   has_many :organization_admin_roles, :dependent=>:destroy
   has_many :organizations_as_admin, :through=>:organization_admin_roles, :source=>:organization
 
+  has_many :event_spotter_roles, :dependent => :destroy
+  has_many :events_as_spotter, :through => :event_spotter_roles, :source => :event, :conditions=>['end_time >= :current_time', {:current_time => Time.zone.now.utc}] #Can't perform named_scope here, so this isn't dry
+  
+  
   # This gives admin rights to the first sign-up.
   # Just remove it if you don't want that
   # before_create { |user| user.administrator = true if !Rails.env.test? && count == 0 }
@@ -31,6 +35,9 @@ class User < ActiveRecord::Base
     has_many v, :foreign_key=>"owner_id", :dependent=>:destroy
   }
   has_many :crew_memberships, :through => :crews, :foreign_key=>"owner_id", :dependent => :destroy
+  
+  
+  
 
   # Create a new crew
   

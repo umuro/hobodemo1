@@ -1,0 +1,2 @@
+module EventSpotterRolesHelper
+end

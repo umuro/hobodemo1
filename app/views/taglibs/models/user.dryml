@@ -95,6 +95,10 @@ page[title]
       <card with="&this.event"/>
     </collection:>
 
+    <after-events-as-spotter-collection-heading:>
+      <a href="&url_for :controller => :users, :action => :events_as_spotter, :id => this">more</a>
+    </after-events-as-spotter-collection-heading:>
+
   </old-show-page>
 </extend>
 

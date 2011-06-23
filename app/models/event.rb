@@ -41,6 +41,10 @@ class Event < ActiveRecord::Base
   has_many :calendar_entries, :dependent=>:destroy, :order=>'scheduled_time DESC'
   has_many :event_boat_classes, :dependent=>:destroy
   has_many :boat_classes, :through=>:event_boat_classes, :accessible=>true
+  has_many :event_spotter_roles, :dependent=>:destroy
+  has_many :event_spotters, :through=>:event_spotter_roles, 
+           :source=>:user, :accessible=>true
+
   
   def available_enrollments
     return (enrollments - fleet_races.*.enrollments.flatten)

@@ -46,5 +46,5 @@
 </extend>
 
 <def tag="nil-view">
-  <%= scope.nil_view || ht("#{@this.class.name.underscore}.to.no", :default => "(Not Available)", :to => ht("#{this_field}.model_name", :default => "#{this_field.titleize}")) %>
+  <%= scope.nil_view || ht("#{@this.class.name.underscore}.to.no", :default => "(Not Available)", :to => ht("#{this_field}.model_name", :default => "#{if this_field; this_field.titleize; else ""; end}")) %>
 </def>

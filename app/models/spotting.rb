@@ -24,7 +24,12 @@ class Spotting < ActiveRecord::Base
 
   #FIXME post, put if user in group spotters
   def create_permitted?
-     acting_user.is_owner_of? self
+    allowed = false
+    for e in FleetRace.all(:conditions => {:course_id => spot.course.id}).*.event
+      allowed |= e.event_spotters.find(acting_user.id) != nil
+      break if allowed
+    end
+    acting_user.is_owner_of?(self) && allowed
   end
 
   def update_permitted?

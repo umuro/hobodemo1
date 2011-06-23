@@ -1,0 +1,24 @@
+<!-- ====== Event ====== -->
+
+<page title="#{ht 'events.show.title', :default=>['Event'] }">
+  <content:>
+    <section-group>
+        <section class="main-content">
+          <header class="content-header">
+            <a class="parent-link">&laquo; <ht key="events.actions.back" to="event"><name/></ht></a>
+            <h2 class="heading">
+              Events as Spotter for <ht key="events.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+          </header>
+
+          <section class="content-body" with-flash-messages>
+	    <collection:events-as-spotter/>
+          </section>
+        </section>
+
+      </section-group>
+    </content:>
+</page>

@@ -10,6 +10,7 @@ class Flagging < ActiveRecord::Base
   belongs_to :fleet_race
   validates_presence_of :fleet_race
   delegate :organization, :to=>:fleet_race
+  delegate :event, :to => :fleet_race
 
   belongs_to :spotter, :class_name => "User", :creator=>true
   validates_presence_of :spotter
@@ -24,7 +25,8 @@ class Flagging < ActiveRecord::Base
   # --- Permissions --- #
 
   def create_permitted?
-     acting_user.is_owner_of? self
+    allowed = event.event_spotters.find(acting_user.id) != nil
+    acting_user.is_owner_of?(self) && allowed
   end
 
   def update_permitted?

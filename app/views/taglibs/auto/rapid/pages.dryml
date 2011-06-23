@@ -2435,6 +2435,198 @@
 
 
 
+<!-- ====== EventSpotterRole Pages ====== -->
+
+<def tag="index-page" for="EventSpotterRole">
+  <page merge title="#{ht 'event_spotter_roles.index.title', :default=>['Event Spotters'] }">
+    <body: class="index-page event-spotter-role" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="event_spotter_roles.index.heading">
+            Event Spotters
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="event_spotter_roles.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="EventSpotterRole">
+  <page merge title="#{ht 'event_spotter_roles.new.title', :default=>[' New Event Spotter'] }">
+    <body: class="new-page event-spotter-role" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="event_spotter_roles.new.heading">
+            New Event Spotter
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'event_spotter_roles.actions.create', :default=>['Create Event Spotter']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="EventSpotterRole">
+  <page merge title="#{ht 'event_spotter_roles.show.title', :default=>['Event Spotter'] }">
+
+    <body: class="show-page event-spotter-role" param/>
+
+    <content: param>
+          <header param="content-header">
+            <a:event param="parent-link">&laquo; <ht key="event_spotter_roles.actions.back" to="event"><name/></ht></a:event>
+            <h2 param="heading">
+              <ht key="event_spotter_roles.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="" param/>
+
+            <a action="edit" if="&can_edit?" param="edit-link">
+              <ht key="event_spotter_roles.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+                Edit Event Spotter
+              </ht>
+            </a>
+          </header>
+
+          <section param="content-body">
+            <field-list fields="user" param/>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="EventSpotterRole">
+  <page merge title="#{ht 'event_spotter_roles.edit.title', :default=>['Edit Event Spotter'] }">
+
+    <body: class="edit-page event-spotter-role" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="event_spotter_roles.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'event_spotter_roles.actions.delete', :default=>['Remove This Event Spotter']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="index-for-event-page" polymorphic/>
+<def tag="index-for-event-page" for="EventSpotterRole">
+  <page merge title="#{ht 'event_spotter_roles.index_for_owner.title', :default=>['Event Spotters for']} #{name :with => @event, :no_wrapper => true}">    
+    <body: class="index-for-owner-page event event-spotter-role" param/>
+    <content: param>
+      <header param="content-header">
+        <div param="back-to">
+          <ht key="hobo.actions.back">Back to</ht> <a with="&@event"/>
+        </div>
+        <h2 param="heading">
+          <ht key="event_spotter_roles.index_for_owner.heading.other">
+            Event Spotters
+          </ht>
+        </h2>
+        <h3 param="subheading">
+          <ht key="event_spotter_roles.index_for_owner.subheading">
+            For:
+          </ht>
+          <a with="&@event"/>
+        </h3>
+        <p param="count" if>
+          <ht key="event_spotter_roles.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+        <a action="new" to="&model" param="new-link">
+          <ht key="event_spotter_roles.actions.new" >New Event Spotter</ht>
+        </a>
+
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-for-event-page" polymorphic/>
+<def tag="new-for-event-page" for="EventSpotterRole">
+  <page merge title="#{ht 'event_spotter_roles.new_for_owner.title', :default=>['New Event Spotter for']} #{name :with => @event}">
+    <body: class="new-for-owner-page  event-spotter-role" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="event_spotter_roles.new_for_owner.heading">
+            New Event Spotter Role
+          </ht>
+        </h2>
+        <h3 param="subheading">
+          <ht key="event_spotter_roles.new_for_owner.subheading">
+            For:
+          </ht>
+          <a with="&@event"/>
+        </h3>
+      </header>
+
+      <section param="content-body">
+        <form owner="event" method="post" param>
+          <field-list: skip="event"/>
+          <submit: label="#{ht 'event_spotter_roles.actions.create', :default=>['Create Event Spotter']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+
+
+
 <!-- ====== Event Pages ====== -->
 
 <def tag="index-page" for="Event">
@@ -2558,6 +2750,11 @@
               <ht key="hobo.actions.more">more</ht>
             </more:>
           </preview-with-more:course_areas.recent>
+          <preview-with-more:event_spotter_roles.recent param="event_spotter_roles-preview">
+            <more:>
+              <ht key="hobo.actions.more">more</ht>
+            </more:>
+          </preview-with-more:event_spotter_roles.recent>
         </aside>
       </section-group>
     </content:>
@@ -4993,7 +5190,7 @@
       <header param="content-header">
         <h2 param="heading">
           <ht key="template_courses.new_for_owner.heading">
-            New Template Course
+            New Course
           </ht>
         </h2>
         <h3 param="subheading">
@@ -5262,6 +5459,14 @@
               <ht key="hobo.actions.more">more</ht>
             </more:>
           </preview-with-more:crews.recent>
+          <section param="events_as_spotter-collection-section">
+            <h3 param="events_as_spotter-collection-heading">
+              <ht key="events_as_spotters.collection.heading.other" >
+                Events As Spotter
+              </ht>
+            </h3>
+            <collection:events_as_spotter  param="events_as_spotter-collection"/>
+          </section>
         </aside>
       </section-group>
     </content:>

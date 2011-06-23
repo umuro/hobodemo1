@@ -8,5 +8,5 @@ class UserHints < Hobo::ViewHints
   field_names :password => "Choose a password", 
               :password_confirmation => "Re-enter password"
 
-  children :enrollments, :enrollments, :boats, :crews, :joined_crews
+  children :enrollments, :enrollments, :boats, :crews, :joined_crews, :events_as_spotter
 end
