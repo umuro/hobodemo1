@@ -1,7 +1,6 @@
 <def tag="input" for="ActiveSupport::TimeWithZone">
   <% # the value created by this needs to be manually inserted due to the date format of the date picker
      #
-     
      formatted_date = ""
      hour = "12"
      min = "00"
@@ -47,6 +46,11 @@
                  options_for_select(((0..11).to_a.collect {|v| v = (v*5).to_s; v = "0#{v}" if v.size == 1; v}), min),
                  :id => sanitize_to_id(param_name_for_this + "_min"),
                  :disabled => formatted_date.size == 0  -%>
+  
+  <unless test="&@this.class.field_specs[path_for_form_field.last].options[:null] == false">
+    <em>To reset the date, you can erase the date in the text field</em>
+  </unless>
+
   <script type="text/javascript">
     datePickerController.createDatePicker({
       formElements: {

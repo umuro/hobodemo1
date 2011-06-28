@@ -12,6 +12,9 @@
       formElements:{"<%=h sanitize_to_id(param_name_for_this)-%>":"d-sl-m-sl-Y"}
     });
   </script>
+  <unless test="&@this.class.field_specs[path_for_form_field.last].options[:null] == false">
+    <em>To reset the date, you can erase the date in the text field</em>
+  </unless>
 </def>
 
 <def tag="view" for="ExtendedDate">
