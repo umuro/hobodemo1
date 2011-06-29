@@ -1,0 +1,16 @@
+<extend tag="card" for="RegistrationRole">
+  <old-card merge>
+    <body: param>
+      <if test="&this.operation == RegistrationRole::OperationType::ENROLLMENT">
+        <ht key="enrollments.collection.count" count="&this.enrollments.size">
+          <count:enrollments param/>
+        </ht>
+      </if>
+      <if test="&this.operation == RegistrationRole::OperationType::DEFAULT">
+        <ht key="registrations.collection.count" count="&this.registrations.size">
+          <count:registrations param/>
+        </ht>
+      </if>
+    </body:>
+  </old-card>
+</extend>

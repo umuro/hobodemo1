@@ -14,6 +14,8 @@
 <include src="taglibs/reuse"/> <!-- Reusable tags for all models -->
 <include src="taglibs/layout"/> <!-- About application layout -->
 
+<include src="taglibs/models/registration_role"/>
+
 <include src="taglibs/models/time_zone_rich_type"/>
 <include src="taglibs/models/extended_date"/>
 <include src="taglibs/models/extended_date_time"/>

@@ -4178,15 +4178,6 @@
 
           <section param="content-body">
             <field-list fields="operation, external_markdown" param/>
-            <section param="collection-section">
-              <h3 param="collection-heading">
-                <ht key="registration_roles.collection.heading.other" >
-                  Registrations
-                </ht>
-              </h3>
-
-              <collection:registrations param/>
-            </section>
           </section>
     </content:>
 

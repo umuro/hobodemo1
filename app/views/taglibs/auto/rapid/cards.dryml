@@ -260,11 +260,6 @@
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
-    <body: param>
-      <ht key="registrations.collection.count" count="&this.registrations.size">
-         <count:registrations param/>
-      </ht>
-    </body:>
   </card>
 </def>
 
