@@ -5,4 +5,5 @@ class BoatClassesController < ApplicationController
   auto_actions_for :organization, [:index, :new, :create]
   auto_actions :all #Index is still includes becase admin sees all
 
+  smart_form_setup
 end

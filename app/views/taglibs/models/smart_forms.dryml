@@ -1,0 +1,7 @@
+<!-- smart forms customization -->
+
+<extend tag="form">
+  <old-form merge>
+    <cancel: replace><or-cancel href="&session['HTTP_REFERER']" /></cancel:>
+  </old-form>
+</extend>

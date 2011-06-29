@@ -6,4 +6,5 @@ class EventFoldersController < ApplicationController
   auto_actions :all, :except => :index
 #   auto_actions :read_only, :destroy, :except => :index
 
+  smart_form_setup
 end

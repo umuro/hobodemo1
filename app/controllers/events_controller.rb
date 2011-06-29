@@ -6,6 +6,8 @@ class EventsController < ApplicationController
   auto_actions :all, :except => :index
   # auto_actions_for :event_spotters, [:index] (done as seperate action due to view_hints incompatibility issues [multiple event_folders])
 #   auto_actions :read_only, :except => :index
+
+  smart_form_setup
   
   index_action :active do
     hobo_index Event.active

@@ -4,6 +4,8 @@ class SpottingsController < ApplicationController
 
   auto_actions :all
 
+  smart_form_setup
+
   def create
     params[:spotting][:spotter_id] = current_user
     hobo_create do | responds_to |

@@ -4,4 +4,5 @@ class FlagsController < ApplicationController
 
   auto_actions :all
 
+  smart_form_setup
 end

@@ -5,4 +5,5 @@ class TemplateCoursesController < ApplicationController
   auto_actions :all, :except=> [:new, :create, :index]
   auto_actions_for :organization, [:index, :new, :create]
   
+  smart_form_setup
 end

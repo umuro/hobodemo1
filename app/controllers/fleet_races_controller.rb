@@ -6,6 +6,7 @@ class FleetRacesController < ApplicationController
   auto_actions_for :race, [:index, :new, :create]
   auto_actions_for :course_area, [:index] #mobile
 
+  smart_form_setup
 
   show_action :flags do #mobile 
     hobo_show

@@ -5,4 +5,5 @@ class CrewsController < ApplicationController
   auto_actions_for :owner, [:index,:new,:create]
   auto_actions :all, :except=>[:index]
 
+  smart_form_setup
 end

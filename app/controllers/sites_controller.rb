@@ -10,6 +10,8 @@ class SitesController < ApplicationController
 #   caches_action :show, :edit,
 #       :cache_path=>:etag_cache_path.to_proc
 
+  smart_form_setup
+
   protected
   def show_action_etag klass
     etag = klass.etag_for(params[:id])

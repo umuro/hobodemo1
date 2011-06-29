@@ -4,4 +4,5 @@ class OrganizationsController < ApplicationController
 
   auto_actions :all
   
+  smart_form_setup
 end

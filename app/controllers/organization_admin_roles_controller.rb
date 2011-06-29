@@ -4,4 +4,5 @@ class OrganizationAdminRolesController < ApplicationController
 
   auto_actions :all
 
+  smart_form_setup
 end

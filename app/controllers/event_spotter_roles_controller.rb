@@ -5,4 +5,5 @@ class EventSpotterRolesController < ApplicationController
   auto_actions :all, :except => [:index, :new, :create]
   auto_actions_for :event, [:index, :new, :create]
   
+  smart_form_setup
 end

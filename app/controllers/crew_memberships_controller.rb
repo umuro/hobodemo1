@@ -9,6 +9,8 @@ class CrewMembershipsController < ApplicationController
 
   auto_actions_for :joined_crew, [:index, :new]
 
+  smart_form_setup
+
   index_action :received do
     conditions = { :invitee_id => current_user }
     hobo_index CrewMembership, :conditions => conditions, :per_page => 10

@@ -29,6 +29,10 @@ class ApplicationController < ActionController::Base
         url_params[:action] == 'edit' or self.class.instance_methods.include?('do_'+url_params[:action])
   end
 
+  def ignored_urls url_params
+    (url_params[:controller] == 'users' and url_params[:action] != 'show')
+  end
+
   def keep_referer
     req = request.env['action_controller.request.path_parameters']
     begin
@@ -39,7 +43,7 @@ class ApplicationController < ActionController::Base
       session.delete(:keep_referrer)
       params[:keep_referrer] = nil
     end
-    if session[:keep_referrer] == nil and ref != nil and ref[:controller] != 'users' and not std_form_actions(ref)
+    if session[:keep_referrer] == nil and ref != nil and not ignored_urls(ref) and not std_form_actions(ref)
       session['HTTP_REFERER'] = request.env['HTTP_REFERER']
     end
     if params[:keep_referrer]
@@ -67,7 +71,7 @@ class ApplicationController < ActionController::Base
 
     if instance_methods.include?('hobo_create') and not instance_methods.include?('orig_hobo_create')
       alias_method :orig_hobo_create, :hobo_create
-      define_method(:hobo_create_for) { |*args, &b|
+      define_method(:hobo_create) { |*args, &b|
         orig_hobo_create :redirect=>session['HTTP_REFERER'], &b
       }
     end
