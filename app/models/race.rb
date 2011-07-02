@@ -25,6 +25,15 @@ class Race < ActiveRecord::Base
 
   validates_presence_of :boat_class_id
 
+  def available_boat_classes
+    if event.boat_classes.length > 0
+      event.boat_classes
+    else
+      organization.boat_classes
+    end
+  end
+
+
   # --- Permissions --- #
 
   def create_permitted?

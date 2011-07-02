@@ -4,7 +4,7 @@
   <old-form merge>
     <field-list:>
       <boat-class-view:>
-        <select-one options="&@this.event.boat_classes"/>
+        <select-one options="&@this.available_boat_classes"/>
       </boat-class-view:>
     </field-list:>
   </old-form>
