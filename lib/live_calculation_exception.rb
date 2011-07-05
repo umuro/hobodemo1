@@ -1,0 +1,1 @@
+class LiveCalculationException < Exception; end
