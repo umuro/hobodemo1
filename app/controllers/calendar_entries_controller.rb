@@ -80,8 +80,23 @@ class CalendarEntriesController < ApplicationController
 
   def create_for_event
     hobo_create_for :event do |format|
-      format.html { redirect_to session['HTTP_REFERER'] }
-      format.js { index_for_event }
+      #format.html
+      #format.js { index_for_event }
+      if valid?
+        respond_to do |wants|
+          wants.html { redirect_after_submit(:redirect=>session['HTTP_REFERER']) }
+          wants.js   { index_for_event }
+        end
+      else
+        respond_to do |wants|
+		  # errors is used by the translation helper, ht, below.
+		  errors = this.errors.full_messages.join("\n")
+          wants.html { re_render_form('new_for_event') }
+          wants.js   { render(:status => 500,
+              :text => ht( :"#{this.class.name.pluralize.underscore}.messages.create.error", :errors=>errors,:default=>["Couldn't create the #{this.class.name.titleize.downcase}.\n #{errors}"])
+              )}
+        end
+      end
     end
   end
 

@@ -30,16 +30,22 @@ class ApplicationController < ActionController::Base
   end
 
   def ignored_urls url_params
-    (url_params[:controller] == 'users' and url_params[:action] != 'show')
+    users_action = (url_params[:controller] == 'users' and url_params[:action] != 'show')
+    if session['forms_req']
+      users_action or request.env['HTTP_REFERER'] == session['forms_req']
+    else
+      users_action
+    end
   end
 
   def keep_referer
     req = request.env['action_controller.request.path_parameters']
+    req_url = url_for(req)
     begin
       ref = ActionController::Routing::Routes.recognize_path URI.parse(request.env['HTTP_REFERER']).path,:method=>:get
     rescue
     end
-    if session[:keep_referrer] and (ref == nil or url_for(req) == session['HTTP_REFERER']) # form sequence cancelled
+    if session[:keep_referrer] and (ref == nil or req_url == session['HTTP_REFERER']) # form sequence cancelled
       session.delete(:keep_referrer)
       params[:keep_referrer] = nil
     end
@@ -53,10 +59,15 @@ class ApplicationController < ActionController::Base
       yield
     rescue
     end
-    if request.method != :get and @performed_redirect
-      if response.location == session['HTTP_REFERER']
-        session.delete('HTTP_REFERER')
-        session.delete(:keep_referrer)
+    if request.method != :get
+      if @performed_redirect
+        if response.location == session['HTTP_REFERER']
+          session.delete('HTTP_REFERER')
+          session.delete(:keep_referrer)
+          session.delete('forms_req')
+        end
+      else #post/put without redirect, means re-display form 
+        session['forms_req'] = req_url
       end
     end
   end
