@@ -16,6 +16,7 @@ class Race < ActiveRecord::Base
   belongs_to :event
   validates_presence_of :event
   validates_uniqueness_of :number, :scope=>:event_id
+  validates_numericality_of :number, :greater_than=>0
   delegate :organization, :to=>:event
   
   belongs_to :boat_class
