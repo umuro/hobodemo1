@@ -1,0 +1,10 @@
+<!-- ====== FleetRace ====== -->
+<extend tag="card" for="FleetRace">
+  <old-card merge>
+    <header: replace>
+      <header: restore/>
+      <set field-names="&if this.event_tz.nil? then 'start_time, scheduled_time, course_area' else 'start_time_event, scheduled_time_event, course_area' end" />
+      <field-list fields="&field_names"/>
+    </header:>
+  </old-card>
+</extend>

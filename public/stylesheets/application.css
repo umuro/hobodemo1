@@ -338,3 +338,11 @@ a:hover {
 
 .field-list .date-input, .field-list .date-input[type="text"] {
   width: 200px; }
+
+.card.fleet-race .field-list {
+  color: inherit; }
+  .card.fleet-race .field-list th {
+    width: 150px; }
+  .card.fleet-race .field-list th, .card.fleet-race .field-list td {
+    padding: 0px;
+    font-weight: inherit; }
