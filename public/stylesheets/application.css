@@ -202,6 +202,13 @@ h1, h2, h3 {
     cursor: move; }
 #fleet-management .fleet {
   margin-top: 10px; }
+  #fleet-management .fleet .field-list {
+    color: inherit; }
+    #fleet-management .fleet .field-list th {
+      width: 150px; }
+    #fleet-management .fleet .field-list th, #fleet-management .fleet .field-list td {
+      padding: 0px;
+      font-weight: inherit; }
 #fleet-management .highlight {
   background-color: #ff7777; }
 
