@@ -23,6 +23,8 @@ module AbstractRegistration
 
       attr_accessor :admin_comment, :type => :text
 
+      named_scope :admin, :conditions=>[" state <> 'rejected' "]
+
       named_scope :visible, lambda {|owner_id|
         { :conditions =>["state = 'accepted' or owner_id = ? ", owner_id] }
       }

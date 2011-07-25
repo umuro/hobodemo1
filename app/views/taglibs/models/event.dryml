@@ -65,7 +65,7 @@ page[title]
   </collection-heading:>
 
   <collection: replace>
-    <set enrs="&if current_user.organization_admin?(this.organization); this.enrollments; else; this.enrollments.visible(current_user.id); end"/>
+    <set enrs="&if current_user.organization_admin?(this.organization); this.enrollments.admin; else; this.enrollments.visible(current_user.id); end"/>
     <table-plus with="&enrs" fields="&'boat, crew, country, gender, state, date_measured'+(current_user.organization_admin?(this.organization) ? ', paid, insured, measured' : '')">
       <search-form: replace/>
       <controls:>
