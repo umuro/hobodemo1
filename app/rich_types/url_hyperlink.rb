@@ -2,6 +2,7 @@
 class UrlHyperlink < String
   
   def format
+    return nil if self.empty?
     return self if validate
     self[0..-1] = "http://#{self}" unless self =~ /^http[s]?:\/\//
     self
