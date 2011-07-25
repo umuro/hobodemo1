@@ -10,7 +10,7 @@ class CalendarEntriesController < ApplicationController
 
   def index_for_event
     @event = Event.find(params[:event_id])
-    @has_tz = @event.time_zone != nil && @event.time_zone.strip.length > 0
+    @has_tz = @event.event_tz != nil
 
     if params[:course_area_id].to_i > 0
       @course_area = @event.course_areas.find(params[:course_area_id])
@@ -31,7 +31,7 @@ class CalendarEntriesController < ApplicationController
     @next_week = @date_start+1.week
 
     if @has_tz
-      tz_offset = @date_start.in_time_zone(@event.time_zone).utc_offset
+      tz_offset = @date_start.in_time_zone(@event.event_tz).utc_offset
       @date_start -= tz_offset.second
       @date_end -= tz_offset.second
     end
