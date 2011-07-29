@@ -119,9 +119,6 @@ page
       <if test="&current_user.administrator?">
         <nav-item with="&User" action="index"><ht key="users.nav_item">Users</ht></nav-item>
       </if>
-      <if test="&current_user.any_organization_admin?">
-        <nav-item with="&BoatClass" action="show"><ht key="boat_classes.nav_item">Boat Classes</ht></nav-item>
-      </if>
     </default>
   </old-main-nav>
 </extend>
