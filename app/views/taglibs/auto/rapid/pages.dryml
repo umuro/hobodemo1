@@ -5,11 +5,11 @@
 <def tag="main-nav">
   <navigation class="main-nav" merge-attrs param="default">
     <nav-item href="#{base_url}/">Home</nav-item>
-    <nav-item with="&BoatClass"><ht key="boat_classes.nav_item">Boat Classes</ht></nav-item>
     <nav-item with="&Country"><ht key="countries.nav_item">Countries</ht></nav-item>
     <nav-item with="&CourseArea"><ht key="course_areas.nav_item">Course Areas</ht></nav-item>
     <nav-item with="&Equipment"><ht key="equipment.nav_item">Equipment</ht></nav-item>
     <nav-item with="&EquipmentType"><ht key="equipment_types.nav_item">Equipment Types</ht></nav-item>
+    <nav-item with="&Flag"><ht key="flags.nav_item">Flags</ht></nav-item>
   </navigation>
 </def>
 
@@ -3370,6 +3370,47 @@
   </page>
 </def>
 
+<def tag="index-for-course-area-page" polymorphic/>
+<def tag="index-for-course-area-page" for="FleetRace">
+  <page merge title="#{ht 'fleet_races.index_for_owner.title', :default=>['Fleet Races for']} #{name :with => @course_area, :no_wrapper => true}">    
+    <body: class="index-for-owner-page course-area fleet-race" param/>
+    <content: param>
+      <header param="content-header">
+        <div param="back-to">
+          <ht key="hobo.actions.back">Back to</ht> <a with="&@course_area"/>
+        </div>
+        <h2 param="heading">
+          <ht key="fleet_races.index_for_owner.heading.other">
+            Fleet Races
+          </ht>
+        </h2>
+        <h3 param="subheading">
+          <ht key="fleet_races.index_for_owner.subheading">
+            For:
+          </ht>
+          <a with="&@course_area"/>
+        </h3>
+        <p param="count" if>
+          <ht key="fleet_races.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+
 <def tag="index-for-race-page" polymorphic/>
 <def tag="index-for-race-page" for="FleetRace">
   <page merge title="#{ht 'fleet_races.index_for_owner.title', :default=>['Fleet Races for']} #{name :with => @race, :no_wrapper => true}">    
@@ -3443,47 +3484,6 @@
     </content:>
   </page>
 </def>
-
-<def tag="index-for-course-area-page" polymorphic/>
-<def tag="index-for-course-area-page" for="FleetRace">
-  <page merge title="#{ht 'fleet_races.index_for_owner.title', :default=>['Fleet Races for']} #{name :with => @course_area, :no_wrapper => true}">    
-    <body: class="index-for-owner-page course-area fleet-race" param/>
-    <content: param>
-      <header param="content-header">
-        <div param="back-to">
-          <ht key="hobo.actions.back">Back to</ht> <a with="&@course_area"/>
-        </div>
-        <h2 param="heading">
-          <ht key="fleet_races.index_for_owner.heading.other">
-            Fleet Races
-          </ht>
-        </h2>
-        <h3 param="subheading">
-          <ht key="fleet_races.index_for_owner.subheading">
-            For:
-          </ht>
-          <a with="&@course_area"/>
-        </h3>
-        <p param="count" if>
-          <ht key="fleet_races.collection.count" count="&this.size">
-            There <count prefix="are"/>
-          </ht>
-        </p>
-      </header>
-
-      <section param="content-body">
-
-        <page-nav param="top-page-nav"/>
-
-        <collection param/>
-
-        <page-nav param="bottom-page-nav"/>
-      </section>
-    </content:>
-  </page>
-</def>
-
-
 
 
 
@@ -5181,7 +5181,7 @@
       <header param="content-header">
         <h2 param="heading">
           <ht key="template_courses.new_for_owner.heading">
-            New Template Course
+            New Course
           </ht>
         </h2>
         <h3 param="subheading">

@@ -4,10 +4,10 @@
   <old-show-page merge>
   <field-list: replace>
     <if test="&this.event_tz.nil?">
-      <field-list restore/>
+      <field-list restore param/>
     </if>
     <else>
-      <field-list fields="start_time_event, end_time_event, place, time_zone, site_url"/>
+      <field-list fields="start_time_event, end_time_event, place, time_zone, site_url" param/>
     </else>
   </field-list:>
   </old-show-page>
@@ -17,10 +17,10 @@
   <old-form merge>
   <field-list: replace>
     <if test="&this.event_tz.nil?">
-      <field-list restore/>
+      <field-list restore param/>
     </if>
     <else>
-      <field-list fields="name, start_time_event, end_time_event, place, time_zone, description, site_url, event_folder"  param/>
+      <field-list fields="name, start_time_event, end_time_event, place, time_zone, description, site_url, event_folder" param/>
     </else>
   </field-list:>
   </old-form>
@@ -30,10 +30,10 @@
   <old-show-page merge>
   <field-list: replace>
     <if test="&this.event_tz.nil?">
-      <field-list restore/>
+      <field-list restore param/>
     </if>
     <else>
-      <field-list fields="status, scheduled_time_event, start_time_event, end_time_event, course, course_area"/>
+      <field-list fields="status, scheduled_time_event, start_time_event, end_time_event, course, course_area" param/>
     </else>
   </field-list:>
   </old-show-page>
@@ -43,7 +43,7 @@
   <old-form merge>
   <field-list: replace>
     <if test="&this.event_tz.nil?">
-      <field-list restore/>
+      <field-list restore param/>
     </if>
     <else>
       <field-list fields="color, status, scheduled_time_event, start_time_event, end_time_event, course, course_area, race" param/>
@@ -56,10 +56,10 @@
   <old-show-page merge>
   <field-list: replace>
     <if test="&this.event_tz.nil?">
-      <field-list restore/>
+      <field-list restore param/>
     </if>
     <else>
-      <field-list fields="scheduled_time_event"/>
+      <field-list fields="scheduled_time_event" param/>
     </else>
   </field-list:>
   </old-show-page>
@@ -69,10 +69,10 @@
   <old-form merge>
   <field-list: replace>
     <if test="&this.event_tz.nil?">
-      <field-list restore/>
+      <field-list restore param/>
     </if>
     <else>
-      <field-list fields="name, scheduled_time_event, event"/>
+      <field-list fields="name, scheduled_time_event, event" param/>
     </else>
   </field-list:>
   </old-form>
