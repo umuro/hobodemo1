@@ -25,7 +25,7 @@ gem "ci_reporter", :groups => [:test, :development], :require => nil
 
 
 group :test do
-  gem "factory_girl"
+  gem "factory_girl",       "= 1.3.3"
   gem "shoulda"
   gem "mocha"
   gem "rspec",              "= 1.3.1",  :require => nil
