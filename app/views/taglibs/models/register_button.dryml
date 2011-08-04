@@ -14,8 +14,13 @@
     <if test="&current_user.is_a? Guest">
       <a href="&user_login_url" param="default">Login To Register</a>
     </if>
-    <unless test="&current_user.is_a? Guest">
-      <a href="&event_shop_url params" params="&{:keep_referrer=>true}">Register Here</a>
-    </unless>
+    <else>
+      <if test="&current_user.enrollments.*.event.include? this">
+        <span param="already-register">You already register to this event</span>
+      </if>
+      <else>
+        <a href="&event_shop_url params" params="&{:keep_referrer=>true}">Register Here</a>
+      </else>
+    </else>
   </span>
 </def>

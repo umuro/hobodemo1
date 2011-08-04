@@ -92,7 +92,9 @@ page[title]
     </collection-heading:>
     
     <collection:>
-      <card with="&this.event"/>
+      <card with="&this.event">
+        <already-register: replace/>
+      </card>
     </collection:>
 
     <after-events-as-spotter-collection-heading:>

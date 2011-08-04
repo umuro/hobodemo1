@@ -8,3 +8,13 @@
     </header:>
   </old-card>
 </extend>
+
+<extend tag="edit-page" for="FleetRace">
+  <old-edit-page merge>
+    <form: replace>
+        <form param>
+          <field-list: skip="copy_assignments_from" param/>
+        </form>
+    </form:>
+  </old-edit-page>
+</extend>

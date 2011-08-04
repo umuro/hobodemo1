@@ -38,7 +38,7 @@ page[title]
   <old-card merge>
     <body:>
       <p><%= (this.event_tz.nil?) ? this.start_time : this.start_time_event %> in <view:place/></p>
-      <register-button/>
+      <register-button merge/>
     </body:>
   </old-card>
 </extend>

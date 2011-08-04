@@ -12,7 +12,7 @@ class FleetRace < ActiveRecord::Base
   end
   include EventLocalTime
 
-  set_default_order "color ASC"
+  set_default_order "race_id ASC,color ASC"
 
   delegate :organization, :to=>:race
   delegate :event, :to=>:race
@@ -26,6 +26,7 @@ class FleetRace < ActiveRecord::Base
   belongs_to :race
   belongs_to :course_area, :conditions =>'event_id = #{event_id}'
   belongs_to :course, :conditions=> 'organization_id = #{organization.id}', :dependent=>:destroy
+  belongs_to :copy_assignments_from, :class_name=>'FleetRace', :conditions=> 'race_id <> #{race_id}'
 
   validates_presence_of :course, :unless=> lambda {|r| r.new_record?}
   validates_presence_of :course_area_id
@@ -94,6 +95,10 @@ class FleetRace < ActiveRecord::Base
 
   def label
     short_label
+  end
+
+  def to_s
+    "race #{race.number} - #{color}"
   end
 
   before_save lambda { |fr|

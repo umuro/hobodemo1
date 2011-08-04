@@ -46,7 +46,7 @@
       <field-list restore param/>
     </if>
     <else>
-      <field-list fields="color, status, scheduled_time_event, start_time_event, end_time_event, course, course_area, race" param/>
+      <field-list fields="color, status, scheduled_time_event, start_time_event, end_time_event, course, course_area, race, copy_assignments_from" param/>
     </else>
   </field-list:>
   </old-form>
