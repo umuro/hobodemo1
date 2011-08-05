@@ -34,6 +34,10 @@ class Race < ActiveRecord::Base
     end
   end
 
+  def available_enrollments
+    return (event.enrollments - fleet_races.*.enrollments.flatten)
+  end
+
 
   # --- Permissions --- #
 

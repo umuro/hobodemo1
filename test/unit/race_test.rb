@@ -46,5 +46,37 @@ class RaceTest < ActiveSupport::TestCase
         end
       end
     end
-  end
+  end #Boat Class choices
+
+  context "Advanced Fleet Management" do
+    setup do
+      @race = Factory(:race)
+      @race_x = Factory(:race)
+      rr = Factory :registration_role, :event=>@race.event
+      @enrollment_0 = Factory :enrollment, :registration_role => rr
+      @enrollment_1 = Factory :enrollment, :registration_role => rr
+      @enrollment_2 = Factory :enrollment, :registration_role => rr
+      @fleet_race_0 = Factory(:fleet_race, :race=>@race)
+      Factory(:fleet_race_membership, :fleet_race=>@fleet_race_0, :enrollment=>@enrollment_0)
+      Factory(:fleet_race_membership, :fleet_race=>@fleet_race_0, :enrollment=>@enrollment_1)
+      @fleet_race_1 = Factory(:fleet_race, :race=>@race_x)
+      Factory(:fleet_race_membership, :fleet_race=>@fleet_race_1, :enrollment=>@enrollment_2)
+    end
+
+      should "respond to available_enrollments helper methods" do
+        assert @race.respond_to? :available_enrollments
+      end
+
+      should "return unassigned enrollments via available_enrollments" do
+        assert_equal @race.event.enrollments.length, 3
+
+        assert_equal @race.available_enrollments.length, 1
+        assert_equal @race.available_enrollments[0].id, @enrollment_2.id
+
+        assert_equal @race_x.available_enrollments.length, 2
+        assert @race_x.available_enrollments.include? @enrollment_0
+        assert @race_x.available_enrollments.include? @enrollment_1
+      end
+  end #Advanced Fleet Management
+
 end

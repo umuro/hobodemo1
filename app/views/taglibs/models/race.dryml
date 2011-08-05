@@ -41,12 +41,13 @@
         <div style="float: right; width: 45%; " if="&can_edit?">
           <h3>Available boats</h3>
           <ul class="collection enrollments" id="available" >
-            <repeat with="&this.event.available_enrollments">
-            <li class="item available <%=h (can_edit?) ? 'editable' : '' -%>" id="enrollment_<%=h this.id.to_s -%>_null">
+            <set liclass="&'item available '+if can_edit?; 'editable'; end"/>
+            <repeat with="&this.available_enrollments">
+            <li class="<%= liclass -%>" id="enrollment_<%=h this.id.to_s -%>_null">
               <div class="card enrollment" id="enrollment_<%=h this.id.to_s -%>"><view /></div>
             </li>
             </repeat>
-            <li class="no-content-msg" style="display: <%=h (this.event.available_enrollments.length > 0)? 'none':'block'; -%>;">
+            <li class="no-content-msg" style="display: <%=h (this.available_enrollments.length > 0)? 'none':'block'; -%>;">
               <div style="padding-left: 2px;">No boats to display</div>
             </li>
           </ul>

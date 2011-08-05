@@ -46,10 +46,6 @@ class Event < ActiveRecord::Base
   has_many :event_spotters, :through=>:event_spotter_roles, 
            :source=>:user, :accessible=>true
 
-  
-  def available_enrollments
-    return (enrollments - fleet_races.*.enrollments.flatten)
-  end
 
 #   has_many :news_items, :as => :news
 

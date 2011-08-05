@@ -36,31 +36,6 @@ class EventTest < ActiveSupport::TestCase
     end
   end
 
-  context "Advanced Fleet Management" do
-    setup do
-      @race = Factory(:race)
-      rr = Factory :registration_role, :event=>@race.event
-      @enrollment_0 = Factory :enrollment, :registration_role => rr
-      @enrollment_1 = Factory :enrollment, :registration_role => rr
-      @enrollment_2 = Factory :enrollment, :registration_role => rr
-      @fleet_race_0 = Factory(:fleet_race, :race=>@race)
-      Factory(:fleet_race_membership, :fleet_race=>@fleet_race_0, :enrollment=>@enrollment_0)
-      @fleet_race_1 = Factory(:fleet_race, :race=>@race)
-      Factory(:fleet_race_membership, :fleet_race=>@fleet_race_1, :enrollment=>@enrollment_1)
-    end
-
-    context "the event object" do
-      should "respond to available_enrollments helper methods" do
-        assert @race.event.respond_to? :available_enrollments
-      end
-
-      should "return unassigned enrollments via available_enrollments" do
-        assert_equal @race.event.enrollments.length, 3
-        assert_equal @race.event.available_enrollments.length, 1
-        assert_equal @race.event.available_enrollments[0].id, @enrollment_2.id
-      end
-    end
-  end
 
   context "Event TimeZone for event-related classes" do
     @klasses = ActiveRecord::Base.send(:subclasses).select do |m|
