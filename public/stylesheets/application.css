@@ -346,3 +346,11 @@ a:hover {
   .card.fleet-race .field-list th, .card.fleet-race .field-list td {
     padding: 0px;
     font-weight: inherit; }
+
+a.signup {
+  background-color: #ab1529;
+  color: white;
+  padding: 10px;
+  font-weight: bold; }
+  a.signup:hover {
+    background-color: #ab5964; }
