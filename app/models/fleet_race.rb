@@ -26,7 +26,7 @@ class FleetRace < ActiveRecord::Base
   belongs_to :race
   belongs_to :course_area, :conditions =>'event_id = #{event_id}'
   belongs_to :course, :conditions=> 'organization_id = #{organization.id}', :dependent=>:destroy
-  belongs_to :copy_assignments_from, :class_name=>'FleetRace', :conditions=> 'race_id <> #{race_id}'
+  belongs_to :copy_assignments_from, :class_name=>'FleetRace', :conditions=> '#{other_races_condition}'
 
   validates_presence_of :course, :unless=> lambda {|r| r.new_record?}
   validates_presence_of :course_area_id
@@ -63,6 +63,15 @@ class FleetRace < ActiveRecord::Base
 
   def course
     Course.find_by_id course_id #Override belongs_to_condition
+  end
+
+  def other_races_condition
+    other_races = event.races-[self.race]
+    if other_races.empty?
+      '1=2' # dummy false condition to return nil
+    else
+      "race_id <> #{race_id} and race_id in (#{other_races.*.id.join(',')})"
+    end
   end
 
   # --- Permissions --- #
