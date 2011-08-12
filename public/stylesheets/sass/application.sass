@@ -333,7 +333,6 @@ a:hover
   width: 240px
   height: 25px
   a
-    color: white
     padding: 15px
     display: inline-block
     text-align: center
@@ -344,14 +343,23 @@ a:hover
 
 .content-header .register-button
   margin: 25px 0 0
-  a
+
+.register-button
+  a.not-registered
+    color: white
     background-color: #ab1529  
     &:hover
       background-color: #ab5964
+  a.registered
+    color: #aaa
+    background-color: #f8f8f8
+    &:hover
+      background-color: #fcfff5
       
 .content-body .create-profile
   margin: 45px 0 0
   a
+    color: white
     background-color: #15aba6
     &:hover
       background-color: #59aba8

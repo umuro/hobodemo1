@@ -310,7 +310,6 @@ a:hover {
   width: 240px;
   height: 25px; }
   .content-header .register-button a, .content-body .create-profile a {
-    color: white;
     padding: 15px;
     display: inline-block;
     text-align: center;
@@ -321,14 +320,22 @@ a:hover {
 
 .content-header .register-button {
   margin: 25px 0 0; }
-  .content-header .register-button a {
-    background-color: #ab1529; }
-    .content-header .register-button a:hover {
-      background-color: #ab5964; }
+
+.register-button a.not-registered {
+  color: white;
+  background-color: #ab1529; }
+  .register-button a.not-registered:hover {
+    background-color: #ab5964; }
+.register-button a.registered {
+  color: #aaaaaa;
+  background-color: #f8f8f8; }
+  .register-button a.registered:hover {
+    background-color: #fcfff5; }
 
 .content-body .create-profile {
   margin: 45px 0 0; }
   .content-body .create-profile a {
+    color: white;
     background-color: #15aba6; }
     .content-body .create-profile a:hover {
       background-color: #59aba8; }
