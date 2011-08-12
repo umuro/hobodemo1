@@ -1,6 +1,0 @@
-rails --version 2.3.8
-hobo --version 1.0.2
-haml --version 3.0.12
-builder --version 2.1.2
-will_paginate --version '>= 2.3.11'
-memcached-northscale '>= 0.19.5.3'
