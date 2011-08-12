@@ -5181,7 +5181,7 @@
       <header param="content-header">
         <h2 param="heading">
           <ht key="template_courses.new_for_owner.heading">
-            New Course
+            New Template Course
           </ht>
         </h2>
         <h3 param="subheading">

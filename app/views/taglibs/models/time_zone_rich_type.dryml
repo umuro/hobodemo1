@@ -1,3 +1,3 @@
 <def tag="input" for="TimeZoneRichType" attrs="name">
-  <%= select_tag(name, time_zone_options_for_select(this), options=attributes) %>
+  <%= select_tag(name, '<option></option>'+time_zone_options_for_select((this.nil? || this.to_tz.nil?) ? this : this.to_tz.name), options=attributes) %>
 </def>

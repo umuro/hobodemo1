@@ -2,8 +2,11 @@
 <def tag="register-button" polymorphic/>
 <def tag="register-button" for="Event">
   <%
-     pass = true if this and this.end_time >= DateTime.now.utc
-     pass = true unless this
+     if this
+       pass = true
+       pass = this.end_time >= DateTime.now.utc if this.end_time
+     end
+    
      params = {}
      params.merge! :id=>this.id if this-%>
   
