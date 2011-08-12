@@ -70,7 +70,7 @@ feature "Least Sanity Test", %q{
           
           scenario "I view" do
             page.should have_content(@event.name)
-            page.should have_content('Start Time')
+            page.should_not have_content('Start Time')
           end
           
           scenario "I visit the race page" do
@@ -79,7 +79,7 @@ feature "Least Sanity Test", %q{
             page.should have_content(@boat_class.name)
             within('.collection.fleet-races') do
               page.should have_content(@fleet_race.color)
-              page.should have_content('Scheduled Time')
+              page.should_not have_content('Scheduled Time')
             end
           end
 

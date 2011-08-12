@@ -22,7 +22,7 @@
           <item: class="fleet" />
           <default:>
             <view />
-            <set field-names="&if this.event_tz.nil? then 'scheduled_time,course_area' else 'scheduled_time_event,course_area' end" />
+            <set field-names="&if this.event_tz.nil? then 'course_area' else 'scheduled_time_event,course_area' end" />
             <field-list fields="&field_names"/>
             <ul class="collection enrollments" id="fleet_<%=h this.id.to_s -%>">
               <set fleet="&this" />
