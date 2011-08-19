@@ -57,6 +57,10 @@ feature "Least Sanity Test", %q{
     background do
       @event.time_zone = nil
       @event.save
+      @calendar_entry.scheduled_time = Time.now.utc.at_beginning_of_day # adjust scheduled time so that entry is visible
+      @calendar_entry.save
+      @fleet_race.scheduled_time = Time.now.utc.at_beginning_of_day # adjust scheduled time so that entry is visible
+      @fleet_race.save
     end
     describe "As a User coming to the site" do
       describe "I visit the front page" do

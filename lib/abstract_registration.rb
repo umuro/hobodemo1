@@ -42,6 +42,7 @@ module AbstractRegistration
 	transition :reject, {:requested => :rejected}, :params=>[:admin_comment], :available_to => :organization_admins do
 	  UserMailer.deliver_event_abstract_registration_rejected(self)
 	end
+	transition :cancel, {:accepted => :requested}, :available_to => :organization_admins
       end #lifecycle
 
       # --- Permissions --- #
@@ -62,7 +63,7 @@ module AbstractRegistration
       end
       
       def update_permitted?
-	return false if state == 'accepted'
+	return false if state == 'accepted' && !acting_user.organization_admin?(self.organization)
  	return false if !acting_user.organization_admin?(self.organization) &&
  	  any_additional_changed?
  

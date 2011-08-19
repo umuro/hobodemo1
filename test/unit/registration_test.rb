@@ -64,6 +64,16 @@ class RegistrationTest < ActiveSupport::TestCase
         should "set the state to #accepted" do
           assert_equal 'accepted', @registration.state
         end
+
+        context "#cancel transition" do
+          setup do
+            @registration.lifecycle.cancel! @org_admin
+          end
+
+          should "set the state to #requested" do
+            assert_equal 'requested', @registration.state
+          end
+        end
       end #accept transition
 
       context "#reject transition for #user" do

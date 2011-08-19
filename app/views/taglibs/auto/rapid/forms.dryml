@@ -204,6 +204,17 @@
     </div>
   </form>
 </def>
+<def tag="cancel-form" polymorphic/>
+<def tag="cancel-form" for="Enrollment">
+  <form lifecycle="cancel" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollments.actions.cancel', :default=>['Cancel']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
 <def tag="re-enroll-form" polymorphic/>
 <def tag="re-enroll-form" for="Enrollment">
   <form lifecycle="re_enroll" merge param="default">
@@ -446,6 +457,17 @@
     <field-list fields="admin_comment" param/>
     <div param="actions">
       <submit label="#{ht 'registrations.actions.reject', :default=>['Reject']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="cancel-form" polymorphic/>
+<def tag="cancel-form" for="Registration">
+  <form lifecycle="cancel" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'registrations.actions.cancel', :default=>['Cancel']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>

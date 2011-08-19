@@ -1810,6 +1810,29 @@
   </page>
 </def>
 
+<def tag="cancel-page" polymorphic/>
+<def tag="cancel-page" for="Enrollment">
+  <page title="#{ht 'enrollments.cancel.title', :default=>['Cancel']}" merge>
+
+    <body: class="lifecycle-transition-page cancel-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollments.cancel.heading">
+            Cancel
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <cancel-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
 <def tag="re-enroll-page" polymorphic/>
 <def tag="re-enroll-page" for="Enrollment">
   <page title="#{ht 'enrollments.re_enroll.title', :default=>['Re Enroll']}" merge>
@@ -4526,6 +4549,29 @@
 
       <section param="content-body">
         <reject-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="cancel-page" polymorphic/>
+<def tag="cancel-page" for="Registration">
+  <page title="#{ht 'registrations.cancel.title', :default=>['Cancel']}" merge>
+
+    <body: class="lifecycle-transition-page cancel-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="registrations.cancel.heading">
+            Cancel
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <cancel-form param="form"/>
       </section>
     </content:>
 
