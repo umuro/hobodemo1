@@ -143,7 +143,7 @@ page[title]
         <a><view:email-address/></a><%= " (inactive)" unless this.active? %>
       </h4>
       <% if this.user_profile %>
-        <a:user_profile href="&edit_user_profile_path(this)"><view:name/></a>
+        <a><view:user_profile.name/></a>
       <% else %>
         <p>(no user profile information available)</p>
       <% end %>
