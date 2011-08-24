@@ -46,9 +46,9 @@ class Event < ActiveRecord::Base
   has_many :event_spotters, :through=>:event_spotter_roles, 
            :source=>:user, :accessible=>true
 
-
-#   has_many :news_items, :as => :news
-
+  def destroy
+    super if enrollments.empty? && registrations.empty? && races.empty?
+  end
 
   #active == not yet finished
   named_scope :active, 
