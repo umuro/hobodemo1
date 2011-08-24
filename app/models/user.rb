@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
   before_validation_on_create :already_signedup_check
 
   delegate :country, :to=>:user_profile
+  delegate :first_name, :to=>:user_profile 
+  delegate :last_name, :to=>:user_profile
 
   has_many :organization_admin_roles, :dependent=>:destroy
   has_many :organizations_as_admin, :through=>:organization_admin_roles, :source=>:organization

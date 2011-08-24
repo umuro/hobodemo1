@@ -34,7 +34,7 @@ class Equipment < ActiveRecord::Base
   end
   
   def label
-    "#{equipment_type.to_s} - #boat.sail_number (#{serial})"
+    "#{equipment_type.to_s} - #{boat.sail_number} (#{serial})"
   end
 
 end

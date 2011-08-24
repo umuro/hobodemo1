@@ -30,11 +30,14 @@ class Enrollment < ActiveRecord::Base
   delegate :skipper, :to=>:crew
   delegate :gender, :to=>:crew
   delegate :sail_number, :to=>:boat
+  delegate :boat_class, :to=>:boat
 
+  #FIXME. member needs to be db field
+  alias :member :skipper #Member is who is registered in an Event
+  
   def name
     "#{skipper} with #{sail_number}"
   end
-
 
   # --- Lifecycle --- #
 

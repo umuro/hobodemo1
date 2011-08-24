@@ -65,8 +65,16 @@ page[title]
   </collection-heading:>
 
   <collection: replace>
-    <set enrs="&if current_user.organization_admin?(this.organization); this.enrollments.admin; else; this.enrollments.visible(current_user.id); end"/>
-    <table-plus with="&enrs" fields="&'boat, crew, country, gender, state'+(current_user.organization_admin?(this.organization) ? ', paid, insured, measured, date_measured' : '')">
+    <if test="&current_user.organization_admin?(this.organization) and this.enrollments.admin.length > 0">
+      <span style="float: right;">
+        <a with="&@event" action="entries">Download CSV (Entries)</a>
+        &nbsp;|&nbsp;
+        <a with="&@event" action="equipments">Download CSV (Equipments)</a>
+      </span>
+    </if>
+    <set enrs="&if current_user.organization_admin?(this.organization); this.enrollments.admin.sort; else; this.enrollments.visible(current_user.id).sort; end"/>
+    <table-plus with="&enrs" fields="&'boat_class, boat, crew, country, gender, state'+(current_user.organization_admin?(this.organization) ? ', paid, insured, measured, date_measured' : '')">
+      <boat-class-heading:>Class</boat-class-heading:>
       <search-form: replace/>
       <controls:>
 	<transition-buttons/>
@@ -74,19 +82,15 @@ page[title]
 	  <ht key="enrollments.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
 	    Edit Enrollment</ht></a></controls:>
       <empty-message:>You have not enrolled to any event</empty-message:>
-      <tfoot:>
-        <tr if="&current_user.organization_admin?(@event.organization)">
-          <td colspan="<%= (current_user.organization_admin?(@event.organization) ? 10 : 7) -%>">
-            <span style="float: right;"><a with="&@event" action="enrollments">DownloadCSV</a></span>
-          </td>
-        </tr>
-      </tfoot:>
 
     </table-plus>
 
     <h3 class="collection-heading">Registrations</h3>
-    <set regs="&if current_user.organization_admin?(this.organization); this.registrations; else; this.registrations.visible(current_user.id); end"/>
-    <table-plus with="&regs" fields="registration_role, owner, state">
+    <if test="&current_user.organization_admin?(this.organization) and this.registrations.length > 0">
+      <span style="float: right;"><a with="&@event" action="registrations">Download CSV</a></span>
+    </if>
+    <set regs="&if current_user.organization_admin?(this.organization); this.registrations.sort; else; this.registrations.visible(current_user.id).sort; end"/>
+    <table-plus with="&regs" fields="registration_role, member, state">
       <search-form: replace/>
       <controls:>
 	<transition-buttons/>
@@ -96,13 +100,6 @@ page[title]
           </ht>
         </a>
       </controls:>
-      <tfoot:>
-        <tr if="&current_user.organization_admin?(@event.organization)">
-          <td colspan="4">
-            <span style="float: right;"><a with="&@event" action="registrations">DownloadCSV</a></span>
-          </td>
-        </tr>
-      </tfoot:>
     </table-plus>
 
   </collection:>

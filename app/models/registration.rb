@@ -12,9 +12,11 @@ class Registration < ActiveRecord::Base
     "#{owner.label} as #{registration_role.name}"
   end
 
-  def name
-    label
-  end 
+  #FIXME. member needs to be db field
+  alias :member :owner
+  delegate :gender, :to=>:member
+  delegate :country, :to=>:member
+  
 
   lifecycle do
     create :register, :params => [:registration_role],

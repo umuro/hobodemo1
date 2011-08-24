@@ -1,0 +1,21 @@
+<%= (@csv_header.map{|header| header.titleize}).join(',') %>
+<%=
+FasterCSV.generate do |csv|
+  @this.enrollments.sort{|a,b| Enrollment.csv_sort(a,b)}.each do |en|
+    if en.try(:boat).try(:boat_class).nil?
+      csv << [nil, en.boat.try(:sail_number), nil, nil]
+    else
+      eq_types = en.boat.boat_class.equipment_types
+      boat_eq = en.boat.equipment.group_by {|eq| eq.equipment_type_id}
+      eq_types.each do |eq_type|
+        values = []
+        values << en.boat.boat_class.name
+        values << en.boat.sail_number
+        values << eq_type.name
+        values << boat_eq[eq_type.id] || ''
+        csv << values
+      end
+    end
+  end
+end
+%>

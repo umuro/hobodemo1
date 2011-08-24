@@ -46,6 +46,16 @@ class Event < ActiveRecord::Base
   has_many :event_spotters, :through=>:event_spotter_roles, 
            :source=>:user, :accessible=>true
 
+#   alias :pure_enrollments :enrollments
+#   def enrollments
+#     pure_enrollments.all(:joins=>[:boat, {:crew=>:owner}, :country])
+#   end
+# 
+#   alias :pure_registrations :registrations
+#   def registrations
+#     pure_registrations.all(:joins=>[:owner])
+#   end
+  
   def destroy
     super if enrollments.empty? && registrations.empty? && races.empty?
   end

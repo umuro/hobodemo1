@@ -1,6 +1,8 @@
 <%= (@csv_header.map{|field| field.titleize}).join(',') %>
-<%= FasterCSV.generate do |csv|
-  @this.registrations.sort{|a,b| Registration.csv_sort(a,b)}.each do |r|
+<%=
+FasterCSV.generate do |csv|
+  @this.enrollments.sort{|a,b| Enrollment.csv_sort(a,b)}.each do |r|
     csv << @csv_header.map{|field| r.send(field)}
   end
 end %>
+%>

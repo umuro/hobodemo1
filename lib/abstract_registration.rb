@@ -70,6 +70,50 @@ module AbstractRegistration
 	acting_user.is_owner_of?(self)
       end
 
+      def self.csv_sort(a,b)
+        result = a.state <=> b.state
+        return result || 1 unless result == 0
+	sort(a,b)
+      end
+      def self.list_sort(a,b)
+	sort(a,b)
+      end
+      def self.sort(a,b)
+# puts "#{a.id} <=> #{b.id}"	
+        result = a.registration_role.name <=> b.registration_role.name
+        return result || 1 unless result == 0
+
+        result = a.gender.to_s<=> b.gender.to_s
+        return result || 1 unless result == 0
+
+        if a.respond_to?(:boat) && a.boat && a.boat.boat_class
+          result = a.boat.boat_class.name <=> b.try(:boat).try(:boat_class).try(:name)
+          return result || 1 unless result == 0
+        end
+
+        if a.member.user_profile.nil?
+          return -1
+        elsif b.member.user_profile.nil?
+          return 1
+        else
+          result = a.member.user_profile.last_name <=> b.member.user_profile.last_name
+          return result || 1
+        end
+      end
+      def <=>(b)
+	self.class.sort(self,b)
+      end
+
+      delegate :last_name, :to=>:member
+      delegate :first_name, :to=>:member
+      delegate :email_address, :to=>:member
+      def email
+	email_address.gsub('@',' AT ').gsub('.',' DOT ')
+      end
+      def nationality
+	country.try(:code)
+      end
+      
     end
   end
 end

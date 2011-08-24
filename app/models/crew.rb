@@ -71,4 +71,12 @@ class Crew < ActiveRecord::Base
     true
   end
 
+  def to_s
+    if crew_type == Type::PERSON
+      skipper.label
+    else
+      self.name
+    end
+  end
+
 end
