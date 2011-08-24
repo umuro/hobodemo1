@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
     administrator :boolean, :default => false
     timestamps
   end
+  set_default_order "email_address ASC"
 
   before_validation_on_create :already_signedup_check
 
