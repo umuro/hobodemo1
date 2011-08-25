@@ -22,11 +22,14 @@ class FleetRacesController < ApplicationController
     hobo_create_for :race do |format|
       if valid?
         if this.copy_assignments_from
+          race_enrollments = this.race.fleet_races.*.enrollments.flatten
           this.copy_assignments_from.enrollments.each do |enrollment|
-            frm = FleetRaceMembership.new
-            frm.fleet_race = this
-            frm.enrollment = enrollment
-            frm.save
+            if not race_enrollments.include? enrollment
+              frm = FleetRaceMembership.new
+              frm.fleet_race = this
+              frm.enrollment = enrollment
+              frm.save
+            end
           end
         end
         respond_to do |wants|
