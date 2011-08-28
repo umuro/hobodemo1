@@ -10,7 +10,7 @@ class RegistrationRole < ActiveRecord::Base
     timestamps
   end
   
-  attr_readonly :operation
+#   attr_readonly :operation
 
   belongs_to :event
   has_many :enrollments, 		:dependent=>:destroy
