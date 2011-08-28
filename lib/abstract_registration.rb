@@ -108,7 +108,7 @@ module AbstractRegistration
       delegate :first_name, :to=>:member
       delegate :email_address, :to=>:member
       def email
-	email_address.gsub('@',' AT ').gsub('.',' DOT ')
+	email_address
       end
       def nationality
 	country.try(:code)
