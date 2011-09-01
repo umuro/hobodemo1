@@ -21,6 +21,7 @@ page[title]
           <children>-preview
             more-->
 
+<!--
 <extend tag="show-page" for="Site">
   <old-show-page merge without-content-header>
     <collection:>
@@ -32,3 +33,4 @@ page[title]
     </collection:>
   </old-show-page>
 </extend>
+-->
