@@ -18,7 +18,10 @@ class RegistrationsController < ApplicationController
 		  :enrollment => hash
       
     else
-      do_creator_action :register
+      do_creator_action :register do
+	flash_notice("Your registration request is successfully sent to #{rr.event}") if valid?
+	false #force default rendering
+      end
     end
   end
 end

@@ -19,7 +19,10 @@ class RegistrationRole < ActiveRecord::Base
   validates_uniqueness_of :name, :scope=>:event_id
 
   delegate :organization, :to=>:event
-  
+
+  def destroy
+    super if enrollments.empty? && registrations.empty?
+  end  
   # --- Permissions --- #
 
   def create_permitted?

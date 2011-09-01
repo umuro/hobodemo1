@@ -42,5 +42,13 @@ class EnrollmentsController < ApplicationController
 #       event_id = enrollment.event_id
 #       redirect_to event_path :id=>event_id      
 #     end
+  def do_enroll
+    rrid = params[:enrollment][:registration_role_id]
+    rr = RegistrationRole.find rrid
+      do_creator_action :enroll do
+	flash_notice("Your registration request is successfully sent to #{rr.event}")  if valid?
+	false #force default rendering
+      end
+  end
   
 end

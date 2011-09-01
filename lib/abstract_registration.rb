@@ -78,6 +78,7 @@ module AbstractRegistration
       def self.list_sort(a,b)
 	sort(a,b)
       end
+      #TEST
       def self.sort(a,b)
 # puts "#{a.id} <=> #{b.id}"	
         result = a.registration_role.name <=> b.registration_role.name
