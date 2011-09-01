@@ -23,7 +23,7 @@ class UrlHyperlink < String
   
   def validate_with v
     begin 
-      url = URI.parse self
+      url = URI.parse v.strip
       raise "#{url.scheme} not accepted as valid URL scheme" unless url.scheme == "http" || url.scheme == "https" || url.scheme == nil
     rescue Exception => e
       return e.message
