@@ -2,20 +2,16 @@
 <def tag="register-button" polymorphic/>
 <def tag="register-button" for="Event">
   <%
-     if this
-       pass = true
-       pass = this.end_time >= DateTime.now.utc if this.end_time
-     end
-    
+     pass = this.try(:accepts_registration?)
      params = {}
-     params.merge! :id=>this.id if this-%>
+     params.merge! :id=>this.id if this -%>
   
   <span class="register-button" if="&pass">
     <if test="&current_user.is_a? Guest">
       <a href="&user_login_url" param="default" class="not-registered">Login To Register</a>
     </if>
     <else>
-      <% klass = current_user.enrollments.*.event.include?(this) ? 'registered' : 'not-registered' -%>
+      <% klass = this.try(:encourages_registration?, current_user) ? 'registered' : 'not-registered' -%>
       <a href="&event_shop_url params" params="&{:keep_referrer=>true}" class="&klass">Register Here</a>
     </else>
   </span>

@@ -19,6 +19,7 @@ class Event < ActiveRecord::Base
     description :text, :primary_content=>true
     site_url    :url_hyperlink
     registration_only :boolean
+    registrations_closed :boolean
     timestamps
   end
   include EventLocalTime
@@ -83,7 +84,20 @@ class Event < ActiveRecord::Base
   def local_end_time
     end_time.in_time_zone( self.time_zone )
   end
-  
+
+  #TEST
+  def accepts_registration?
+       pass = true
+       pass = end_time >= DateTime.now.utc if end_time
+       pass = !registrations_closed if pass
+  end
+
+  #TEST
+  def encourages_registration?(user)
+    accepts_registration? and
+	user.enrollments.find(:all, :joins=>:registration_role, :conditions=>{:registration_roles=>{:event_id=>2}} ).blank? and
+	user.registrations.find(:all, :joins=>:registration_role, :conditions=>{:registration_roles=>{:event_id=>2}} ).blank?
+  end
   # --- Permissions --- #
 
   def create_permitted?

@@ -1,4 +1,14 @@
 <!-- ====== Registration ====== -->
+<extend tag="register-form" for="Registration">
+  <% pass=this.event.accepts_registration? -%>
+  <old-register-form merge>
+    <submit: replace>
+      <submit restore if="&pass"/>
+      <do unless="&pass">Regisration Closed</do>
+    </submit:>
+  </old-register-form>
+</extend>
+
 <extend tag="card" for="Registration">
   <old-card merge>
     <body: replace/>

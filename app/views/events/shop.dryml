@@ -19,6 +19,7 @@
 	      <search-form: replace/>
 	      <controls:>
 		<do with="&Registration.new  :registration_role => this">
+
 		  <register-form>
 		    <cancel: replace/>
 		  </register-form>
