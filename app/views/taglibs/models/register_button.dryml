@@ -15,4 +15,7 @@
       <a href="&event_shop_url params" params="&{:keep_referrer=>true}" class="&klass">Register Here</a>
     </else>
   </span>
+  <span class="register-button" unless="&pass">
+      <a href="#" class="registered">Registrations Closed</a>
+  </span>
 </def>

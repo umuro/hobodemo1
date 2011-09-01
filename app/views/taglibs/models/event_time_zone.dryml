@@ -17,9 +17,9 @@
   <old-form merge>
   <field-list: replace>
     <if test="&this.event_tz.nil?">
-      <field-list fields="name, place, time_zone, description, site_url, event_folder" param/>    </if>
+      <field-list fields="name, registrations_closed, place, time_zone, description, site_url, event_folder" param/>    </if>
     <else>
-      <field-list fields="name, start_time_event, end_time_event, place, time_zone, description, site_url, event_folder" param/>
+      <field-list fields="name, registrations_closed, start_time_event, end_time_event, place, time_zone, description, site_url, event_folder" param/>
     </else>
   </field-list:>
   </old-form>
