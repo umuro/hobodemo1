@@ -25,16 +25,16 @@
 %></def>
 
 <def tag="live-search-i18n">
-  <!--
   <div class="search">
-    <label for="search-field"><ht key="actions.search.command">Search</ht></label><input type="search" class="live-search"/>
+    <label for="search-field"><ht key="actions.search.command">Search</ht></label>
+    <input type="search" class="live-search"/>
     <spinner id="search-spinner"/>
   </div>
   <section class="hidden" id="search-results-panel">
-    <h2><ht key="actions.search.title">Search Results</ht></h2><div param="close-button"><ht key="actions.close">close</ht></div>
+    <h2><ht key="actions.search.title">Search Results</ht></h2>
+    <div param="close-button"><ht key="actions.close">close</ht></div>
     <section id="search-results">&nbsp;</section>
   </section>
-  -->
 </def>
 
 <extend tag="page">
