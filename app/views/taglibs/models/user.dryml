@@ -142,12 +142,14 @@ page[title]
       <h4 param="heading">
         <a><view:email-address/></a><%= " (inactive)" unless this.active? %>
       </h4>
+    </header:>
+    <body: replace>
       <% if this.user_profile %>
         <a><view:user_profile.name/></a>
       <% else %>
         <p>(no user profile information available)</p>
       <% end %>
-    </header:>
+    </body>
   </card>
 </def>
 
