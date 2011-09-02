@@ -8,7 +8,7 @@ class RacesControllerTest < ActionController::TestCase
 
     context "Someone else" do
       setup do
-        someone_else = Factory(:user)
+        someone_else = Factory(:user_profile).owner
         login_as someone_else
       end
 
@@ -20,7 +20,7 @@ class RacesControllerTest < ActionController::TestCase
 
     context "Organization Admin" do
       setup do
-        user = Factory(:user)
+        user = Factory(:user_profile).owner
         Factory(:organization_admin_role, :organization=>@race.organization, :user=>user)
         login_as user
       end

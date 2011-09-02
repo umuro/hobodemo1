@@ -17,7 +17,7 @@ class UsersControllerTest < ActionController::TestCase
   context "Security:  " do
 
     setup { 
-      @user = Factory(:user)
+      @user = Factory(:user_profile).owner
       @attrs = Factory.attributes_for(:user) 
     }
 
@@ -32,6 +32,7 @@ class UsersControllerTest < ActionController::TestCase
 
         should "get show" do
           get :show, :id=>@user.id
+	  #FIXME... Only admins can see profiles on enrolled users
           assert_response :success
         end
       end
@@ -204,7 +205,7 @@ class UsersControllerTest < ActionController::TestCase
   context "Existing & authenticated mobile client user wants to de-auth" do
 
     setup do
-      @user = Factory.create :user
+      @user = Factory.create(:user_profile).owner
       login_as @user
     end
 

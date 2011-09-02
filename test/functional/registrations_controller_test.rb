@@ -17,7 +17,7 @@ class RegistrationsControllerTest < ActionController::TestCase
   context "Guest" do
 
     setup do
-      user = Factory(:user)
+      user = Factory(:user_profile).owner
       country = Factory(:country)
       registration_role = Factory :registration_role
 
@@ -82,7 +82,7 @@ class RegistrationsControllerTest < ActionController::TestCase
           end
 
           should "fail for #owner" do
-            owner = Factory(:user)
+            owner = Factory(:user_profile).owner
             put :update, :id=>@registration.id, :registration => {:owner_id=>owner.id}
             assert_response :forbidden
 
@@ -128,7 +128,7 @@ class RegistrationsControllerTest < ActionController::TestCase
     context "CRUD actions" do
 
       setup do
-        user = Factory(:user)
+        user = Factory(:user_profile).owner
         registration_role = Factory :registration_role
         country = Factory(:country)
 
@@ -248,7 +248,7 @@ class RegistrationsControllerTest < ActionController::TestCase
           end #when state is #retracted
 
           should "fail for #owner" do
-            owner = Factory(:user)
+            owner = Factory(:user_profile).owner
             put :update, :id=>@registration.id, :registration => {:owner_id=>owner.id}
             assert_response :forbidden
 
@@ -262,7 +262,7 @@ class RegistrationsControllerTest < ActionController::TestCase
     context "lifecycle actions" do
 
       setup do
-        user = Factory(:user)
+        user = Factory(:user_profile).owner
 	registration_role = Factory(:registration_role)
 
         @registration_params = {:registration_role_id => registration_role.id}
@@ -340,7 +340,7 @@ class RegistrationsControllerTest < ActionController::TestCase
     context "lifecycle actions for enrollment" do
 
       setup do
-        @user = Factory(:user)
+        @user = Factory(:user_profile).owner
 	registration_role = Factory(:registration_role, :operation => RegistrationRole::OperationType::ENROLLMENT)
         @registration_params = {:registration_role_id => registration_role.id}
         login_as @user
@@ -355,7 +355,8 @@ class RegistrationsControllerTest < ActionController::TestCase
         assert_redirected_to :controller => :enrollments,
 	                     :action => :enroll,
                              :enrollment=>{:registration_role_id =>
-	                        @registration_params[:registration_role_id]}
+	                        @registration_params[:registration_role_id],
+	                                   :country_id=>@user.country.id}
       end
 
       context "with a country" do
@@ -379,10 +380,10 @@ class RegistrationsControllerTest < ActionController::TestCase
   context "Organization Admin" do
 
     setup do
-      user = Factory(:user)
+      user = Factory(:user_profile).owner
 
       @registration = Factory(:registration, :owner=>user)
-      admin_role = Factory(:user)
+      admin_role = Factory(:user_profile).owner
       org = @registration.organization
       org.organization_admins = [admin_role]
       org.save!

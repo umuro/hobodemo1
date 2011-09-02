@@ -18,6 +18,8 @@ class EventSpotterRolesControllerTest < ActionController::TestCase
     setup do
       @event_spotter_role = Factory :event_spotter_role
       @attrs = Factory.attributes_for :event_spotter_role
+      Factory(:user_profile, :owner=>@event_spotter_role.user)
+
     end
     context "Guest" do
       #setup {login_as somebody}
@@ -45,7 +47,7 @@ class EventSpotterRolesControllerTest < ActionController::TestCase
       end
       context "(write_actions)" do
         should "not post create" do
-          esr = Factory.attributes_for :event_spotter_role, :user => Factory(:user), :event => @event_spotter_role.event
+          esr = Factory.attributes_for :event_spotter_role, :user => Factory(:user_profile).owner, :event => @event_spotter_role.event
           count1 = EventSpotterRole.count
           post :create_for_event, :event_id => esr[:event].id, :event_spotter_role => esr
           count2 = EventSpotterRole.count
@@ -69,6 +71,7 @@ class EventSpotterRolesControllerTest < ActionController::TestCase
       setup do
         @organization_admin_role = Factory :organization_admin_role, :organization => @event_spotter_role.organization
         @organization_admin = @organization_admin_role.user
+	Factory(:user_profile, :owner=>@organization_admin)
         login_as @organization_admin
       end
       context "(read actions)" do
@@ -95,7 +98,7 @@ class EventSpotterRolesControllerTest < ActionController::TestCase
       end
       context "(write_actions)" do
         should "post create" do
-          esr = Factory.attributes_for :event_spotter_role, :user => Factory(:user), :event => @event_spotter_role.event
+          esr = Factory.attributes_for :event_spotter_role, :user => Factory(:user_profile).owner, :event => @event_spotter_role.event
           count1 = EventSpotterRole.count
           post :create_for_event, :event_id => esr[:event].id, :event_spotter_role => esr
           count2 = EventSpotterRole.count

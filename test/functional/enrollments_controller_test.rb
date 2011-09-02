@@ -17,7 +17,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
   context "Guest" do
 
     setup do
-      user = Factory(:user)
+      user = Factory(:user_profile).owner
       boat = Factory(:boat, :owner => user)
       crew = Factory(:crew, :owner => user)
       country = Factory(:country)
@@ -143,7 +143,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
           end
 
           should "fail for #owner" do
-            owner = Factory(:user)
+            owner = Factory(:user_profile).owner
             put :update, :id=>@enrollment.id, :enrollment => {:owner_id=>owner.id}
             assert_response :forbidden
 
@@ -189,7 +189,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
     context "CRUD actions" do
 
       setup do
-        user = Factory(:user)
+        user = Factory(:user_profile).owner
         boat = Factory(:boat, :owner => user)
         crew = Factory(:crew, :owner => user)
         country = Factory(:country)
@@ -438,7 +438,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
           end
 
           should "fail for #owner" do
-            owner = Factory(:user)
+            owner = Factory(:user_profile).owner
             put :update, :id=>@enrollment.id, :enrollment => {:owner_id=>owner.id}
             assert_response :forbidden
 
@@ -452,7 +452,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
     context "lifecycle actions" do
 
       setup do
-        user = Factory(:user)
+        user = Factory(:user_profile).owner
         boat = Factory(:boat, :owner => user)
         crew = Factory(:crew, :owner => user)
 	registration_role = Factory(:registration_role, :operation => RegistrationRole::OperationType::ENROLLMENT)
@@ -546,7 +546,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
   context "Organization Admin" do
 
     setup do
-      user = Factory(:user)
+      user = Factory(:user_profile).owner
       boat = Factory(:boat, :owner => user)
       crew = Factory(:crew, :owner => user)
 
@@ -554,7 +554,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
 
       assert_not_nil @enrollment.organization
       
-      admin_role = Factory(:user)
+      admin_role = Factory(:user_profile).owner
       org = @enrollment.organization
       org.organization_admins = [admin_role]
       org.save!

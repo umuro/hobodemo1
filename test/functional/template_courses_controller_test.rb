@@ -102,10 +102,10 @@ class TemplateCoursesControllerTest < ActionController::TestCase
       @template_course = Factory(:template_course)
       @template_course_params = {:name => 'Snake', :organization_id => @template_course.organization_id}
       
-      org_admin = Factory(:user)
+      org_admin = Factory(:user_profile).owner
       @organization = Factory(:organization, :organization_admins=>[org_admin])
 
-      user = Factory(:user)
+      user = Factory(:user_profile).owner
       login_as user
     end
 
@@ -199,7 +199,7 @@ class TemplateCoursesControllerTest < ActionController::TestCase
   context "Organization Administrator" do
 
     setup do
-      @admin = Factory(:user)
+      @admin = Factory(:user_profile).owner
       
       @template_course = Factory(:template_course)
       @template_course.organization.organization_admins = [@admin]

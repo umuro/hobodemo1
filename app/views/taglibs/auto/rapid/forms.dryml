@@ -289,7 +289,7 @@
 <def tag="form" for="Event">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, start_time, end_time, place, time_zone, description, site_url, boat_classes, event_folder, event_spotters" param/>
+    <field-list fields="name, start_time, end_time, place, time_zone, description, site_url, registrations_closed, boat_classes, event_folder, event_spotters" param/>
     <div param="actions">
       <submit label="#{ht 'events.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>

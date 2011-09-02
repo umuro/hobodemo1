@@ -108,37 +108,38 @@ feature "Least Sanity Test", %q{
     describe "I visit the front page" do
       background {visit "/"}
       scenario "I view" do
-        page.should have_content(@event.name)
+        page.should have_content("Create your user profile")
       end
-      
-      describe "I visit the account page" do
-        background {find('.user-link').click}
-        
-        scenario "I view" do
-          within('.view.user-label') do
-            page.should have_content(@user_name_label)
-          end
-          within('.collection.boats') do
-            page.should have_content(@boat.sail_number)
-            page.should have_content(@user_name_label)
-          end
-          within('.collection.crews') do
-            page.should have_content(@user_name_label)
-          end
-        end
-        
-        scenario "I visit the boat page" do
-          find('.boat-link').click
-          page.should have_content(@boat_class.name)
-        end
-      end
+#       
+#       describe "I visit the account page" do
+#         background {find('.user-link').click}
+#         
+#         scenario "I view" do
+#           within('.view.user-label') do
+#             page.should have_content(@user_name_label)
+#           end
+#           within('.collection.boats') do
+#             page.should have_content(@boat.sail_number)
+#             page.should have_content(@user_name_label)
+#           end
+#           within('.collection.crews') do
+#             page.should have_content(@user_name_label)
+#           end
+#         end
+#         
+#         scenario "I visit the boat page" do
+#           find('.boat-link').click
+#           page.should have_content(@boat_class.name)
+#         end
+#       end
+
     end
   end # User without user profile
 
   describe "As a User with a user profile coming to the site " do
     background do
-      @user = Factory(:user)
-      @user_profile = Factory(:user_profile, :owner=>@user)
+      @user = Factory(:user_profile).owner
+      @user_profile = @user.user_profile
       @user_name_label = "#{@user_profile.last_name}, #{@user_profile.first_name} #{@user_profile.middle_name}"
       @boat = Factory(:boat, :owner=>@user, :boat_class=>@boat_class)
       login_as @user

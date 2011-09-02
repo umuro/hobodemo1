@@ -78,7 +78,7 @@ page[title]
           <% end %> </prepend-aside:>
     
     <before-collection-section:>
-          <% if this.user_profile %>
+          <% if this.user_profile and current_user.signed_up? %>
             <details-user-profile:user_profile/>
           <% else %>
 	  <div class="create-profile">

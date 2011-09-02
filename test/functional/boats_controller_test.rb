@@ -77,7 +77,7 @@ class BoatsControllerTest < ActionController::TestCase
   
     context "Someone else" do
       setup do 
-        @someone_else = Factory(:user)
+        @someone_else = Factory(:user_profile).owner
         login_as @someone_else
       end
 

@@ -18,7 +18,7 @@ class EquipmentControllerTest < ActionController::TestCase
 
     setup {
 
-      user = Factory(:user)
+      user = Factory(:user_profile).owner
       boat_class = Factory(:boat_class)
       boat = Factory(:boat, :owner => user, :boat_class => boat_class)
 
@@ -85,7 +85,7 @@ class EquipmentControllerTest < ActionController::TestCase
 
     context "Someone else" do
       setup do 
-        @someone_else = Factory(:user)
+        @someone_else = Factory(:user_profile).owner
         login_as @someone_else
       end
 

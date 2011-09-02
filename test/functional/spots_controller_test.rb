@@ -78,7 +78,7 @@ class SpotsControllerTest < ActionController::TestCase
 
     context "User" do
       setup do
-        user = Factory(:user)
+        user = Factory(:user_profile).owner
         login_as user
       end
 
@@ -151,7 +151,7 @@ class SpotsControllerTest < ActionController::TestCase
 
     context "Organization Administrator" do
       setup do
-        @admin = Factory(:user)
+        @admin = Factory(:user_profile).owner
         @spot.course.organization.organization_admins << @admin
         @spot.course.organization.save!; @admin.save!
 

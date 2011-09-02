@@ -7,7 +7,7 @@ class FleetRacesControllerTest < ActionController::TestCase
   context "Guest" do
 
     setup do
-      admin = Factory(:user)
+      admin = Factory(:user_profile).owner
       @race = Factory(:race)
       @race.organization.organization_admins = [admin]
       @race.save
@@ -146,7 +146,7 @@ class FleetRacesControllerTest < ActionController::TestCase
   context "User" do
 
     setup do
-      admin = Factory(:user)
+      admin = Factory(:user_profile).owner
       @race = Factory(:race)
       @race.organization.organization_admins = [admin]
       @race.save
@@ -165,7 +165,7 @@ class FleetRacesControllerTest < ActionController::TestCase
 
       @fleet_race = UseCaseSamples.build_fleet_race :race=>@race
 
-      user = Factory(:user)
+      user = Factory(:user_profile).owner
       login_as user
     end #setup
 
@@ -291,7 +291,7 @@ class FleetRacesControllerTest < ActionController::TestCase
   context "Organization Admin" do
 
     setup do
-      admin = Factory(:user)
+      admin = Factory(:user_profile).owner
       @race = Factory(:race)
       @race.organization.organization_admins = [admin]
       @race.save
@@ -522,7 +522,7 @@ class FleetRacesControllerTest < ActionController::TestCase
    context "in Spotting Story, " do
    # Mobile Client
     setup do
-      @the_spotter = Factory(:user)
+      @the_spotter = Factory(:user_profile).owner
 #       Event.any_instance.stubs(:acting_user).returns(@the_spotter)
       @boat = UseCaseSamples.build_boat 
       @fleet_race = UseCaseSamples.build_fleet_race 

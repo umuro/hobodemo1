@@ -7,7 +7,7 @@ class EventsControllerTest < ActionController::TestCase
   context "in Spotting Story, " do
    # Mobile Client
     setup do
-      @the_spotter = Factory(:user)
+      @the_spotter = Factory(:user_profile).owner
 #       Event.any_instance.stubs(:acting_user).returns(@the_spotter)
       @boat = UseCaseSamples.build_boat 
       @fleet_race = UseCaseSamples.build_fleet_race 

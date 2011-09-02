@@ -55,6 +55,8 @@ class UserProfile < ActiveRecord::Base
   end
 
   def view_permitted?(field)
+    return true if [:first_name, :middle_name, :last_name, :name, :gender].include? field
+    
     a = acting_user
     return false if a.is_a? ::Guest
     return false if field == :mobile_phone && !(a.is_owner_of?(self) || a.administrator? || a.any_organization_admin?)

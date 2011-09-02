@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
 
   # This is done for the verification of iframe widgets versus normal widgets
   before_filter :iframe_domain
+  before_filter :keep_redirect
+  before_filter :force_user_profile
   around_filter :keep_referer
   
   attr_reader :iframe_mode
@@ -21,8 +23,28 @@ class ApplicationController < ActionController::Base
     @iframe_mode = true if (host.partition('.').first == 'widgets') && (!request.xhr?)
     params[:widget] = 'framed' if @iframe_mode
   end
-
+ 
   private
+  #TEST spec if user without profile is forced to edit returning to desired place
+  def keep_redirect
+    return unless request.method == :get
+    #FORM posts will return to this address later
+    # You can now pass to form urls where you want them to return
+    session['HTTP_REFERER'] = params[:redirect] if params[:redirect]
+  end
+  
+  def force_user_profile
+    if current_user.signed_up? and
+	not current_user.administrator? and
+	current_user.user_profile.blank? and
+	request.method == :get and
+	request.request_uri[new_user_profile_path].nil? and
+	request.request_uri[user_path(current_user)+'/'].nil?
+      raise "debug" if request.request_uri[new_user_profile_path]
+      prof = UserProfile.new :owner_id=>current_user.id
+      redirect_to new_user_profile_path(prof, :redirect=>request.request_uri )
+     end
+  end
 
   def std_form_actions url_params
     url_params[:action] == 'new' or url_params[:action].start_with?('new_for_') or
@@ -45,16 +67,20 @@ class ApplicationController < ActionController::Base
       ref = ActionController::Routing::Routes.recognize_path URI.parse(request.env['HTTP_REFERER']).path,:method=>:get
     rescue
     end
+    logger.debug "KEEP_REFERER req #{req} req_url #{req_url} ref #{ref}"
     if session[:keep_referrer] and (ref == nil or req_url == session['HTTP_REFERER']) # form sequence cancelled
       session.delete(:keep_referrer)
       params[:keep_referrer] = nil
     end
+    logger.debug "KEEP_REFERER request.env['HTTP_REFERER'] #{request.env['HTTP_REFERER']}" if request.env['HTTP_REFERER']
+    logger.debug "KEEP_REFERER ignored_urls(ref) #{ref && ignored_urls(ref)}, std_form_actions(ref) #{ref && std_form_actions(ref)}" if ref
     if session[:keep_referrer] == nil and ref != nil and not ignored_urls(ref) and not std_form_actions(ref)
       session['HTTP_REFERER'] = request.env['HTTP_REFERER']
     end
     if params[:keep_referrer]
       session[:keep_referrer] = true
     end
+    logger.debug "KEEP_REFERER session['HTTP_REFERER'] #{session['HTTP_REFERER']}" if session['HTTP_REFERER']
     begin
       yield
     rescue

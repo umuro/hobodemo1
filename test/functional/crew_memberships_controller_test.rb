@@ -55,7 +55,7 @@ class CrewMembershipsControllerTest < ActionController::TestCase
     context 'owning a crew' do
 
       setup do
-        @invitor = Factory(:user)
+        @invitor = Factory(:user_profile).owner
         @crew = Factory(:crew, :owner => @invitor)
       end
 
@@ -63,7 +63,7 @@ class CrewMembershipsControllerTest < ActionController::TestCase
 
         setup do
 
-          @invitee = Factory(:user)
+          @invitee = Factory(:user_profile).owner
           
           login_as @invitor
           post :do_invite, :crew_membership => {:invitee_email => @invitee.email_address, 

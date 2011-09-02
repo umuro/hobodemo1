@@ -5,7 +5,8 @@ class CountryFactoryHelper
   
   def perform n
     @doc ||= Nokogiri::XML.parse Net::HTTP.get "comtrade.un.org", "/ws/refs/getCountryList.aspx"
-    
+
+    seq = n
     ActiveRecord::Base.transaction do
       @doc.xpath("/Country/r").each { |r| 
         n -= 1
@@ -13,9 +14,11 @@ class CountryFactoryHelper
           name = HTMLEntities.new.decode r.xpath("name/text()")
           code = HTMLEntities.new.decode r.xpath("iso3/text()")
           code = name if code == nil || code.empty?
-          return [name, code]
+          return [name, code] unless Country.find_by_code code
+          n=1
         end
       }
+      return ["Country#{seq}","C#{seq}"]
     end    
   end
 end  

@@ -15,7 +15,7 @@ background {@attrs = Factory.attributes_for(:event)}
   describe "When organization admin, " do
     background do
       self.use_transactional_fixtures
-      org_admin = Factory(:user)
+      org_admin = Factory(:user_profile).owner
       Factory(:organization_admin_role, :organization=>@attrs[:event_folder].organization, :user=>org_admin)
       login_as(org_admin)
     end
