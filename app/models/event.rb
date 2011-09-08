@@ -93,10 +93,11 @@ class Event < ActiveRecord::Base
   end
 
   #TEST
+  #FIXME Event id should not be hard coded
   def encourages_registration?(user)
     accepts_registration? and
-	user.enrollments.find(:all, :joins=>:registration_role, :conditions=>{:registration_roles=>{:event_id=>2}} ).blank? and
-	user.registrations.find(:all, :joins=>:registration_role, :conditions=>{:registration_roles=>{:event_id=>2}} ).blank?
+	user.enrollments.find(:all, :joins=>:registration_role, :conditions=>{:registration_roles=>{:event_id=>self.id}} ).blank? and
+	user.registrations.find(:all, :joins=>:registration_role, :conditions=>{:registration_roles=>{:event_id=>self.id}} ).blank?
   end
   # --- Permissions --- #
 
