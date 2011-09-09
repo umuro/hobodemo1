@@ -14,6 +14,7 @@
 <include src="taglibs/reuse"/> <!-- Reusable tags for all models -->
 <include src="taglibs/layout"/> <!-- About application layout -->
 
+<include src="taglibs/models/enrollment_wizard"/>
 <include src="taglibs/models/registration_role"/>
 
 <include src="taglibs/models/time_zone_rich_type"/>

@@ -14,3 +14,35 @@
   </old-index-for-owner-page>
 </extend>
 -->
+<extend tag="form" for="Boat">
+  <old-form merge>
+    <field-list: replace><field-list fields="sail_number, boat_class, owner" skip="equipment" param/>
+    </field-list:>
+  </old-form>
+</extend>
+
+<extend tag="show-page" for="Boat">
+  <old-show-page merge>
+    <after-edit-link:>
+      <a class="boat-link link2" param="edit-equipment-link" href="&object_url(this, :edit_equipment)">Edit Equipment</a>
+    </after-edit-link:>
+  </old-show-page>
+</extend>
+
+<extend tag="edit-equipment-form" for="Boat">
+  <old-edit-equipment-form merge>
+   <field-list:>
+      <equipment-view:>
+	<input-all><field-list fields="equipment_type, serial" no-edit="view">
+	</field-list></input-all>
+      </equipment-view:>
+   </field-list>
+  </old-edit-equipment-form>
+</extend>
+
+
+<extend tag="edit-equipment-page" for="Boat">
+  <old-edit-equipment-page merge>
+    <append-heading:><view/> of <view:owner/></append-heading:>
+  </old-edit-equipment-page>
+</extend>

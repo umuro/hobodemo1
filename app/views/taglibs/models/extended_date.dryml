@@ -1,3 +1,4 @@
+<!-- Extended Date -->
 <def tag="input" for="ExtendedDate">
   <% # the value created by this needs to be manually inserted due to the date format of the date picker
      #

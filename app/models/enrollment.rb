@@ -47,6 +47,9 @@ class Enrollment < ActiveRecord::Base
     #re-enroll since the record is already created
     transition :re_enroll, {:rejected => :requested}, :available_to=>:owner
     transition :re_enroll, {:retracted => :requested}, :available_to=>:owner
+
+    transition :re_enroll, {:retracted => :destroy}, :available_to=>User
+    transition :re_enroll, {:rejected => :destroy}, :available_to=>User
   end
 
   # --- Permissions --- #

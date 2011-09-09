@@ -4,6 +4,8 @@ class UserProfile < ActiveRecord::Base
 
   Gender = HoboFields::EnumString.for(:Male, :Female)
 
+  set_search_columns :first_name, :middle_name, :last_name
+  
   fields do
     first_name   :string
     middle_name  :string
@@ -30,6 +32,7 @@ class UserProfile < ActiveRecord::Base
     end
   end
 
+  validates_presence_of :last_name, :gender
   validates_presence_of :country
   validates_presence_of :owner
 
@@ -47,11 +50,11 @@ class UserProfile < ActiveRecord::Base
   end
 
   def update_permitted?
-    acting_user.is_owner_of? self
+    acting_user.is_owner_of? self or acting_user.any_organization_admin?
   end
 
   def destroy_permitted?
-    acting_user.is_owner_of? self
+    acting_user.administrator?
   end
 
   def view_permitted?(field)

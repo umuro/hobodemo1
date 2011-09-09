@@ -30,7 +30,11 @@ class ApplicationController < ActionController::Base
     return unless request.method == :get
     #FORM posts will return to this address later
     # You can now pass to form urls where you want them to return
-    session['HTTP_REFERER'] = params[:redirect] if params[:redirect]
+    if params[:redirect]
+      session['HTTP_REFERER'] = params[:redirect]
+      session[:keep_referrer] = true
+    end
+    logger.info "KEEP REDIRECT #{session['HTTP_REFERER']}"
   end
   
   def force_user_profile

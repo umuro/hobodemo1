@@ -1,0 +1,114 @@
+<!-- ====== Enrollment Wizard ====== -->
+
+<def tag="hidden-field">
+  <%= hidden_field_tag(param_name_for_this, this) %>
+</def>
+
+<extend tag="register-form" for="EnrollmentWizard">
+  <% this.applicant ||= this.owner %>
+  <old-register-form merge>
+    <before-field-list:>
+      <section param="message">
+      <h3><%= "Registering to '#{this.registration_role.try(:event)}' as: " %></h3>
+      </section>
+    </before-field-list:>
+    <field-list:>
+      <owner-id-label:></owner-id-label:>
+      <owner-id-view:><hidden-field/></owner-id-view:>
+      <registration-role-view:>
+	<select-one options="&this.try(:event).try(:registration_roles)"/>
+      </registration-role-view:>
+      <applicant-view:>
+	<select-one options="&[this]"/>
+      </applicant-view:>
+    </field-list:>
+  </old-register-form>
+</extend>
+
+<extend tag="select-boat-form" for="EnrollmentWizard">
+  <% theuser = this.applicant %>
+  <old-select-boat-form merge>
+    <field-list:>
+      <boat-view:>
+      	<select-one options="&theuser.boats"/>
+      </boat-view:>
+    </field-list:>
+    <append-actions:>
+      <section param="create">or
+	<a href="&object_url(this, :create_boat)" param="create-boat">Create Boat</a>
+      </section>
+    </append-actions:>
+  </old-select-boat-form>
+</extend>
+
+<extend tag="select-crew-form" for="EnrollmentWizard">
+  <% theuser = this.applicant %>
+  <% this.crew ||= theuser.crews.detect{|c| c.name == 'One Person Crew'} %>
+  <old-select-crew-form merge>
+    <field-list:>
+      <crew-view:>
+      	<select-one options="&theuser.crews"/>
+      </crew-view:>
+    </field-list:>
+  </old-select-crew-form>
+</extend>
+
+<extend tag="select-country-page" for="EnrollmentWizard">
+  <old-select-country-page merge>
+    <after-heading:>
+      Select the country you will represent in the event...
+    </after-heading:>
+  </old-select-country-page>
+</extend>
+
+<extend tag="select-country-form" for="EnrollmentWizard">
+  <% theuser = this.applicant %>
+  <% this.country ||= theuser.country %>
+  <old-select-country-form merge>
+    <field-list: replace><field-list restore/></field-list:>
+  </old-select-country-form>
+</extend>
+
+<extend tag="apply-page" for="EnrollmentWizard">
+  <old-apply-page merge>
+    <after-heading:>
+      <%="You are about to apply for registration in '#{this.registration_role.event}'" unless this.enrollment %>
+      <%="You are about to save your changes" if this.enrollment %>
+      
+      <field-list skip="state, enrollment, applicant, owner"/>
+    </after-heading:>
+  </old-apply-page>
+</extend>
+
+<extend tag="apply-form" for="EnrollmentWizard">
+  <old-apply-form merge>
+    <field-list: replace><field-list restore/></field-list:>
+    <append-actions:>
+      <section param="restart">or
+	<a href="&object_url(this, :edit_profile)" param="restart">Restart</a>
+      </section>
+    </append-actions:>
+  </old-apply-form>
+</extend>
+
+<extend tag="walk-in-page" for="EnrollmentWizard">
+  <old-walk-in-page merge>
+    <after-heading:>
+      If a user with the given email is not found then a new user will be created and notified by email...
+
+      You might use this action to reedit the details of existing users also.
+
+      The user will be registered to <%= this.event %>
+    </after-heading:>
+  </old-walk-in-page>
+</extend>
+
+<extend tag="walk-in-form" for="EnrollmentWizard">
+  <old-walk-in-form merge>
+    <field-list:>
+      <registration-role-view:>
+      	<select-one options="&this.event.registration_roles"/>
+      </registration-role-view:>
+    </field-list:>
+  </old-walk-in-form>
+</extend>

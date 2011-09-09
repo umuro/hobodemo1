@@ -9,10 +9,27 @@ class BoatClass < ActiveRecord::Base
     timestamps
   end
 
-  has_many :boats
-  has_many :equipment_types
+  has_many :boats, :dependent=>:nullify
+  has_many :equipment_types,  :accessible => true, :dependent=>:destroy
 
   belongs_to :organization #boat_classes owned by organization
+
+  def label
+    "#{name}(#{self.try(:organization)})"
+  end
+
+  def after_initialize
+    self[:state] =:edit
+  end
+  def state; self[:state] = :edit; end
+  def state=(v); self[:state]=v; end
+
+  lifecycle do
+    state :edit, :default=>true
+    transition :edit_equipment_type, {:edit=>:edit},
+	:params=>[:equipment_types],
+	:available_to=>Proc.new { organization.organization_admins }
+  end
   
   # --- Permissions --- #
 

@@ -59,7 +59,10 @@ h1, h2, h3 {
   border-bottom: 1px solid #3e3530; }
 
 #search-results-panel {
-  top: 128px; }
+  top: 133px;
+  right: 0px;
+  width: 350px;
+  height: 70%; }
 
 .page-header {
   background: none;
@@ -145,7 +148,7 @@ h1, h2, h3 {
   border: medium solid aliceBlue;
   padding: 4px;
   margin-left: auto;
-  margin-right: auto; }
+  margin-right: 10px; }
   .pagination .disabled {
     color: #777777; }
   .pagination .disabled.prev_page {
@@ -361,3 +364,8 @@ a.signup {
   font-weight: bold; }
   a.signup:hover {
     background-color: #ab5964; }
+
+.show-page .content-header a.link2 {
+  position: absolute;
+  top: 50px;
+  right: 0px; }

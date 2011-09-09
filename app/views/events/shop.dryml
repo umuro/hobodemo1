@@ -18,13 +18,10 @@
 	    <table-plus:registration_roles fields="name, external_markdown">
 	      <search-form: replace/>
 	      <controls:>
-		<do with="&Registration.new  :registration_role => this">
 
-		  <register-form>
-		    <cancel: replace/>
-		  </register-form>
+		    <a href="&object_url EnrollmentWizard, :register, :enrollment_wizard=>{:registration_role_id=>this.id}">Register</a>
 
-		</do>
+ 
 	      </controls:>
 	    </table-plus>
           </section>

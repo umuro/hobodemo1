@@ -113,12 +113,6 @@
               </h3>
 
               <collection:equipment_types param/>
-
-              <a:equipment_types action="new" if="&can_create?(@boat_class.equipment_types)" param="new-link">
-                <ht key="equipment_types.actions.new">
-                  New Equipment Type
-                </ht>
-              </a:equipment_types>
             </section>
           </section>
         </section>
@@ -239,6 +233,29 @@
 
 
 
+<def tag="edit-equipment-type-page" polymorphic/>
+<def tag="edit-equipment-type-page" for="BoatClass">
+  <page title="#{ht 'boat_classes.edit_equipment_type.title', :default=>['Edit Equipment Type']}" merge>
+
+    <body: class="lifecycle-transition-page edit-equipment-type-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="boat_classes.edit_equipment_type.heading">
+            Edit Equipment Type
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <edit-equipment-type-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
 
 
 <!-- ====== Boat Pages ====== -->
@@ -337,12 +354,6 @@
               </h3>
 
               <collection:equipment param/>
-
-              <a:equipment action="new" if="&can_create?(@boat.equipment)" param="new-link">
-                <ht key="equipment.actions.new">
-                  New Equipment
-                </ht>
-              </a:equipment>
             </section>
           </section>
     </content:>
@@ -444,6 +455,29 @@
 </def>
 
 
+
+<def tag="edit-equipment-page" polymorphic/>
+<def tag="edit-equipment-page" for="Boat">
+  <page title="#{ht 'boats.edit_equipment.title', :default=>['Edit Equipment']}" merge>
+
+    <body: class="lifecycle-transition-page edit-equipment-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="boats.edit_equipment.heading">
+            Edit Equipment
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <edit-equipment-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
 
 
 
@@ -1564,6 +1598,441 @@
 
 
 
+<!-- ====== EnrollmentWizard Pages ====== -->
+
+<def tag="index-page" for="EnrollmentWizard">
+  <page merge title="#{ht 'enrollment_wizards.index.title', :default=>['Enrollment Wizards'] }">
+    <body: class="index-page enrollment-wizard" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.index.heading">
+            Enrollment Wizards
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="enrollment_wizards.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="EnrollmentWizard">
+  <page merge title="#{ht 'enrollment_wizards.new.title', :default=>[' New Enrollment Wizard'] }">
+    <body: class="new-page enrollment-wizard" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.new.heading">
+            New Enrollment Wizard
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'enrollment_wizards.actions.create', :default=>['Create Enrollment Wizard']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="EnrollmentWizard">
+  <page merge title="#{ht 'enrollment_wizards.show.title', :default=>['Enrollment Wizard'] }">
+
+    <body: class="show-page enrollment-wizard" param/>
+
+    <content: param>
+          <header param="content-header">
+            <h2 param="heading">
+              <ht key="enrollment_wizards.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="" param/>
+
+            <a:owner param="creator-link"/>
+          </header>
+
+          <section param="content-body">
+            <field-list fields="state, applicant, boat, country, crew, enrollment, registration_role" param/>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="EnrollmentWizard">
+  <page merge title="#{ht 'enrollment_wizards.edit.title', :default=>['Edit Enrollment Wizard'] }">
+
+    <body: class="edit-page enrollment-wizard" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'enrollment_wizards.actions.delete', :default=>['Remove This Enrollment Wizard']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="register-page" polymorphic/>
+<def tag="register-page" for="EnrollmentWizard">
+  
+  <page title="#{ht 'enrollment_wizards.register.title', :default=>['Register']}" merge>  
+
+    <body: class="lifecycle-start-page register-page" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.register.heading">
+            Register
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <register-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+<def tag="walk-in-page" polymorphic/>
+<def tag="walk-in-page" for="EnrollmentWizard">
+  
+  <page title="#{ht 'enrollment_wizards.walk_in.title', :default=>['Walk In']}" merge>  
+
+    <body: class="lifecycle-start-page walk-in-page" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.walk_in.heading">
+            Walk In
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <walk-in-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="register-page" polymorphic/>
+<def tag="register-page" for="EnrollmentWizard">
+  <page title="#{ht 'enrollment_wizards.register.title', :default=>['Register']}" merge>
+
+    <body: class="lifecycle-transition-page register-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.register.heading">
+            Register
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <register-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="edit-profile-page" polymorphic/>
+<def tag="edit-profile-page" for="EnrollmentWizard">
+  <page title="#{ht 'enrollment_wizards.edit_profile.title', :default=>['Edit Profile']}" merge>
+
+    <body: class="lifecycle-transition-page edit-profile-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.edit_profile.heading">
+            Edit Profile
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <edit-profile-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="edit-profile-after-page" polymorphic/>
+<def tag="edit-profile-after-page" for="EnrollmentWizard">
+  <page title="#{ht 'enrollment_wizards.edit_profile_after.title', :default=>['Edit Profile After']}" merge>
+
+    <body: class="lifecycle-transition-page edit-profile-after-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.edit_profile_after.heading">
+            Edit Profile After
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <edit-profile-after-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="select-boat-page" polymorphic/>
+<def tag="select-boat-page" for="EnrollmentWizard">
+  <page title="#{ht 'enrollment_wizards.select_boat.title', :default=>['Select Boat']}" merge>
+
+    <body: class="lifecycle-transition-page select-boat-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.select_boat.heading">
+            Select Boat
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <select-boat-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="create-boat-page" polymorphic/>
+<def tag="create-boat-page" for="EnrollmentWizard">
+  <page title="#{ht 'enrollment_wizards.create_boat.title', :default=>['Create Boat']}" merge>
+
+    <body: class="lifecycle-transition-page create-boat-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.create_boat.heading">
+            Create Boat
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <create-boat-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="create-boat-after-page" polymorphic/>
+<def tag="create-boat-after-page" for="EnrollmentWizard">
+  <page title="#{ht 'enrollment_wizards.create_boat_after.title', :default=>['Create Boat After']}" merge>
+
+    <body: class="lifecycle-transition-page create-boat-after-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.create_boat_after.heading">
+            Create Boat After
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <create-boat-after-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="edit-equipment-page" polymorphic/>
+<def tag="edit-equipment-page" for="EnrollmentWizard">
+  <page title="#{ht 'enrollment_wizards.edit_equipment.title', :default=>['Edit Equipment']}" merge>
+
+    <body: class="lifecycle-transition-page edit-equipment-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.edit_equipment.heading">
+            Edit Equipment
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <edit-equipment-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="edit-equipment-after-page" polymorphic/>
+<def tag="edit-equipment-after-page" for="EnrollmentWizard">
+  <page title="#{ht 'enrollment_wizards.edit_equipment_after.title', :default=>['Edit Equipment After']}" merge>
+
+    <body: class="lifecycle-transition-page edit-equipment-after-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.edit_equipment_after.heading">
+            Edit Equipment After
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <edit-equipment-after-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="select-crew-page" polymorphic/>
+<def tag="select-crew-page" for="EnrollmentWizard">
+  <page title="#{ht 'enrollment_wizards.select_crew.title', :default=>['Select Crew']}" merge>
+
+    <body: class="lifecycle-transition-page select-crew-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.select_crew.heading">
+            Select Crew
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <select-crew-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="select-country-page" polymorphic/>
+<def tag="select-country-page" for="EnrollmentWizard">
+  <page title="#{ht 'enrollment_wizards.select_country.title', :default=>['Select Country']}" merge>
+
+    <body: class="lifecycle-transition-page select-country-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.select_country.heading">
+            Select Country
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <select-country-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="apply-page" polymorphic/>
+<def tag="apply-page" for="EnrollmentWizard">
+  <page title="#{ht 'enrollment_wizards.apply.title', :default=>['Apply']}" merge>
+
+    <body: class="lifecycle-transition-page apply-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.apply.heading">
+            Apply
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <apply-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="restart-page" polymorphic/>
+<def tag="restart-page" for="EnrollmentWizard">
+  <page title="#{ht 'enrollment_wizards.restart.title', :default=>['Restart']}" merge>
+
+    <body: class="lifecycle-transition-page restart-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.restart.heading">
+            Restart
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <restart-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+
+
 <!-- ====== Enrollment Pages ====== -->
 
 <def tag="index-page" for="Enrollment">
@@ -1880,9 +2349,6 @@
       </header>
 
       <section param="content-body">
-        <a action="new" to="&model" param="new-link">
-          <ht key="equipment.actions.new">New Equipment</ht>
-        </a>
 
         <page-nav param="top-page-nav"/>
 
@@ -1935,12 +2401,6 @@
             </h2>
 
             <record-flags fields="" param/>
-
-            <a action="edit" if="&can_edit?" param="edit-link">
-              <ht key="equipment.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
-                Edit Equipment
-              </ht>
-            </a>
           </header>
 
           <section param="content-body">
@@ -2003,10 +2463,6 @@
       </header>
 
       <section param="content-body">
-        <a action="new" to="&model" param="new-link">
-          <ht key="equipment.actions.new" >New Equipment</ht>
-        </a>
-
 
         <page-nav param="top-page-nav"/>
 
@@ -2019,35 +2475,6 @@
 </def>
 
 
-<def tag="new-for-boat-page" polymorphic/>
-<def tag="new-for-boat-page" for="Equipment">
-  <page merge title="#{ht 'equipment.new_for_owner.title', :default=>['New Equipment for']} #{name :with => @boat}">
-    <body: class="new-for-owner-page  equipment" param/>
-
-    <content: param>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="equipment.new_for_owner.heading">
-            New Equipment
-          </ht>
-        </h2>
-        <h3 param="subheading">
-          <ht key="equipment.new_for_owner.subheading">
-            For:
-          </ht>
-          <a with="&@boat"/>
-        </h3>
-      </header>
-
-      <section param="content-body">
-        <form owner="boat" method="post" param>
-          <field-list: skip="boat"/>
-          <submit: label="#{ht 'equipment.actions.create', :default=>['Create Equipment']}"/>
-        </form>
-      </section>
-    </content:>
-  </page>
-</def>
 
 
 
@@ -2075,9 +2502,6 @@
       </header>
 
       <section param="content-body">
-        <a action="new" to="&model" param="new-link">
-          <ht key="equipment_types.actions.new">New Equipment Type</ht>
-        </a>
 
         <page-nav param="top-page-nav"/>
 
@@ -2130,12 +2554,6 @@
             </h2>
 
             <record-flags fields="" param/>
-
-            <a action="edit" if="&can_edit?" param="edit-link">
-              <ht key="equipment_types.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
-                Edit Equipment Type
-              </ht>
-            </a>
           </header>
 
           <section param="content-body">
@@ -2198,10 +2616,6 @@
       </header>
 
       <section param="content-body">
-        <a action="new" to="&model" param="new-link">
-          <ht key="equipment_types.actions.new" >New Equipment Type</ht>
-        </a>
-
 
         <page-nav param="top-page-nav"/>
 
@@ -2214,35 +2628,6 @@
 </def>
 
 
-<def tag="new-for-boat-class-page" polymorphic/>
-<def tag="new-for-boat-class-page" for="EquipmentType">
-  <page merge title="#{ht 'equipment_types.new_for_owner.title', :default=>['New Equipment Type for']} #{name :with => @boat_class}">
-    <body: class="new-for-owner-page  equipment-type" param/>
-
-    <content: param>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="equipment_types.new_for_owner.heading">
-            New Equipment Type
-          </ht>
-        </h2>
-        <h3 param="subheading">
-          <ht key="equipment_types.new_for_owner.subheading">
-            For:
-          </ht>
-          <a with="&@boat_class"/>
-        </h3>
-      </header>
-
-      <section param="content-body">
-        <form owner="boat_class" method="post" param>
-          <field-list: skip="boat_class"/>
-          <submit: label="#{ht 'equipment_types.actions.create', :default=>['Create Equipment Type']}"/>
-        </form>
-      </section>
-    </content:>
-  </page>
-</def>
 
 
 

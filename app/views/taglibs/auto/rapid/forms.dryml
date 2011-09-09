@@ -3,7 +3,7 @@
 <def tag="form" for="BoatClass">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, description, no_of_crew_members, organization" param/>
+    <field-list fields="name, description, no_of_crew_members, equipment_types, organization" param/>
     <div param="actions">
       <submit label="#{ht 'boat_classes.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
@@ -11,11 +11,22 @@
 </def>
 
 
+<def tag="edit-equipment-type-form" polymorphic/>
+<def tag="edit-equipment-type-form" for="BoatClass">
+  <form lifecycle="edit_equipment_type" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="equipment_types" param/>
+    <div param="actions">
+      <submit label="#{ht 'boat_classes.actions.edit_equipment_type', :default=>['Edit Equipment Type']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
 
 <def tag="form" for="Boat">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="sail_number, boat_class, owner" param/>
+    <field-list fields="sail_number, boat_class, equipment, owner" param/>
     <div param="actions">
       <submit label="#{ht 'boats.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
@@ -23,6 +34,17 @@
 </def>
 
 
+<def tag="edit-equipment-form" polymorphic/>
+<def tag="edit-equipment-form" for="Boat">
+  <form lifecycle="edit_equipment" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="equipment" param/>
+    <div param="actions">
+      <submit label="#{ht 'boats.actions.edit_equipment', :default=>['Edit Equipment']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
 
 <def tag="form" for="CalendarEntry">
   <form merge param="default">
@@ -150,6 +172,170 @@
 
 
 
+<def tag="form" for="EnrollmentWizard">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="state, applicant, boat, country, crew, enrollment, owner, registration_role" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="register-form" polymorphic/>
+<def tag="register-form" for="EnrollmentWizard">
+  <form lifecycle="register" merge param="default">
+    <error-messages param/>
+    <field-list fields="registration_role, applicant, owner_id" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.register', :default=>['Register']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="walk-in-form" polymorphic/>
+<def tag="walk-in-form" for="EnrollmentWizard">
+  <form lifecycle="walk_in" merge param="default">
+    <error-messages param/>
+    <field-list fields="email_address, registration_role" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.walk_in', :default=>['Walk In']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="register-form" polymorphic/>
+<def tag="register-form" for="EnrollmentWizard">
+  <form lifecycle="register" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="registration_role, applicant" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.register', :default=>['Register']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="edit-profile-form" polymorphic/>
+<def tag="edit-profile-form" for="EnrollmentWizard">
+  <form lifecycle="edit_profile" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.edit_profile', :default=>['Edit Profile']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="edit-profile-after-form" polymorphic/>
+<def tag="edit-profile-after-form" for="EnrollmentWizard">
+  <form lifecycle="edit_profile_after" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.edit_profile_after', :default=>['Edit Profile After']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="select-boat-form" polymorphic/>
+<def tag="select-boat-form" for="EnrollmentWizard">
+  <form lifecycle="select_boat" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="boat" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.select_boat', :default=>['Select Boat']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="create-boat-form" polymorphic/>
+<def tag="create-boat-form" for="EnrollmentWizard">
+  <form lifecycle="create_boat" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.create_boat', :default=>['Create Boat']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="create-boat-after-form" polymorphic/>
+<def tag="create-boat-after-form" for="EnrollmentWizard">
+  <form lifecycle="create_boat_after" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.create_boat_after', :default=>['Create Boat After']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="edit-equipment-form" polymorphic/>
+<def tag="edit-equipment-form" for="EnrollmentWizard">
+  <form lifecycle="edit_equipment" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.edit_equipment', :default=>['Edit Equipment']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="edit-equipment-after-form" polymorphic/>
+<def tag="edit-equipment-after-form" for="EnrollmentWizard">
+  <form lifecycle="edit_equipment_after" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.edit_equipment_after', :default=>['Edit Equipment After']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="select-crew-form" polymorphic/>
+<def tag="select-crew-form" for="EnrollmentWizard">
+  <form lifecycle="select_crew" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="crew" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.select_crew', :default=>['Select Crew']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="select-country-form" polymorphic/>
+<def tag="select-country-form" for="EnrollmentWizard">
+  <form lifecycle="select_country" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="country" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.select_country', :default=>['Select Country']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="apply-form" polymorphic/>
+<def tag="apply-form" for="EnrollmentWizard">
+  <form lifecycle="apply" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.apply', :default=>['Apply']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="restart-form" polymorphic/>
+<def tag="restart-form" for="EnrollmentWizard">
+  <form lifecycle="restart" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.restart', :default=>['Restart']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
 <def tag="form" for="Enrollment">
   <form merge param="default">
     <error-messages param/>
@@ -212,6 +398,28 @@
     <field-list fields="" param/>
     <div param="actions">
       <submit label="#{ht 'enrollments.actions.cancel', :default=>['Cancel']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="re-enroll-form" polymorphic/>
+<def tag="re-enroll-form" for="Enrollment">
+  <form lifecycle="re_enroll" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollments.actions.re_enroll', :default=>['Re Enroll']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="re-enroll-form" polymorphic/>
+<def tag="re-enroll-form" for="Enrollment">
+  <form lifecycle="re_enroll" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollments.actions.re_enroll', :default=>['Re Enroll']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>

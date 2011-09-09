@@ -2,6 +2,7 @@ class Equipment < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
 
+  set_search_columns :serial
   fields do
     serial :string, :required, :name=>true, :null=>false
     timestamps
@@ -13,7 +14,7 @@ class Equipment < ActiveRecord::Base
 
   validates_presence_of :boat_id
   validates_presence_of :equipment_type_id
-  validates_uniqueness_of :serial, :scope=>:equipment_type_id
+  validates_uniqueness_of :serial, :scope=>:boat_id
 
   # --- Permissions --- #
 
@@ -22,6 +23,7 @@ class Equipment < ActiveRecord::Base
   end
 
   def update_permitted?
+    return false if any_changed? :equipment_type_id
     boat.updatable_by?(acting_user) if boat
   end
 

@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   hobo_user_model # Don't put anything above this
   has_etag
 
+  set_search_columns :email_address
   fields do
     email_address :email_address, :login => true , :name=>true
     administrator :boolean, :default => false
@@ -40,7 +41,7 @@ class User < ActiveRecord::Base
   has_many :crew_memberships, :through => :crews, :foreign_key=>"owner_id", :dependent => :destroy
   
   
-  
+  has_many :enrollment_wizards, :foreign_key=>"owner_id",  :dependent=>:destroy
 
   # Create a new crew
   

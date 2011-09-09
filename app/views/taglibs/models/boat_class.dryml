@@ -1,11 +1,26 @@
-<!--
+<!-- Boat Class -->
+
 <extend tag="show-page" for="BoatClass">
   <old-show-page merge>
-    <collection-section:>
-      <table-plus:boats fields="name, sail_number" field-tag="editor">
-        <controls:><delete-button/></controls:>
-      </table-plus>
-    </collection-section:>
+    <after-edit-link:>
+      <a class="boat-class-link link2" param="edit-equipment-type-link" href="&object_url(this, :edit_equipment_type)">Edit Equipment Type</a>
+    </after-edit-link:>
   </old-show-page>
 </extend>
--->
+
+<extend tag="edit-equipment-type-form" for="BoatClass">
+  <old-edit-equipment-type-form merge>
+   <field-list:>
+      <equipment-type-view:>
+	<input-many><field-list fields="name, description" no-edit="view">
+	</field-list></input-many>
+      </equipment-type-view:>
+   </field-list>
+  </old-edit-equipment-type-form>
+</extend>
+
+<extend tag="edit-equipment-type-page" for="BoatClass">
+  <old-edit-equipment-type-page merge>
+    <append-heading:><view/> of <view:organization/></append-heading:>
+  </old-edit-equipment-type-page>
+</extend>
