@@ -1708,6 +1708,29 @@
 </def>
 
 
+<def tag="register-page" polymorphic/>
+<def tag="register-page" for="EnrollmentWizard">
+  
+  <page title="#{ht 'enrollment_wizards.register.title', :default=>['Register']}" merge>  
+
+    <body: class="lifecycle-start-page register-page" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.register.heading">
+            Register
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <register-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
 <def tag="walk-in-page" polymorphic/>
 <def tag="walk-in-page" for="EnrollmentWizard">
   
@@ -1731,24 +1754,24 @@
 
   </page>
 </def>
-<def tag="register-page" polymorphic/>
-<def tag="register-page" for="EnrollmentWizard">
+<def tag="revise-page" polymorphic/>
+<def tag="revise-page" for="EnrollmentWizard">
   
-  <page title="#{ht 'enrollment_wizards.register.title', :default=>['Register']}" merge>  
+  <page title="#{ht 'enrollment_wizards.revise.title', :default=>['Revise']}" merge>  
 
-    <body: class="lifecycle-start-page register-page" param/>
+    <body: class="lifecycle-start-page revise-page" param/>
 
     <content: param>
       <header param="content-header">
         <h2 param="heading">
-          <ht key="enrollment_wizards.register.heading">
-            Register
+          <ht key="enrollment_wizards.revise.heading">
+            Revise
           </ht>
         </h2>
       </header>
 
       <section param="content-body">
-        <register-form param="form"/>
+        <revise-form param="form"/>
       </section>
     </content:>
 
@@ -5612,7 +5635,7 @@
       <header param="content-header">
         <h2 param="heading">
           <ht key="template_courses.new_for_owner.heading">
-            New Course
+            New Template Course
           </ht>
         </h2>
         <h3 param="subheading">
@@ -5921,29 +5944,6 @@
 </def>
 
 
-<def tag="invite-page" polymorphic/>
-<def tag="invite-page" for="User">
-  
-  <page title="#{ht 'users.invite.title', :default=>['Invite']}" merge>  
-
-    <body: class="lifecycle-start-page invite-page" param/>
-
-    <content: param>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="users.invite.heading">
-            Invite
-          </ht>
-        </h2>
-      </header>
-
-      <section param="content-body">
-        <invite-form param="form"/>
-      </section>
-    </content:>
-
-  </page>
-</def>
 <def tag="signup-page" polymorphic/>
 <def tag="signup-page" for="User">
   
@@ -5962,6 +5962,29 @@
 
       <section param="content-body">
         <signup-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+<def tag="invite-page" polymorphic/>
+<def tag="invite-page" for="User">
+  
+  <page title="#{ht 'users.invite.title', :default=>['Invite']}" merge>  
+
+    <body: class="lifecycle-start-page invite-page" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="users.invite.heading">
+            Invite
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <invite-form param="form"/>
       </section>
     </content:>
 

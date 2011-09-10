@@ -7,7 +7,6 @@ class EnrollmentWizard < ActiveRecord::Base
     timestamps
   end
 
-
   belongs_to :owner,  :class_name => "User", :creator => true
   belongs_to :registration_role
   belongs_to :applicant, :class_name => "User"
@@ -17,7 +16,6 @@ class EnrollmentWizard < ActiveRecord::Base
   belongs_to :enrollment
   attr_accessor :email_address
 
-  
   delegate :user_profile, :to=>:applicant
   delegate :event, :event_id, :to=>:registration_role
       
@@ -35,6 +33,10 @@ class EnrollmentWizard < ActiveRecord::Base
     create :walk_in,	:params=>[:email_address, :registration_role],
 	:available_to => "User",
 	:become=>:register
+
+    create :revise,	:params=>[:enrollment],
+	:available_to => "User",
+	:become=>:edit_profile
 
     transition :register, {:register=>:edit_profile},
 	:params=>[:registration_role, :applicant],
@@ -77,6 +79,12 @@ class EnrollmentWizard < ActiveRecord::Base
 
   def name
     applicant.try(:last_name) or applicant.try(:email_address) or "new"
+  end
+
+  def destroy_others
+    return unless owner
+    others = owner.enrollment_wizards - [self]
+    others.*.destroy
   end
 
   # --- Permissions --- #

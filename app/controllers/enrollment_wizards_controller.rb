@@ -17,6 +17,7 @@ class EnrollmentWizardsController < ApplicationController
 	    this.applicant = User::Lifecycle.invite(current_user, :email_address => email_address)
 	    flasn_notice "New user invited..."
 	  end
+	  this.destroy_others
 	  this.save
 	  redirect_to object_url(this, :register, :enrollment_wizard=>this.attributes)
       end
@@ -35,6 +36,7 @@ class EnrollmentWizardsController < ApplicationController
       end
     else
       do_creator_action :register do
+	  this.destroy_others
 	  redirect_to object_url(this, this.lifecycle.state_name)
 	  false
       end
@@ -42,7 +44,25 @@ class EnrollmentWizardsController < ApplicationController
   end
 
   
+  def revise
+    do_revise
+  end
+  def do_revise
+      do_creator_action :revise do
+	  this.registration_role = this.enrollment.registration_role
+	  this.boat = this.enrollment.boat
+	  this.crew = this.enrollment.crew
+	  this.country = this.enrollment.country
+	  this.applicant = this.enrollment.owner
 
+	  this.owner = current_user
+	  this.destroy_others
+	  this.save
+	redirect_to object_url(this, this.lifecycle.state_name) if valid?
+	false
+      end
+  end
+  
   def edit_profile
     transition_page_action :edit_profile do
       p = this.applicant.user_profile
@@ -77,8 +97,8 @@ class EnrollmentWizardsController < ApplicationController
     transition_page_action :create_boat do
       b = Boat.new(:owner_id=>this.applicant.id, :sail_number=>'')
       b.save(false)
-      this.boat = b; this.save!
-      redirect_to object_url(b, :edit, :redirect=>object_url(this, :create_boat_after))
+      this.boat = b; this.save
+      redirect_to object_url(b, :edit, :redirect=>object_url(this, :create_boat_after)) if valid?
     end
   end
 

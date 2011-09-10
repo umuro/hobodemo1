@@ -17,6 +17,8 @@ class Enrollment < ActiveRecord::Base
   belongs_to :boat
   belongs_to :crew
 
+  has_many :enrollment_wizards, :dependent=>:destroy
+
   #By default is set to the skipper's nationality. 
   #But one can enroll to represent France although being Chinese
   belongs_to :country

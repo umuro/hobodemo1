@@ -6,11 +6,17 @@ module HelperMethods
   end
 
   def login_as(user)
+    @whoami = user
     visit '/login'
     fill_in 'login', :with => user.email_address
     fill_in 'password', :with => user.password
     click_button 'Log in'
   end
+
+  def whoami
+    @whoami
+  end
+  
 
   def enter_profile_data(profile)
     fill_in 'user_profile[first_name]', :with => profile.first_name

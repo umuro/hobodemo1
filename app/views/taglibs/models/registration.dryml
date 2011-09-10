@@ -14,3 +14,10 @@
     <body: replace/>
   </old-card>
 </extend>
+
+<def tag="edit-link" polymorphic/>
+<def tag="edit-link" for="Registration">
+  <a action="edit" if="&can_edit?" param="edit-link">
+    <ht key="registrations.actions.edit" name="&this.respond_to?(:name) ? this.name : ''" param="default">
+      Edit</ht></a>
+</def>

@@ -44,8 +44,6 @@ page[title]
   </old-card>
 </extend>
 
-<a href="&this.site_url"><name/></a>
-
 <extend tag="form" for="Event">
   <old-form merge>
     <field-list:>
@@ -60,16 +58,13 @@ page[title]
   <old-show-page merge>
 
   <before-heading:>
-    <register-button event="&this"/>
-  </before-heading:>
+    <register-button event="&this"/></before-heading:>
 
   <before-field-list:>
-    <a param="register-applicant-link" href="&object_url(EnrollmentWizard, :walk_in, :enrollment_wizard=>{:registration_role_id=>this.registration_roles.first.try(:id)})">Walk in Register</a>
-  </before-field-list:>
+    <walk-in-link/></before-field-list:>
 
   <collection-heading:>
-    Entry List
-  </collection-heading:>
+    Entry List</collection-heading:>
 
   <collection: replace>
     <if test="&current_user.organization_admin?(this.organization) and this.enrollments.admin.length > 0">
@@ -79,34 +74,24 @@ page[title]
         <a with="&@event" action="equipments">Download CSV (Equipments)</a>
       </span>
     </if>
-    <set enrs="&if current_user.organization_admin?(this.organization); this.enrollments.admin.sort; else; this.enrollments.visible(current_user.id).sort; end"/>
+    <set enrs="&current_user.organization_admin?(this.organization) and this.enrollments.admin.sort or  this.enrollments.visible(current_user.id).sort"/>
     <table-plus with="&enrs" fields="&'boat_class, boat, crew, country, gender, state'+(current_user.organization_admin?(this.organization) ? ', paid, insured, measured, date_measured' : '')">
       <boat-class-heading:>Class</boat-class-heading:>
       <search-form: replace/>
       <controls:>
-	<transition-buttons/>
-	<a action="edit" if="&can_edit?" param="edit-link">
-	  <ht key="enrollments.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
-	    Edit Enrollment</ht></a></controls:>
+	<transition-buttons/><edit-link/> | <revise-link/></controls:>
       <empty-message:>You have not enrolled to any event</empty-message:>
-
     </table-plus>
 
     <h3 class="collection-heading">Registrations</h3>
     <if test="&current_user.organization_admin?(this.organization) and this.registrations.length > 0">
       <span style="float: right;"><a with="&@event" action="registrations">Download CSV</a></span>
     </if>
-    <set regs="&if current_user.organization_admin?(this.organization); this.registrations.sort; else; this.registrations.visible(current_user.id).sort; end"/>
+    <set regs="&current_user.organization_admin?(this.organization) and this.registrations.sort or this.registrations.visible(current_user.id).sort"/>
     <table-plus with="&regs" fields="registration_role, member, state">
       <search-form: replace/>
       <controls:>
-	<transition-buttons/>
-	<a action="edit" if="&can_edit?" param="edit-link">
-	  <ht key="registrations.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
-	    Edit Registration
-          </ht>
-        </a>
-      </controls:>
+	<transition-buttons/><edit-link/></controls:>
     </table-plus>
 
   </collection:>
@@ -116,20 +101,20 @@ page[title]
   </registration-roles-preview:>
 
   <races-preview: replace>
-    <races-preview restore unless="&this.registration_only"/>
-  </races-preview:>
+    <races-preview restore unless="&this.registration_only"/></races-preview:>
 
   <course-areas-preview: replace>
-    <course-areas-preview restore unless="&this.registration_only"/>
-  </course-areas-preview:>
+    <course-areas-preview restore unless="&this.registration_only"/></course-areas-preview:>
 
   <calendar-entries-preview: replace>
     <preview-with-more with="&this.calendar_entries.limit(6)" unless="&this.registration_only">
       <more:>
-	<ht key="hobo.actions.more">more</ht>
-      </more:>
-    </preview-with-more>
-  </calendar-entries-preview:>
+	<ht key="hobo.actions.more">more</ht></more:></preview-with-more></calendar-entries-preview:>
 
   </old-show-page>
 </extend>
+
+<def tag="walk-in-link" polymorphic/>
+<def tag="walk-in-link" for="Event">
+    <a param="walk-in-link" if="&can_edit?" href="&object_url(EnrollmentWizard, :walk_in, :enrollment_wizard=>{:registration_role_id=>this.registration_roles.first.try(:id)})">Walk in Register</a>
+</def>

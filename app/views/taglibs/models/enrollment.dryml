@@ -67,3 +67,17 @@
     </collection:>
   </old-index-for-owner-page>
 </extend>
+
+<def tag="edit-link" polymorphic/>
+<def tag="edit-link" for="Enrollment">
+  <a action="edit" if="&can_edit?" param="edit-link">
+    <ht key="enrollments.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+      Edit</ht></a>
+</def>
+
+<def tag="revise-link" polymorphic/>
+<def tag="revise-link" for="Enrollment">
+  <a if="&can_edit?" param="revise-link" href="&object_url(EnrollmentWizard, :revise, :enrollment_wizard=>{:enrollment_id=>this.id})">
+    <ht key="enrollments.actions.revise" name="&this.respond_to?(:name) ? this.name : ''">
+      Revise</ht></a>
+</def>
