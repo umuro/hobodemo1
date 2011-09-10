@@ -64,7 +64,7 @@ page[title]
   </before-heading:>
 
   <before-field-list:>
-    <a param="register-applicant-link" href="&object_url(EnrollmentWizard, :walk_in, :enrollment_wizard=>{:registration_role_id=>this.registration_roles.first.id})">Walk in Register</a>
+    <a param="register-applicant-link" href="&object_url(EnrollmentWizard, :walk_in, :enrollment_wizard=>{:registration_role_id=>this.registration_roles.first.try(:id)})">Walk in Register</a>
   </before-field-list:>
 
   <collection-heading:>
