@@ -1,6 +1,7 @@
 class EnrollmentWizard < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
+  include EventLocalTime
 
   fields do
     timestamps

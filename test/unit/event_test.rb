@@ -46,9 +46,10 @@ class EventTest < ActiveSupport::TestCase
     @klasses.each do |klass|
       context "Class #{klass}" do
         setup do
-          @attrs = klass.attr_order.select{|attr_name| klass.columns_hash[attr_name.to_s].type == :datetime and not [:created_at, :updated_at].include? attr_name}
+          @attrs = klass.attr_order.select{|attr_name| klass.columns_hash[attr_name.to_s].type == :datetime and not [:created_at, :updated_at, :key_timestamp].include? attr_name}
         end
-
+	#key_timestamp is internally used by Hobo to manage transitions
+	
         should "have an *_event for every datetime attribute" do
           @attrs.each do |attr|
             new_attr_name = attr.to_s+'_event'

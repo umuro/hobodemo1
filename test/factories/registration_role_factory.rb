@@ -11,7 +11,7 @@ unless Factory.factories[:registration_role]
     end
     f.event {f.default_event}
     f.sequence(:name) {|n| "Role #{n}"}
-    f.operation { 'Default' }
+    f.operation { RegistrationRole::OperationType::ENROLLMENT }
     f.external_markdown {"Test markdown"}
   end
 

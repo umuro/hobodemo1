@@ -201,4 +201,7 @@ Factory.define :calendar_entry do |f|
   f.scheduled_time {|n| Time.now.in_time_zone(n.event.event_tz||'UTC').at_beginning_of_day+4.hour}
 end
 
-
+Factory.define :enrollment_wizard do |f|
+  f.applicant {Factory(:user)}
+  f.registration_role { Factory(:registration_role) }
+end

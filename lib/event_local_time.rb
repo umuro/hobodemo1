@@ -6,11 +6,11 @@ module EventLocalTime
   def self.attach_event_tz(klass, instance)
     if klass == Event
       klass.send(:define_method, 'event_tz') {
-        self.time_zone.nil? ? nil : self.time_zone.to_tz
+        self.time_zone.try(:to_tz)
       }
     else
       klass.send(:define_method, 'event_tz') {
-        self.event.time_zone.nil? ? nil : self.event.time_zone.to_tz
+        self.event.try(:time_zone).try(:to_tz)
       }
     end
     klass.attr_order.select { |attr_name|
@@ -27,7 +27,7 @@ module EventLocalTime
         klass.field_specs[new_attr_name] = new_field_spec
 
         klass.send(:define_method, new_attr_name) {
-          if self.event_tz != nil and self.send(attr_name) != nil
+          if self.event_tz.present? and self.send(attr_name).present?
             self.send(attr_name).in_time_zone(self.event_tz)
           end
         }
