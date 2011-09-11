@@ -18,6 +18,7 @@ module FixHoboModelController
   def creator_page_action(name, options={}, &b)
     self.this ||= model.user_new current_user, attribute_parameters #by Umur
     this.exempt_from_edit_checks = true
+    #FIXME creator totally ignores this
     @creator = model::Lifecycle.creator(name)
     raise Hobo::PermissionDeniedError unless @creator.allowed?(current_user)
     response_block &b

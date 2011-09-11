@@ -25,6 +25,8 @@ class RegistrationsControllerTest < ActionController::TestCase
       assert_not_nil @registration.id
 
       @registration_params = {:registration_role_id => registration_role.id}
+
+      logout #!!!
     end
 
     context "CRUD actions" do

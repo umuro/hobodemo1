@@ -1731,29 +1731,6 @@
 
   </page>
 </def>
-<def tag="walk-in-page" polymorphic/>
-<def tag="walk-in-page" for="EnrollmentWizard">
-  
-  <page title="#{ht 'enrollment_wizards.walk_in.title', :default=>['Walk In']}" merge>  
-
-    <body: class="lifecycle-start-page walk-in-page" param/>
-
-    <content: param>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="enrollment_wizards.walk_in.heading">
-            Walk In
-          </ht>
-        </h2>
-      </header>
-
-      <section param="content-body">
-        <walk-in-form param="form"/>
-      </section>
-    </content:>
-
-  </page>
-</def>
 <def tag="revise-page" polymorphic/>
 <def tag="revise-page" for="EnrollmentWizard">
   
@@ -1772,6 +1749,29 @@
 
       <section param="content-body">
         <revise-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+<def tag="walk-in-page" polymorphic/>
+<def tag="walk-in-page" for="EnrollmentWizard">
+  
+  <page title="#{ht 'enrollment_wizards.walk_in.title', :default=>['Walk In']}" merge>  
+
+    <body: class="lifecycle-start-page walk-in-page" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.walk_in.heading">
+            Walk In
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <walk-in-form param="form"/>
       </section>
     </content:>
 

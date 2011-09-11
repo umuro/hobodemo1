@@ -1,3 +1,4 @@
+<!-- Application -->
 <include src="rapid" plugin="hobo"/>
 
 <include src="taglibs/auto/rapid/cards"/>
@@ -14,17 +15,18 @@
 <include src="taglibs/reuse"/> <!-- Reusable tags for all models -->
 <include src="taglibs/layout"/> <!-- About application layout -->
 
-<include src="taglibs/models/enrollment_wizard"/>
-<include src="taglibs/models/registration_role"/>
+<include src="taglibs/models/smart_forms"/>
 
 <include src="taglibs/models/time_zone_rich_type"/>
 <include src="taglibs/models/extended_date"/>
 <include src="taglibs/models/extended_date_time"/>
-<include src="taglibs/models/smart_forms"/>
 
 <include src="taglibs/models/register_button"/>
 
 <include src="taglibs/models/event_time_zone"/>
+
+<include src="taglibs/models/enrollment_wizard"/>
+<include src="taglibs/models/registration_role"/>
 
 <include src="taglibs/models/site"/>
 <include src="taglibs/models/user"/>

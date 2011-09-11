@@ -65,7 +65,7 @@ feature "Enrollment Wizard." do
       @organization_admin = Factory(:user_profile).owner
       @organization.organization_admins << @organization_admin
       @organization.save!
-      @role  = Factory(:registration_role, :operation=>'Enrollment')
+      @role  = Factory(:registration_role_enrollment)
       @event.registration_roles << @role
       @event.save!
 
@@ -86,7 +86,30 @@ feature "Enrollment Wizard." do
       describe "via organization admin" do
 	background {login_as @organization_admin}
 	scenario_enroll
+	scenario "walk-in" do
+	  url="/enrollment_wizards/walk_in?enrollment_wizard[registration_role_id]=#{@role.id}"
+	  visit url
+	  fill_in 'enrollment_wizard[email_address]', :with=>@applicant.email_address
+	  find('.submit-button').click #Walk In
+	  page.should have_content 'Register'
+	  page.body[@applicant.email_address].should be_true
+	end
       end
     end
+
+    describe "organization admin" do
+      background {login_as @organization_admin}
+      scenario "walk-in new user" do
+	url="/enrollment_wizards/walk_in?enrollment_wizard[registration_role_id]=#{@role.id}"
+	visit url
+
+	email_address = 'new@test.local'
+	fill_in 'enrollment_wizard[email_address]', :with=>email_address
+	find('.submit-button').click #Walk In
+	page.should have_content 'Register'
+	page.body[email_address].should be_true
+      end
+    end
+
   end
 end

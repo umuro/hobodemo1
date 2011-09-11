@@ -31,7 +31,7 @@ class EnrollmentWizard < ActiveRecord::Base
 	:become=>:edit_profile
 
     create :walk_in,	:params=>[:email_address, :registration_role],
-	:available_to => "User",
+	:available_to => "acting_user if acting_user.any_organization_admin?",
 	:become=>:register
 
     create :revise,	:params=>[:enrollment],

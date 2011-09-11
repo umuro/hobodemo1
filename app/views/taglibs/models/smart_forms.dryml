@@ -1,7 +1,12 @@
 <!-- smart forms customization -->
 
 <extend tag="form">
+
   <old-form merge>
-    <cancel: replace><or-cancel href="&session['HTTP_REFERER']" param="cancel"/></cancel:>
+    <cancel: replace><or-cancel href="&params[:on_cancel] or session['HTTP_REFERER']" param="cancel"/></cancel:>
   </old-form>
 </extend>
+
+<def tag="or-cancel">
+  <ht key="hobo.support.or">or</ht> <a href="&params[:on_cancel] or session['HTTP_REFERER']"  merge-attrs><ht key="hobo.actions.cancel">Cancel</ht></a>
+</def>

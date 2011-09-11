@@ -15,12 +15,18 @@ class EnrollmentWizardsController < ApplicationController
 	  this.applicant ||= User.find_by_email_address(this.email_address)
 	  unless this.applicant
 	    this.applicant = User::Lifecycle.invite(current_user, :email_address => this.email_address)
-	    flasn_notice "New user invited..."
+	    flash_notice "New user invited..."
 	  end
 	  this.destroy_others
+	  this.owner ||= current_user
 	  this.save
-	  redirect_to object_url(this, :register, :enrollment_wizard=>this.attributes)
+	  redirect_to object_url(this, :register)
       end
+  end
+
+  def register
+    transition_page_action :register if params[:id]
+    creator_page_action :register unless params[:id]
   end
   
   def do_register
@@ -35,15 +41,21 @@ class EnrollmentWizardsController < ApplicationController
 	re_render_form(:register)
       end
     else
-      do_creator_action :register do
-	  this.destroy_others
-	  redirect_to object_url(this, this.lifecycle.state_name)
-	  false
+      if params[:id]
+	do_transition_action :register do
+	    redirect_to object_url(this, this.lifecycle.state_name, :on_cancel=>object_url(this.event))
+	    false
+	end
+      else
+	do_creator_action :register do
+	    this.destroy_others
+	    redirect_to object_url(this, this.lifecycle.state_name, :on_cancel=>object_url(this.event))
+	    false
+	end
       end
     end
   end
 
-  
   def revise
     do_revise
   end
@@ -58,7 +70,7 @@ class EnrollmentWizardsController < ApplicationController
 	  this.owner = current_user
 	  this.destroy_others
 	  this.save
-	redirect_to object_url(this, this.lifecycle.state_name) if valid?
+	redirect_to object_url(this, this.lifecycle.state_name, :on_cancel=>object_url(this.event)) if valid?
 	false
       end
   end
@@ -70,7 +82,7 @@ class EnrollmentWizardsController < ApplicationController
 	p = UserProfile.new :owner=>this.applicant
 	p.save(false)
       end
-      redirect_to object_url(p, :edit, :redirect=>object_url(this, :edit_profile_after))
+      redirect_to object_url(p, :edit, :on_cancel=>object_url(this.event), :redirect=>object_url(this, :edit_profile_after, :on_cancel=>object_url(this.event)))
     end
   end
   
@@ -81,14 +93,14 @@ class EnrollmentWizardsController < ApplicationController
   
   def do_edit_profile_after
     do_transition_action :edit_profile_after do
-	redirect_to object_url(this, :select_boat)
+	redirect_to object_url(this, :select_boat, :on_cancel=>object_url(this.event))
 	false
     end
   end
 
   def do_select_boat
     do_transition_action :select_boat do
-	redirect_to object_url(this, :edit_equipment)
+	redirect_to object_url(this, :edit_equipment, :on_cancel=>object_url(this.event))
 	false
     end
   end
@@ -98,7 +110,7 @@ class EnrollmentWizardsController < ApplicationController
       b = Boat.new(:owner_id=>this.applicant.id, :sail_number=>'')
       b.save(false)
       this.boat = b; this.save
-      redirect_to object_url(b, :edit, :redirect=>object_url(this, :create_boat_after)) if valid?
+      redirect_to object_url(b, :edit, :on_cancel=>object_url(this.event), :redirect=>object_url(this, :create_boat_after, :on_cancel=>object_url(this.event))) if valid?
     end
   end
 
@@ -108,14 +120,14 @@ class EnrollmentWizardsController < ApplicationController
 
   def do_create_boat_after
     do_transition_action :create_boat_after do
-	redirect_to object_url(this, :edit_equipment)
+	redirect_to object_url(this, :edit_equipment, :on_cancel=>object_url(this.event))
 	false
     end
   end
 
   def edit_equipment
     transition_page_action :edit_equipment do
-      redirect_to object_url(this.boat, :edit_equipment, :redirect=>object_url(this, :edit_equipment_after))
+      redirect_to object_url(this.boat, :edit_equipment, :on_cancel=>object_url(this.event), :redirect=>object_url(this, :edit_equipment_after, :on_cancel=>object_url(this.event)))
     end
   end
 
@@ -125,7 +137,7 @@ class EnrollmentWizardsController < ApplicationController
 
   def do_edit_equipment_after
     do_transition_action :edit_equipment_after do
-	redirect_to object_url(this, :select_crew)
+	redirect_to object_url(this, :select_crew, :on_cancel=>object_url(this.event))
 	false
     end
   end
@@ -137,14 +149,14 @@ class EnrollmentWizardsController < ApplicationController
   
   def do_select_crew
     do_transition_action :select_crew do
-	redirect_to object_url(this, :select_country)
+	redirect_to object_url(this, :select_country, :on_cancel=>object_url(this.event))
 	false
     end
   end
 
   def do_select_country
     do_transition_action :select_country do
-	redirect_to object_url(this, :apply)
+	redirect_to object_url(this, :apply, :on_cancel=>object_url(this.event))
 	false
     end
   end
@@ -168,7 +180,7 @@ class EnrollmentWizardsController < ApplicationController
 	      re_render_form(:apply)
 	    else
 	      this.destroy
-	      redirect_to object_url(this.registration_role.event)
+	      redirect_to object_url(this.event)
 	    end
 	false
     end

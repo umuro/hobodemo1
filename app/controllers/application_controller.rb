@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
       session['HTTP_REFERER'] = params[:redirect]
       session[:keep_referrer] = true
     end
-    logger.info "KEEP REDIRECT #{session['HTTP_REFERER']}"
+#     logger.info "KEEP REDIRECT #{session['HTTP_REFERER']}"
   end
   
   def force_user_profile

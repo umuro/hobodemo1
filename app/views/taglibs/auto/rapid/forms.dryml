@@ -192,16 +192,6 @@
     </div>
   </form>
 </def>
-<def tag="walk-in-form" polymorphic/>
-<def tag="walk-in-form" for="EnrollmentWizard">
-  <form lifecycle="walk_in" merge param="default">
-    <error-messages param/>
-    <field-list fields="email_address, registration_role" param/>
-    <div param="actions">
-      <submit label="#{ht 'enrollment_wizards.actions.walk_in', :default=>['Walk In']}" param/><or-cancel param="cancel"/>
-    </div>
-  </form>
-</def>
 <def tag="revise-form" polymorphic/>
 <def tag="revise-form" for="EnrollmentWizard">
   <form lifecycle="revise" merge param="default">
@@ -209,6 +199,16 @@
     <field-list fields="enrollment" param/>
     <div param="actions">
       <submit label="#{ht 'enrollment_wizards.actions.revise', :default=>['Revise']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="walk-in-form" polymorphic/>
+<def tag="walk-in-form" for="EnrollmentWizard">
+  <form lifecycle="walk_in" merge param="default">
+    <error-messages param/>
+    <field-list fields="email_address, registration_role" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.walk_in', :default=>['Walk In']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
