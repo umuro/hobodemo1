@@ -14,7 +14,7 @@ class EnrollmentWizardsController < ApplicationController
       do_creator_action :walk_in do
 	  this.applicant ||= User.find_by_email_address(this.email_address)
 	  unless this.applicant
-	    this.applicant = User::Lifecycle.invite(current_user, :email_address => email_address)
+	    this.applicant = User::Lifecycle.invite(current_user, :email_address => this.email_address)
 	    flasn_notice "New user invited..."
 	  end
 	  this.destroy_others
@@ -173,5 +173,5 @@ class EnrollmentWizardsController < ApplicationController
 	false
     end
   end
-  
+
 end
