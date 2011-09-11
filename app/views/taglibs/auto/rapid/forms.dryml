@@ -182,6 +182,16 @@
   </form>
 </def>
 
+<def tag="walk-in-form" polymorphic/>
+<def tag="walk-in-form" for="EnrollmentWizard">
+  <form lifecycle="walk_in" merge param="default">
+    <error-messages param/>
+    <field-list fields="email_address, registration_role" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollment_wizards.actions.walk_in', :default=>['Walk In']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
 <def tag="register-form" polymorphic/>
 <def tag="register-form" for="EnrollmentWizard">
   <form lifecycle="register" merge param="default">
@@ -199,16 +209,6 @@
     <field-list fields="enrollment" param/>
     <div param="actions">
       <submit label="#{ht 'enrollment_wizards.actions.revise', :default=>['Revise']}" param/><or-cancel param="cancel"/>
-    </div>
-  </form>
-</def>
-<def tag="walk-in-form" polymorphic/>
-<def tag="walk-in-form" for="EnrollmentWizard">
-  <form lifecycle="walk_in" merge param="default">
-    <error-messages param/>
-    <field-list fields="email_address, registration_role" param/>
-    <div param="actions">
-      <submit label="#{ht 'enrollment_wizards.actions.walk_in', :default=>['Walk In']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
@@ -400,14 +400,25 @@
     </div>
   </form>
 </def>
-<def tag="cancel-form" polymorphic/>
-<def tag="cancel-form" for="Enrollment">
-  <form lifecycle="cancel" merge param="default">
+<def tag="unaccept-form" polymorphic/>
+<def tag="unaccept-form" for="Enrollment">
+  <form lifecycle="unaccept" merge param="default">
     <error-messages param/>
     <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
     <field-list fields="" param/>
     <div param="actions">
-      <submit label="#{ht 'enrollments.actions.cancel', :default=>['Cancel']}" param/><or-cancel param="cancel"/>
+      <submit label="#{ht 'enrollments.actions.unaccept', :default=>['Unaccept']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="delete-form" polymorphic/>
+<def tag="delete-form" for="Enrollment">
+  <form lifecycle="delete" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'enrollments.actions.delete', :default=>['Delete']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
@@ -678,14 +689,25 @@
     </div>
   </form>
 </def>
-<def tag="cancel-form" polymorphic/>
-<def tag="cancel-form" for="Registration">
-  <form lifecycle="cancel" merge param="default">
+<def tag="unaccept-form" polymorphic/>
+<def tag="unaccept-form" for="Registration">
+  <form lifecycle="unaccept" merge param="default">
     <error-messages param/>
     <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
     <field-list fields="" param/>
     <div param="actions">
-      <submit label="#{ht 'registrations.actions.cancel', :default=>['Cancel']}" param/><or-cancel param="cancel"/>
+      <submit label="#{ht 'registrations.actions.unaccept', :default=>['Unaccept']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="delete-form" polymorphic/>
+<def tag="delete-form" for="Registration">
+  <form lifecycle="delete" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'registrations.actions.delete', :default=>['Delete']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>

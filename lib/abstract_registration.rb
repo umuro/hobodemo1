@@ -42,7 +42,10 @@ module AbstractRegistration
 	transition :reject, {:requested => :rejected}, :params=>[:admin_comment], :available_to => :organization_admins do
 	  UserMailer.deliver_event_abstract_registration_rejected(self)
 	end
-	transition :cancel, {:accepted => :requested}, :available_to => :organization_admins
+	transition :unaccept, {:accepted => :requested}, :available_to => :organization_admins
+	
+	transition :delete, {[:rejected, :retracted] => :requested}, :available_to => "organization_admins + [owner]"
+	
       end #lifecycle
 
       # --- Permissions --- #

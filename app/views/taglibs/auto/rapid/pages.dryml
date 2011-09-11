@@ -1708,6 +1708,29 @@
 </def>
 
 
+<def tag="walk-in-page" polymorphic/>
+<def tag="walk-in-page" for="EnrollmentWizard">
+  
+  <page title="#{ht 'enrollment_wizards.walk_in.title', :default=>['Walk In']}" merge>  
+
+    <body: class="lifecycle-start-page walk-in-page" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.walk_in.heading">
+            Walk In
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <walk-in-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
 <def tag="register-page" polymorphic/>
 <def tag="register-page" for="EnrollmentWizard">
   
@@ -1749,29 +1772,6 @@
 
       <section param="content-body">
         <revise-form param="form"/>
-      </section>
-    </content:>
-
-  </page>
-</def>
-<def tag="walk-in-page" polymorphic/>
-<def tag="walk-in-page" for="EnrollmentWizard">
-  
-  <page title="#{ht 'enrollment_wizards.walk_in.title', :default=>['Walk In']}" merge>  
-
-    <body: class="lifecycle-start-page walk-in-page" param/>
-
-    <content: param>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="enrollment_wizards.walk_in.heading">
-            Walk In
-          </ht>
-        </h2>
-      </header>
-
-      <section param="content-body">
-        <walk-in-form param="form"/>
       </section>
     </content:>
 
@@ -2302,23 +2302,46 @@
   </page>
 </def>
 
-<def tag="cancel-page" polymorphic/>
-<def tag="cancel-page" for="Enrollment">
-  <page title="#{ht 'enrollments.cancel.title', :default=>['Cancel']}" merge>
+<def tag="unaccept-page" polymorphic/>
+<def tag="unaccept-page" for="Enrollment">
+  <page title="#{ht 'enrollments.unaccept.title', :default=>['Unaccept']}" merge>
 
-    <body: class="lifecycle-transition-page cancel-page" param/>
+    <body: class="lifecycle-transition-page unaccept-page" param/>
 
     <content:>
       <header param="content-header">
         <h2 param="heading">
-          <ht key="enrollments.cancel.heading">
-            Cancel
+          <ht key="enrollments.unaccept.heading">
+            Unaccept
           </ht>
         </h2>
       </header>
 
       <section param="content-body">
-        <cancel-form param="form"/>
+        <unaccept-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="delete-page" polymorphic/>
+<def tag="delete-page" for="Enrollment">
+  <page title="#{ht 'enrollments.delete.title', :default=>['Delete']}" merge>
+
+    <body: class="lifecycle-transition-page delete-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollments.delete.heading">
+            Delete
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <delete-form param="form"/>
       </section>
     </content:>
 
@@ -4963,23 +4986,46 @@
   </page>
 </def>
 
-<def tag="cancel-page" polymorphic/>
-<def tag="cancel-page" for="Registration">
-  <page title="#{ht 'registrations.cancel.title', :default=>['Cancel']}" merge>
+<def tag="unaccept-page" polymorphic/>
+<def tag="unaccept-page" for="Registration">
+  <page title="#{ht 'registrations.unaccept.title', :default=>['Unaccept']}" merge>
 
-    <body: class="lifecycle-transition-page cancel-page" param/>
+    <body: class="lifecycle-transition-page unaccept-page" param/>
 
     <content:>
       <header param="content-header">
         <h2 param="heading">
-          <ht key="registrations.cancel.heading">
-            Cancel
+          <ht key="registrations.unaccept.heading">
+            Unaccept
           </ht>
         </h2>
       </header>
 
       <section param="content-body">
-        <cancel-form param="form"/>
+        <unaccept-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="delete-page" polymorphic/>
+<def tag="delete-page" for="Registration">
+  <page title="#{ht 'registrations.delete.title', :default=>['Delete']}" merge>
+
+    <body: class="lifecycle-transition-page delete-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="registrations.delete.heading">
+            Delete
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <delete-form param="form"/>
       </section>
     </content:>
 
