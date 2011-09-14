@@ -39,7 +39,7 @@ class CalendarEntry < ActiveRecord::Base
   end
 
   def label
-    short_label + ' ('+(event_tz.nil? ? scheduled_time : scheduled_time_event).to_s+')'
+    short_label + ' ('+scheduled_time.to_s+')'
   end
 
 end

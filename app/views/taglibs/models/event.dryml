@@ -38,7 +38,7 @@ page[title]
   <old-card merge>
     <body:>
       <p><a href="&this.site_url" target="_blank">| Official Site </a>
-      <%= (this.event_tz.nil?) ? this.start_time : this.start_time_event %> in <view:place/></p>
+      <%= this.start_time unless this.event_tz.nil? -%> in <view:place/></p>
       <register-button merge/>
     </body:>
   </old-card>
@@ -46,6 +46,12 @@ page[title]
 
 <extend tag="form" for="Event">
   <old-form merge>
+    <field-list: replace>
+      <if test="&this.event_tz.nil?">
+        <field-list fields="name, registrations_closed, place, time_zone, description, site_url, event_folder" param/>    </if>
+      <else>
+        <field-list restore param/></else>
+    </field-list:>
     <field-list:>
       <boat-classes-view:>
         <select-many options="&@this.organization.boat_classes"/>
@@ -60,8 +66,13 @@ page[title]
   <before-heading:>
     <register-button event="&this"/></before-heading:>
 
-  <before-field-list:>
-    <walk-in-link/></before-field-list:>
+  <field-list: replace>
+    <walk-in-link/>  
+    <if test="&this.event_tz.nil?">
+      <field-list restore skip="start_time, end_time" param/></if>
+    <else>
+      <field-list restore param/></else>
+  </field-list:>
 
   <collection-heading:>
     Entry List</collection-heading:>

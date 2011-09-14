@@ -50,14 +50,6 @@ class EventTest < ActiveSupport::TestCase
         end
 	#key_timestamp is internally used by Hobo to manage transitions
 	
-        should "have an *_event for every datetime attribute" do
-          @attrs.each do |attr|
-            new_attr_name = attr.to_s+'_event'
-            assert klass.instance_methods.include?(new_attr_name)
-            assert klass.instance_methods.include?(new_attr_name+'=')
-          end
-        end
-
         context "given an instance" do
           setup do
             @instance = Factory(:"#{klass.name.underscore}")
@@ -74,16 +66,10 @@ class EventTest < ActiveSupport::TestCase
                 @instance.event.time_zone = nil
               end
             end
-            should "additional *_event attributes return nil" do
+            should "time-zone related attributes return value in UTC" do
               @attrs.each do |attr|
                 new_attr_name = attr.to_s+'_event'
-                assert_nil @instance.send(new_attr_name)
-              end
-            end
-            should "additional *_event attributes won't give exception when assigned and return nil" do
-              @attrs.each do |attr|
-                new_attr_name = attr.to_s+'_event'
-                assert_nil @instance.send(new_attr_name+'=', @dt)
+                assert_equal @instance.send(attr),@instance.read_attribute(attr)
               end
             end
           end
@@ -91,29 +77,13 @@ class EventTest < ActiveSupport::TestCase
           context "with its event's timezone set to non-nil value" do
             setup do
             end
-            should "additional *_event attributes return value in the event's timezone" do
+            should "time-zone related attributes return value in the event's timezone" do
               @attrs.each do |attr|
                 if @instance.send(attr) == nil  # factory doesn't set the attribute value, so we need to set it
                   @instance.send(attr.to_s+'=', @dt)
                 end
                 new_attr_name = attr.to_s+'_event'
-                assert_equal @instance.send(new_attr_name), @instance.send(attr).in_time_zone(@instance.event_tz)
-              end
-            end
-            should "additional *_event attributes won't give exception when assigned and accept value in DateTime" do
-              @attrs.each do |attr|
-                new_attr_name = attr.to_s+'_event'
-
-                @instance.send(new_attr_name+'=', @dt_e)
-                assert_equal @instance.send(new_attr_name).to_s, @dt_e.to_s
-              end
-            end
-            should "additional *_event attributes won't give exception when assigned and accept value in String" do
-              @attrs.each do |attr|
-                new_attr_name = attr.to_s+'_event'
-
-                @instance.send(new_attr_name+'=', @dt_e_s)
-                assert_equal @instance.send(new_attr_name).to_s, @dt_e.to_s
+                assert_equal @instance.send(attr), @instance.read_attribute(attr).in_time_zone(@instance.event_tz)
               end
             end
           end

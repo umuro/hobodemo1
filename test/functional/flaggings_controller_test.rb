@@ -19,9 +19,11 @@ class FlaggingsControllerTest < ActionController::TestCase
       end
       should "post" do
          login_as(@the_spotter)
-        t = Time.now.utc
+        t = Time.now.in_time_zone(@fleet_race.event_tz)
         post :create, :flagging => {:fleet_race_id=>@fleet_race.id, :flag_id=>@flag.id, :flagging_time=>t}, :format=>"xml"
-         assert_response :success
+        assert_response :success
+        #adjust the time, the properti ignore the timezone information in the value assigned to it since it assume it's in its timezone,
+        t -= t.utc_offset.second 
         obj = Flagging.find_by_flag_id_and_flagging_time_and_fleet_race_id(@flag.id, t, @fleet_race.id)
         assert_not_nil obj
         klass = "Flagging"

@@ -99,13 +99,13 @@ class UserTest < ActiveSupport::TestCase
       # These tests are as thus done by manipulating the event itself
       
       should "when time has not passed see the event" do
-        subject.end_time = Time.zone.now.utc + 1.days
+        subject.end_time = Time.now.in_time_zone(subject.event_tz) + 1.days
         subject.save!
         assert_not_nil @user.events_as_spotter.find(subject.id)
       end
       
       should "when time has passed not see the event" do
-        subject.end_time = Time.zone.now.utc - 1.minutes
+        subject.end_time = Time.now.in_time_zone(subject.event_tz) - 1.minutes
         subject.save!
         assert_raise(ActiveRecord::RecordNotFound) { @user.events_as_spotter.find(subject.id) }
       end

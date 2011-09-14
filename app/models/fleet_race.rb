@@ -42,10 +42,10 @@ class FleetRace < ActiveRecord::Base
   named_scope :active, :conditions => {:end_time => nil}
       
   named_scope :today_for, lambda { |object_with_time_zone|
-    now = Time.zone.now
+    now = Time.now
     { :conditions => ['scheduled_time >= :low_time AND scheduled_time < :high_time',
-                      {:low_time => now.in_time_zone(object_with_time_zone.time_zone).at_beginning_of_day,
-                       :high_time => now.in_time_zone(object_with_time_zone.time_zone).tomorrow.at_midnight}]
+                      {:low_time => now.in_time_zone(object_with_time_zone.event_tz).at_beginning_of_day.utc,
+                       :high_time => now.in_time_zone(object_with_time_zone.event_tz).tomorrow.at_midnight.utc}]
     }
   }
 

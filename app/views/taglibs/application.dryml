@@ -23,7 +23,7 @@
 
 <include src="taglibs/models/register_button"/>
 
-<include src="taglibs/models/event_time_zone"/>
+<!--include src="taglibs/models/event_time_zone"/-->
 
 <include src="taglibs/models/enrollment_wizard"/>
 <include src="taglibs/models/registration_role"/>

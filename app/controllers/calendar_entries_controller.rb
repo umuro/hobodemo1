@@ -18,11 +18,7 @@ class CalendarEntriesController < ApplicationController
       @course_area = CourseArea.new
     end
 
-    if @has_tz
-      d = if @event.start_time.nil? || @event.start_time_event < Date.today then Date.today else @event.start_time_event.to_date end
-    else
-      d = if @event.start_time.nil? || @event.start_time < Date.today then Date.today else @event.start_time.to_date end
-    end
+    d = if @event.start_time.nil? || @event.start_time < Date.today then Date.today else @event.start_time.to_date end
     @year = params[:year].to_i > 0 ?  params[:year].to_i : d.year
     @woy = params[:week].to_i > 0 ? params[:week].to_i : d.cweek
     @date_start = Date.commercial(@year, @woy, 1).to_datetime
@@ -48,10 +44,8 @@ class CalendarEntriesController < ApplicationController
       @date_start += tz_offset.second
       @date_end += tz_offset.second
 
-      @boxes = (calendar_entries+fleet_races).group_by {|e| e.scheduled_time_event.strftime('%Y%m%d%H')+'%02d'%(e.scheduled_time_event.min/15*15)}
-    else
-      @boxes = (calendar_entries+fleet_races).group_by {|e| e.scheduled_time.strftime('%Y%m%d%H')+'%02d'%(e.scheduled_time.min/15*15)}
     end
+    @boxes = (calendar_entries+fleet_races).group_by {|e| e.scheduled_time.strftime('%Y%m%d%H')+'%02d'%(e.scheduled_time.min/15*15)}
     @rows = Hash.new
     (0..23).each do |hour|
       (0..45).step(15) do |minute|

@@ -425,7 +425,7 @@ class FleetRacesControllerTest < ActionController::TestCase
           end
 
           should "succeed for #start_time after race" do
-            new_start_time = DateTime.now.utc
+            new_start_time = DateTime.now.in_time_zone(@fleet_race.event_tz)
             
             Delorean.time_travel_to @fleet_race.scheduled_time + 1.days do
               put :update, :id=>@fleet_race.id, :fleet_race=>{:start_time=>new_start_time}
@@ -449,7 +449,7 @@ class FleetRacesControllerTest < ActionController::TestCase
           end
 
           should "succeed for #end_time after race" do
-            new_end_time = DateTime.now.utc
+            new_end_time = DateTime.now.in_time_zone(@fleet_race.event_tz)
             
             Delorean.time_travel_to @fleet_race.scheduled_time + 1.days do
               put :update, :id=>@fleet_race.id, :fleet_race=>{:end_time=>new_end_time}

@@ -30,7 +30,7 @@ feature "Least Sanity Test", %q{
           
           scenario "I view" do
             page.should have_content(@event.name)
-            page.should have_content('Start Time Event')
+            page.should have_content('Start Time')
           end
           
           scenario "I visit the race page" do
@@ -39,7 +39,7 @@ feature "Least Sanity Test", %q{
             page.should have_content(@boat_class.name)
             within('.collection.fleet-races') do
               page.should have_content(@fleet_race.color)
-              page.should have_content('Scheduled Time Event')
+              page.should have_content('Scheduled Time')
             end
           end
 
@@ -60,6 +60,7 @@ feature "Least Sanity Test", %q{
       @calendar_entry.scheduled_time = Time.now.utc.at_beginning_of_day # adjust scheduled time so that entry is visible
       @calendar_entry.save
       @fleet_race.scheduled_time = Time.now.utc.at_beginning_of_day # adjust scheduled time so that entry is visible
+      @fleet_race.course = Factory(:course)
       @fleet_race.save
     end
     describe "As a User coming to the site" do

@@ -58,7 +58,7 @@
       <field-list fields="" param/>
     </if>
     <else>
-      <field-list fields="scheduled_time_event" param/>
+      <field-list fields="scheduled_time" param/>
     </else>
   </field-list:>
   </old-show-page>
@@ -71,7 +71,7 @@
       <field-list fields="name, event" param/>
     </if>
     <else>
-      <field-list fields="name, scheduled_time_event, event" param/>
+      <field-list fields="name, scheduled_time, event" param/>
     </else>
   </field-list:>
   </old-form>

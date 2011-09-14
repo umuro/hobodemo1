@@ -150,7 +150,7 @@ class FleetRaceTest < ActiveSupport::TestCase
           @original_course = @fleet_race.course
           @original_course_spots = @original_course.spots
 
-          @new_time = DateTime.now + 1.day
+          @new_time = DateTime.now.in_time_zone(@fleet_race.event_tz) + 1.day
           @fleet_race.start_time = @new_time
           was_saved = @fleet_race.save!
 
@@ -181,7 +181,7 @@ class FleetRaceTest < ActiveSupport::TestCase
       assert_equal boats0.first, boats.first
     end
   end #A FleetRace
-	
+
   context "A Fleet Race (today)" do
     setup {@fleet_race = UseCaseSamples.build_fleet_race }
     subject {@fleet_race}
@@ -222,11 +222,14 @@ class FleetRaceTest < ActiveSupport::TestCase
   time_zone_tests = lambda { | name |
     setup do
       @current_zone = name
-      @fleet_race = UseCaseSamples.build_fleet_race :scheduled_time => DateTime.now.in_time_zone(@current_zone)
+      @fleet_race = UseCaseSamples.build_fleet_race
       @fleet_race.event.time_zone = @current_zone
       @fleet_race.event.save!
+      # set the time only AFTER the time zone is properly selected, otherwise the time we get is not what we want
+      @fleet_race.scheduled_time = DateTime.now.in_time_zone(@current_zone)
+      @fleet_race.save!
     end
-    
+
     should "be today" do
       assert FleetRace.today_for(@fleet_race.event).include?(@fleet_race)
       assert @fleet_race.event.fleet_races.today_for(@fleet_race.event).include?(@fleet_race)
@@ -236,32 +239,32 @@ class FleetRaceTest < ActiveSupport::TestCase
       assert FleetRace.today_for(@fleet_race.event).active.include?(@fleet_race)
       assert @fleet_race.event.fleet_races.today_for(@fleet_race.event).active.include?(@fleet_race)
     end
-    
+
     should "not be today (at midnight tomorrow)" do
-      @fleet_race.scheduled_time = @fleet_race.scheduled_time.in_time_zone(@current_zone).tomorrow.at_midnight
+      @fleet_race.scheduled_time = DateTime.now.in_time_zone(@current_zone).tomorrow.at_midnight
       @fleet_race.save!
       assert_equal false, FleetRace.today_for(@fleet_race.event).active.include?(@fleet_race)
       assert_equal false, @fleet_race.event.fleet_races.today_for(@fleet_race.event).active.include?(@fleet_race)      
     end
-    
+
     should "be today, but not active" do
-      @fleet_race.end_time = @fleet_race.scheduled_time.in_time_zone(@current_zone) + 1.hours
+      @fleet_race.end_time = DateTime.now.in_time_zone(@current_zone) + 1.hours
       @fleet_race.save!
       assert FleetRace.today_for(@fleet_race.event).include?(@fleet_race)
       assert @fleet_race.event.fleet_races.today_for(@fleet_race.event).include?(@fleet_race)
       assert_equal false, FleetRace.today_for(@fleet_race.event).active.include?(@fleet_race)
       assert_equal false, @fleet_race.event.fleet_races.today_for(@fleet_race.event).active.include?(@fleet_race)
     end
-    
+
     should "be today, at 23:59:59" do
-      @fleet_race.scheduled_time = @fleet_race.scheduled_time.in_time_zone(@current_zone).tomorrow.at_midnight-1.seconds
+      @fleet_race.scheduled_time = DateTime.now.in_time_zone(@current_zone).tomorrow.at_midnight-1.seconds
       @fleet_race.save!
       assert FleetRace.today_for(@fleet_race.event).active.include?(@fleet_race)
       assert @fleet_race.event.fleet_races.today_for(@fleet_race.event).active.include?(@fleet_race)
     end
-    
+
     should "be today, at 00:00:00" do
-      @fleet_race.scheduled_time = @fleet_race.scheduled_time.in_time_zone(@current_zone).at_beginning_of_day
+      @fleet_race.scheduled_time = DateTime.now.in_time_zone(@current_zone).at_beginning_of_day
       @fleet_race.save!
       assert FleetRace.today_for(@fleet_race.event).active.include?(@fleet_race)
       assert @fleet_race.event.fleet_races.today_for(@fleet_race.event).active.include?(@fleet_race)

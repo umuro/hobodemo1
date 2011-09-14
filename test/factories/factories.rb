@@ -110,7 +110,7 @@ Factory.define :fleet_race do |f|
   # It is not possible to use default_race, as it will not be the proper time zone when the race is set through
   # a hash property such as Factory :fleet_race, :race => ...
   
-  f.scheduled_time {|n| Time.now.in_time_zone(n.event.event_tz||'UTC').at_beginning_of_day+4.hour}
+  f.scheduled_time {|n| val = Time.now.in_time_zone(n.event_tz||'UTC').at_beginning_of_day; val += val.utc_offset.second+4.hour; val.utc}
   
   # Start time and end time are default nil
   
@@ -198,7 +198,7 @@ Factory.define :calendar_entry do |f|
   end
   f.event {f.default_event}
   f.sequence(:name) {|n| "calendar entry #{n}"}
-  f.scheduled_time {|n| Time.now.in_time_zone(n.event.event_tz||'UTC').at_beginning_of_day+4.hour}
+  f.scheduled_time {|n| val = Time.now.in_time_zone(n.event_tz||'UTC').at_beginning_of_day; val += val.utc_offset.second+4.hour; val.utc}
 end
 
 Factory.define :enrollment_wizard do |f|

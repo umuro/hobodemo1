@@ -19,7 +19,7 @@
        entries.each_with_index do |entry, i|
          prefix = (entry.class == CalendarEntry) ? 'entry' : 'fleet'
          top = @rows[rowid].last + i*20
-         val = @has_tz ? entry.scheduled_time_event : entry.scheduled_time
+         val = entry.scheduled_time
   %>
     <div id="<%=h prefix+entry.id.to_s -%>" class="<%=h prefix -%> box<%=h boxid -%> inrow_<%=h rowid -%>" style="position: absolute; top: <%=h top -%>px; left: <%=h 52+(val.yday-@date_start.yday)*116 -%>px; width: 113px; height: 19px; overflow: hidden; <%= background_foreground entry -%>"><span><%=h entry.short_label -%></span></div>
   <%
@@ -35,7 +35,7 @@
     <input id="entry-elem-id" type="hidden" value="" />
     <div style="position: relative;">
       <div style="position: absolute; bottom: 0px; left: 0px;">
-        <span>All time is in <%=h @has_tz ? @event.start_time_event.strftime('%Z (%z)') : 'UTC (+0000)' -%></span>
+        <span>All time is in <%=h @event.start_time.strftime('%Z (%z)') -%></span>
       </div>
       <div id="undo_link" style="position: absolute; bottom: 0px; right: 0px; display: none;"><span><a href="#">Undo</a></span></div>
     </div>
@@ -95,4 +95,30 @@
     <% end %>
   </section>
 </def>
+
+<extend tag="show-page" for="CalendarEntry">
+  <old-show-page merge>
+  <field-list: replace>
+    <if test="&this.event_tz.nil?">
+      <field-list fields="" param/>
+    </if>
+    <else>
+      <field-list fields="scheduled_time" param/>
+    </else>
+  </field-list:>
+  </old-show-page>
+</extend>
+
+<extend tag="form" for="CalendarEntry">
+  <old-form merge>
+  <field-list: replace>
+    <if test="&this.event_tz.nil?">
+      <field-list fields="name, event" param/>
+    </if>
+    <else>
+      <field-list fields="name, scheduled_time, event" param/>
+    </else>
+  </field-list:>
+  </old-form>
+</extend>
 
