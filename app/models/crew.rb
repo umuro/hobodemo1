@@ -39,9 +39,9 @@ class Crew < ActiveRecord::Base
     
     genders << skipper.gender
 
-    gender = Race::Gender::MALE
-    gender = Race::Gender::FEMALE if genders.include?(Race::Gender::FEMALE)
-    gender = Race::Gender::OPEN if (genders.include?(Race::Gender::MALE) && 
+    self.gender = Race::Gender::MALE
+    self.gender = Race::Gender::FEMALE if genders.include?(Race::Gender::FEMALE)
+    self.gender = Race::Gender::OPEN if (genders.include?(Race::Gender::MALE) &&
                                     genders.include?(Race::Gender::FEMALE))
     save
   end
