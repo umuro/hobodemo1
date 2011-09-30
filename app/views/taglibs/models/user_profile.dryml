@@ -49,7 +49,7 @@
   <old-form merge>
     <field-list:>
       <country-view:>
-	<select-one options="&Country.all(:order=>"name ASC")"/>
+	<select-one options="&Country.all(:order=>'name ASC')"/>
       </country-view:>
     </field-list:>
   </old-form>
