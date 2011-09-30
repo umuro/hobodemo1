@@ -18,17 +18,24 @@ namespace :app do
 
     #remove all countries which match the regex
     Country.all.each do |country|
-      if country.name =~ /\bnes|belgium-luxembourg|fmr|before \d{4}|special categories\b/i
-	if country.user_profiles.blank? && country.enrollments.blank?
-	  country.delete
-	else
-	  puts "Country should not be in use #{country.to_yaml}"
-	end
+      if country.name =~ /\bnes|fmr|before \d{4}|special categories\b/i
+	country.delete
+# 	if country.user_profiles.blank? && country.enrollments.blank?
+# 	  country.delete
+# 	else
+# 	  puts "Country should not be in use #{country.to_yaml}"
+# 	end
       end
     end
 
     puts "orphan user_profiles: #{UserProfile.find(:all, :conditions=>{:country_id=>nil}).count}"
     puts "  orphan enrollments: #{Enrollment.find(:all, :conditions=>{:country_id=>nil}).count}"
+
+    c = Country.find_by_name "Belgium-Luxembourg"
+    if c
+      c.name = "Belgium"
+      c.save!
+    end
   end
 
   #return the list of countries with nonsense filtered out
