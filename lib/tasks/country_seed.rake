@@ -3,7 +3,7 @@ namespace :app do
  
   desc 'Fill database with countries'
   task :country_seed => [:environment] do
-    CountrySeed.instance.perform
+#    CountrySeed.instance.perform
   end
  
 end

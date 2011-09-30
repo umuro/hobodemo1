@@ -8,6 +8,8 @@ class Country < ActiveRecord::Base
     timestamps
   end
 
+  set_default_order "name ASC"
+  
   #PAUL same person can race for different countries?
   has_many :user_profiles #locks_me
   has_many :enrollments #locks_me
