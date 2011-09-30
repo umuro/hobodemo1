@@ -27,14 +27,14 @@ class EventsController < ApplicationController
   show_action :entries do
     hobo_show
     respond_to do |format|
-      @csv_header = %w[state registration_role boat_class gender sail_number last_name first_name nationality email paid measured insured]
+      @csv_header = %w[state registration_role boat_class gender sail_number last_name first_name nationality birthdate email mobile_phone paid measured insured]
       format.csv { render_csv("entries-#{@this.id}-#{Time.now.strftime("%Y%m%d")}") }
     end
   end
   show_action :registrations do
     hobo_show
     respond_to do |format|
-      @csv_header = %w[state registration_role last_name first_name nationality email]
+      @csv_header = %w[state registration_role last_name first_name nationality birthdate email mobile_phone]
       format.csv { render_csv("registrations-#{@this.id}-#{Time.now.strftime("%Y%m%d")}") }
     end
   end

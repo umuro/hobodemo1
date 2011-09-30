@@ -15,8 +15,11 @@ class User < ActiveRecord::Base
 
   delegate :country, :to=>:user_profile
   delegate :first_name, :to=>:user_profile 
+  delegate :middle_name, :to=>:user_profile
   delegate :last_name, :to=>:user_profile
-
+  delegate :birthdate, :to=>:user_profile
+  delegate :mobile_phone, :to=>:user_profile
+  
   has_many :organization_admin_roles, :dependent=>:destroy
   has_many :organizations_as_admin, :through=>:organization_admin_roles, :source=>:organization
 

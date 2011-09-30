@@ -109,8 +109,12 @@ module AbstractRegistration
       end
 
       delegate :last_name, :to=>:member
+      delegate :middle_name, :to=>:member
       delegate :first_name, :to=>:member
       delegate :email_address, :to=>:member
+      delegate :birthdate, :to=>:member
+      delegate :mobile_phone, :to=>:member
+      
       def email
 	email_address
       end

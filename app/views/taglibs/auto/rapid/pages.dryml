@@ -1708,6 +1708,29 @@
 </def>
 
 
+<def tag="revise-page" polymorphic/>
+<def tag="revise-page" for="EnrollmentWizard">
+  
+  <page title="#{ht 'enrollment_wizards.revise.title', :default=>['Revise']}" merge>  
+
+    <body: class="lifecycle-start-page revise-page" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="enrollment_wizards.revise.heading">
+            Revise
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <revise-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
 <def tag="walk-in-page" polymorphic/>
 <def tag="walk-in-page" for="EnrollmentWizard">
   
@@ -1749,29 +1772,6 @@
 
       <section param="content-body">
         <register-form param="form"/>
-      </section>
-    </content:>
-
-  </page>
-</def>
-<def tag="revise-page" polymorphic/>
-<def tag="revise-page" for="EnrollmentWizard">
-  
-  <page title="#{ht 'enrollment_wizards.revise.title', :default=>['Revise']}" merge>  
-
-    <body: class="lifecycle-start-page revise-page" param/>
-
-    <content: param>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="enrollment_wizards.revise.heading">
-            Revise
-          </ht>
-        </h2>
-      </header>
-
-      <section param="content-body">
-        <revise-form param="form"/>
       </section>
     </content:>
 
@@ -5681,7 +5681,7 @@
       <header param="content-header">
         <h2 param="heading">
           <ht key="template_courses.new_for_owner.heading">
-            New Template Course
+            New Course
           </ht>
         </h2>
         <h3 param="subheading">
