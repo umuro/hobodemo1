@@ -13,8 +13,8 @@ unless Factory.factories[:event]
     f.event_folder { f.default_event_folder }
     f.sequence(:name) {|n| "Event #{n}" }
     f.sequence(:if_event_id) {|n| "#{n}"}
-    f.start_time {(Time.now.utc+2.days).at_beginning_of_day}
-    f.end_time {(Time.now.utc+7.days).end_of_day}
+    f.start_time {(Time.now.utc).at_beginning_of_day}
+    f.end_time {(Time.now.utc+5.days).end_of_day}
 #     f.event_type :Regatta
     f.time_zone {ActiveSupport::TimeZone.all.*.name.sample}
     f.place { |this| this.time_zone }
