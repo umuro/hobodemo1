@@ -8,13 +8,15 @@ class Equipment < ActiveRecord::Base
     timestamps
   end
 
+  set_default_order "equipment_type_id ASC"
+
   belongs_to :boat, :touch => true
 
   belongs_to :equipment_type, :conditions => 'boat_class_id = #{self.boat.boat_class_id}' #, :touch => true
 
   validates_presence_of :boat_id
   validates_presence_of :equipment_type_id
-  validates_uniqueness_of :serial, :scope=>:boat_id
+  #validates_uniqueness_of :serial, :scope=>:boat_id  # equipment's serial number is not unique
 
   # --- Permissions --- #
 
